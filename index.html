@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Bíblia do Capitão Pátria</title>
+    <title>A Bíblia do Capitão Pátria - Sala dos Sete</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
 
@@ -54,6 +54,7 @@
             pointer-events: none;
         }
 
+        /* A Mesa dos Sete */
         .table-container {
             position: absolute;
             bottom: -20vh;
@@ -109,10 +110,10 @@
         /* --- O LIVRO 3D --- */
         .scene {
             position: relative;
-            width: 80vw; 
-            max-width: 900px; 
-            height: 60vh; 
-            min-height: 560px; /* Aumentado de 500 para 560 para evitar cortar o texto */
+            width: 80vw;         
+            max-width: 900px;     
+            height: 60vh;         
+            min-height: 520px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -178,7 +179,7 @@
                 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
             border-radius: 2px 10px 10px 2px;
             overflow: hidden;
-            padding: 25px 35px; /* Reduzido o padding para dar mais espaço útil ao texto */
+            padding: 30px 40px;
             box-shadow: inset 0 0 25px rgba(100, 80, 50, 0.15);
         }
 
@@ -192,6 +193,7 @@
             box-shadow: inset 25px 0 30px -10px rgba(0,0,0,0.2), inset 0 0 25px rgba(100, 80, 50, 0.15);
         }
 
+        /* --- CAPA DURA --- */
         .page.cover {
             background-color: var(--leather);
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
@@ -201,7 +203,9 @@
             justify-content: center;
         }
         
-        .page.cover.back { border-radius: 12px 3px 3px 12px; }
+        .page.cover.back {
+            border-radius: 12px 3px 3px 12px;
+        }
 
         .cover-inner-border {
             border: 2px solid var(--gold);
@@ -216,43 +220,45 @@
 
         .vought-logo-cover {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 5rem;
+            font-size: 5.5rem; 
             color: var(--gold);
             text-shadow: 0px 3px 0px var(--gold-dark), 0 0 15px rgba(212, 175, 55, 0.5);
             line-height: 1;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .cover h1 {
             font-family: 'Cinzel Decorative', serif;
             color: var(--gold);
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             text-align: center;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
             letter-spacing: 2px;
         }
 
-        /* --- TIPOGRAFIA INTERNA DO PROJETO --- */
+        /* --- TIPOGRAFIA INTERNA --- */
         h2 {
             font-family: 'Cinzel Decorative', serif;
             color: var(--blood-red);
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             text-align: center;
             border-bottom: 1px solid var(--gold);
-            padding-bottom: 5px;
-            margin-bottom: 12px;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
             text-transform: uppercase;
         }
 
-        .text-content { flex-grow: 1; position: relative; display: flex; flex-direction: column; justify-content: flex-start; }
+        .text-content {
+            flex-grow: 1;
+            position: relative;
+        }
 
         p {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             line-height: 1.45;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             text-align: justify;
             color: #1a1a1a;
-            font-weight: 500;
         }
 
         .drop-cap {
@@ -268,77 +274,20 @@
 
         .verse-num {
             color: var(--blood-red);
-            font-weight: 700;
-            font-size: 0.75rem;
+            font-weight: bold;
+            font-size: 0.8em;
             vertical-align: super;
             margin-right: 4px;
         }
 
-        /* ESTILOS ESPECÍFICOS DO PROJETO DE RELIGIÃO */
-        .dogma-list {
-            list-style-type: none;
-            padding-left: 0;
-            margin-top: 5px;
-        }
-
-        .dogma-list li {
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            padding-left: 18px;
-            position: relative;
-            line-height: 1.4;
-            color: #1a1a1a;
-            font-weight: 500;
-        }
-
-        .dogma-list li::before {
-            content: "■";
-            color: var(--blood-red);
-            position: absolute;
-            left: 0;
-            top: 2px;
-            font-size: 0.75rem;
-        }
-
-        .photo-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 6px 0;
-        }
-
-        .vintage-photo {
-            width: 35%;
-            max-width: 110px;
-            border: 3px solid #fff;
-            border-bottom: 12px solid #fff;
-            box-shadow: 2px 4px 10px rgba(0,0,0,0.4);
-            transform: rotate(-3deg);
-            filter: sepia(0.6) contrast(1.2) grayscale(0.2);
-            object-fit: cover;
-        }
-
-        .photo-caption {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.7rem;
-            color: #444;
-            transform: rotate(-3deg);
-            margin-top: 4px;
-            font-weight: bold;
-        }
-
         .homelander-quote {
             font-style: italic;
-            font-weight: 700;
-            font-size: 1.05rem;
+            font-weight: 600;
+            font-size: 1.25rem;
             color: var(--blood-red);
             text-align: center;
-            margin: 12px 10px;
+            margin: 25px 10px;
             position: relative;
-            border-left: 2px solid var(--gold);
-            border-right: 2px solid var(--gold);
-            padding: 8px 15px;
         }
 
         .page-number {
@@ -347,10 +296,9 @@
             width: 100%;
             text-align: center;
             font-family: 'Cinzel Decorative', serif;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--blood-red);
             left: 0;
-            font-weight: bold;
         }
 
         .ribbon {
@@ -358,17 +306,119 @@
             top: -5px;
             left: 30px;
             width: 12px;
-            height: 100px;
+            height: 120px;
             background: linear-gradient(to right, #4a0000, #8b0000, #4a0000);
             box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
             z-index: 5;
             border-radius: 0 0 2px 2px;
         }
 
+        /* Foto do Soldier Boy (Vintage) */
+        .vintage-photo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 15px 0;
+            transform: rotate(3deg);
+        }
+
+        .vintage-photo-container img {
+            max-width: 130px;
+            border: 6px solid #fff;
+            border-bottom: 18px solid #fff;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+            filter: sepia(0.3) contrast(1.1) brightness(0.9);
+            border-radius: 2px;
+        }
+
+        .photo-caption {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.75rem;
+            color: #333;
+            margin-top: 5px;
+            font-weight: bold;
+            transform: rotate(-1deg);
+        }
+
+        /* --- TELEFONE VOUGHT --- */
+        .phone-container {
+            position: absolute;
+            right: -160px;
+            bottom: 30px;
+            width: 140px;
+            height: 280px;
+            background: #1a1c23;
+            border: 4px solid #333;
+            border-radius: 20px;
+            box-shadow: -10px 15px 25px rgba(0,0,0,0.8), inset 0 0 10px #000, inset 2px 2px 5px rgba(255,255,255,0.1);
+            transform: rotateY(-20deg) rotateX(15deg) rotateZ(-5deg);
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            transition: all 0.5s ease;
+        }
+
+        .phone-screen {
+            width: 92%;
+            height: 96%;
+            background-color: #050505;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px #000;
+        }
+
+        .phone-glare {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .phone-off-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #020202;
+            z-index: 8;
+            transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--blood-red);
+            font-family: 'Cinzel Decorative', serif;
+        }
+
+        .phone-off-overlay span {
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+
+        .phone-container.is-on .phone-off-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #yt-player-container {
+            width: 100%;
+            height: 100%;
+            pointer-events: auto; 
+        }
+
         /* --- BRAÇO E MÃO DO CAPITÃO PÁTRIA --- */
         #hand-layer {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 9999;
             perspective: 1500px;
@@ -414,119 +464,129 @@
             z-index: 100;
         }
 
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
 
         @media (max-width: 800px) {
-            .scene { width: 95vw; height: 55vh; min-height: 550px; }
-            .page { padding: 25px 20px; }
-            p, .dogma-list li { font-size: 0.9rem; line-height: 1.4; margin-bottom: 8px; }
-            h2 { font-size: 1.25rem; margin-bottom: 12px; padding-bottom: 5px; }
+            .scene { width: 95vw; height: 50vh; min-height: 550px; }
+            .page { padding: 20px; }
+            p { font-size: 1rem; line-height: 1.4; }
+            h2 { font-size: 1.3rem; margin-bottom: 12px; }
             .cover h1 { font-size: 1.8rem; }
-            .vought-logo-cover { font-size: 4rem; margin-bottom: 10px; }
-            .vintage-photo { width: 35%; max-width: 110px; }
-            .homelander-quote { font-size: 1rem; margin: 12px 5px; padding: 5px 10px; }
-            .drop-cap { font-size: 2.8rem; }
-            .cover-inner-border p { font-size: 0.7rem; }
+            .vought-logo-cover { font-size: 4rem; }
+            .hand-container { width: 350px; }
+            .vintage-photo-container img { max-width: 110px; }
+            
+            .phone-container {
+                right: -10px; 
+                bottom: -80px; 
+                width: 100px;
+                height: 200px;
+                transform: rotateY(-10deg) rotateX(10deg) rotateZ(0deg);
+                z-index: 20;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="room-bg"><div class="window-light"></div></div>
+    <!-- Fundo da Sala -->
+    <div class="room-bg">
+        <div class="window-light"></div>
+    </div>
+
+    <!-- Mesa dos Sete -->
     <div class="table-container">
         <div class="table-surface">
             <div class="table-v-logo"></div>
         </div>
     </div>
+
     <div class="book-shadow"></div>
 
     <div class="scene">
         <div class="book" id="book">
             
+            <!-- FOLHA 1 (Capa Dura Frontal) -->
             <div class="leaf" onclick="turnPage(this, 0)">
                 <div class="page front cover">
                     <div class="cover-inner-border">
                         <div class="vought-logo-cover">V</div>
-                        <h1>A BÍBLIA<br>DO PÁTRIA</h1>
-                        <p style="color: var(--gold-dark); text-align: center; margin-top: 20px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;">
-                            Projeto: Arquitetura da Fé
+                        <h1>A BÍBLIA DO<br>PÁTRIA</h1>
+                        <p style="color: var(--gold-dark); text-align: center; margin-top: 30px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">
+                            A Luz que Queima os Infiéis
                         </p>
                     </div>
                 </div>
                 <div class="page back">
-                    <div class="text-content" style="display:flex; justify-content:center; align-items:center; flex-direction:column; opacity: 0.8;">
-                        <h2 style="border:none; margin-bottom: 5px; font-size: 0.9rem;">Propriedade Confidencial</h2>
-                        <h1 style="font-family: 'Cinzel Decorative', serif; font-size:2rem; color: #111;">SALA DOS SETE</h1>
-                        <p style="text-align:center; font-size:0.75rem; margin-top: 15px;">Leitura obrigatória para compreensão da cosmologia corporativa. A heresia resultará em terminação contratual.</p>
+                    <div class="text-content" style="display:flex; justify-content:center; align-items:center; flex-direction:column; opacity: 0.7;">
+                        <h2 style="border:none; margin-bottom: 5px; font-size: 1rem;">Propriedade Confidencial</h2>
+                        <h1 style="font-family: 'Cinzel Decorative', serif; font-size:2.5rem; color: #111;">SALA DOS SETE</h1>
+                        <p style="text-align:center; font-size:0.8rem; margin-top: 20px;">Leitura obrigatória para compreensão da cosmologia corporativa. A heresia resultará em terminação contratual.</p>
                     </div>
                 </div>
             </div>
 
+            <!-- FOLHA 2 (Página 1 e 2) -->
             <div class="leaf" onclick="turnPage(this, 1)">
                 <div class="page front">
                     <div class="ribbon"></div>
-                    <h2>1. O Pai do Messias</h2>
+                    <h2>1. O PAI DO MESSIAS</h2>
                     <div class="text-content">
-                        <p><span class="drop-cap">N</span><span class="verse-num">1.1</span>o princípio, a humanidade rastejava na fraqueza. A ordem divina começou a desenhar-se através do primeiro milagre corporativo do Composto V.</p>
+                        <p><span class="drop-cap">N</span><span class="verse-num">1.1</span>o princípio, a humanidade rastejava na fraqueza. A ordem divina foi restaurada quando os laboratórios Vought infundiram o mundo com o Composto V.</p>
                         
-                        <div class="photo-container">
-                            <!-- A imagem fornecida com um fallback visual caso o link do ibb.co falhe por restrições de iFrame -->
-                            <img src="https://i.ibb.co/QFWnj9JK/image.png" onerror="this.onerror=null; this.src='https://placehold.co/200x250/1a2535/d4af37?text=CONFIDENCIAL:+Soldier+Boy';" class="vintage-photo" alt="Soldier Boy">
-                            <div class="photo-caption">O Pai do Messias</div>
+                        <div class="vintage-photo-container">
+                            <img src="https://i.ibb.co/nvDsk9S/image.png" alt="Soldier Boy" onerror="this.src='https://placehold.co/150x200/222/fff?text=Arquivo+Vought'">
+                            <div class="photo-caption">O Progenitor Divino</div>
                         </div>
 
-                        <p><span class="verse-num">1.2</span> Desta alquimia nasceu <strong>Soldier Boy</strong>, o Progenitor. Ele foi a força implacável enviada para purgar a Terra e provar que a América e o poder absoluto não pedem clemência.</p>
-                        <p><span class="verse-num">1.3</span> O seu sangue divino era a semente. Através da guerra, ele pavimentou o caminho para o verdadeiro e definitivo Messias, o ápice da nossa evolução sagrada: o seu filho, o <strong>Capitão Pátria</strong>.</p>
+                        <p><span class="verse-num">1.2</span> Para preparar a terra, foi enviado <b>Soldier Boy</b>, O Progenitor. Ele foi a semente de aço, o primeiro a ensinar que a América e o Poder são um só.</p>
+                        <p><span class="verse-num">1.3</span> Do seu sangue intocável, gerou-se o milagre definitivo. O Pai forjou a espada, mas o Filho desceu dos céus para governar o mundo com luz inextinguível.</p>
                     </div>
                     <div class="page-number">1</div>
                 </div>
                 <div class="page back">
-                    <h2>2. O Livro e os Dogmas</h2>
+                    <h2>Dogmas Corporativos</h2>
                     <div class="text-content">
-                        <p><span class="verse-num">2.1</span> O nosso guia moral reside no tomo ancestral: <strong>"O Manual do Verdadeiro Americano"</strong>. Nele, a verdade é absoluta e escrita a fogo.</p>
-                        
-                        <div class="homelander-quote">
-                            "A compaixão é uma doença. Apenas o domínio absoluto purifica a alma."
-                        </div>
-
-                        <p><strong>Os Dogmas Irrevogáveis:</strong></p>
-                        <ul class="dogma-list">
-                            <li><strong>Supremacia da Força:</strong> Quem domina o Composto V é o árbitro do certo e do errado. A fraqueza é pecado.</li>
-                            <li><strong>Sacrifício do Rebanho:</strong> Danos colaterais civis não são tragédias, mas oferendas necessárias aos deuses.</li>
-                            <li><strong>Santidade da Imagem:</strong> O índice de aprovação nas sondagens dita a tua salvação. Não mancharás a Marca Vought.</li>
+                        <p><span class="verse-num">2.1</span> Segundo <i>"O Manual do Verdadeiro Americano"</i>, eis as diretrizes inquebráveis forjadas na Torre Vought:</p>
+                        <ul style="list-style: none; margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">
+                            <li style="margin-bottom: 8px;"><span class="verse-num">I.</span> <b>O Dogma da Imagem:</b> O teu índice de aprovação nas sondagens ditará a tua salvação.</li>
+                            <li style="margin-bottom: 8px;"><span class="verse-num">II.</span> <b>O Dogma do Laser:</b> Não questionarás o Filho, pois a luz dos seus olhos vaporiza os dissidentes.</li>
+                            <li><span class="verse-num">III.</span> <b>O Dogma do Sorriso:</b> Sorrirás para as câmaras, mesmo enquanto os fracos sangram ao teu redor.</li>
                         </ul>
+                        <p><span class="verse-num">2.2</span> Bem-aventurados os que compram o merchandising oficial, pois herdarão o direito de viver mais um dia sob o Seu olhar misericordioso.</p>
                     </div>
                     <div class="page-number">2</div>
                 </div>
             </div>
 
+            <!-- FOLHA 3 (Página 3 e 4) -->
             <div class="leaf" onclick="turnPage(this, 2)">
                 <div class="page front">
-                    <h2>3. Santos e Ritos</h2>
+                    <h2>O Cântico da Ira</h2>
                     <div class="text-content">
-                        <p><span class="drop-cap">O</span><span class="verse-num">3.1</span>s <strong>Santos Modernos</strong> são entidades vivas. Os Sete são as encarnações dos antigos apóstolos, liderados pelo Capitão Pátria, a divindade viva que tudo vê.</p>
-                        <p><span class="verse-num">3.2</span> O Símbolo Supremo da fé é a grande <strong>Águia Dourada</strong> em repouso sobre o "V".</p>
-                        
-                        <p style="margin-top: 10px;"><strong>Festividades Sagradas:</strong></p>
-                        <ul class="dogma-list">
-                            <li><strong>O Batismo Químico:</strong> O rito secreto onde os recém-nascidos escolhidos recebem o milagre líquido do Composto V.</li>
-                            <li><strong>V-Day (O Dia da Vitória):</strong> A grande celebração global, onde milhões peregrinam aos ecrãs para ver os deuses e renovar a sua submissão perante o poderio de marketing corporativo.</li>
-                        </ul>
+                        <p><span class="drop-cap">A</span><span class="verse-num">3.1</span>inda que eu voe pelo vale da sombra da morte, não temerei mal algum. Porque eu sou a sombra. Eu sou a própria morte que desce dos céus.</p>
+                        <p><span class="verse-num">3.2</span> O departamento de RP prepara-me uma mesa na presença dos meus inimigos; unge o meu fato com a glória dos holofotes; o meu ego transborda.</p>
+                        <div class="homelander-quote">
+                            Vocês não são os verdadeiros heróis. Eu sou. Vocês não são nada.
+                        </div>
                     </div>
                     <div class="page-number">3</div>
                 </div>
                 <div class="page back">
-                    <h2>4. Escatologia</h2>
+                    <h2>O Fim dos Dias</h2>
                     <div class="text-content">
-                        <p><span class="verse-num">4.1</span> O que nos aguarda após a morte? Para os fracos e hereges, a Vought reserva o <strong>Apagamento Total</strong>: a remoção física e digital de todos os registos. O esquecimento.</p>
-                        <p><span class="verse-num">4.2</span> Para os Heróis, aguarda <strong>A Grande Suspensão (O Gelo Eterno)</strong>.</p>
-                        <p><span class="verse-num">4.3</span> Cremos que Soldier Boy nunca morreu, mas ascendeu a um sono criogênico na Rússia Sagrada. No Dia do Julgamento Final, ele e Os Sete despertarão para purgar a Terra, aniquilando a mediocridade para sempre.</p>
-                        <p style="text-align: center; color: var(--blood-red); font-weight: bold; margin-top: 25px; font-size: 1.1rem; letter-spacing: 3px;">A VOUGHT É ETERNA.</p>
+                        <p><span class="verse-num">4.1</span> E vi abrir-se o céu. E eis o Verdadeiro Messias, envolto na bandeira americana, com o semblante de um deus e a fúria implacável de um vulcão.</p>
+                        <p><span class="verse-num">4.2</span> Aqueles que desafiarem os Sete conhecerão o <b>Apagamento Total</b>. Mas aos puros, será concedida a paz nos subúrbios protegidos pela Vought.</p>
+                        <p style="text-align: center; color: var(--blood-red); font-weight: bold; margin-top: 30px; font-size: 1.2rem; letter-spacing: 4px;">A VOUGHT SALVA.</p>
                     </div>
                     <div class="page-number">4</div>
                 </div>
             </div>
 
+            <!-- FOLHA 4 (Capa Dura Traseira) -->
             <div class="leaf" onclick="turnPage(this, 3)">
                 <div class="page front">
                     <div class="text-content" style="display:flex; justify-content:center; align-items:center;">
@@ -535,18 +595,29 @@
                 </div>
                 <div class="page back cover">
                     <div class="cover-inner-border" style="border-color: #2a3345;">
-                        <p style="color: #4b5873; font-size: 0.75rem; text-align: center; font-family: sans-serif; margin-top: auto;">
+                        <p style="color: #4b5873; font-size: 0.8rem; text-align: center; font-family: sans-serif; margin-top: auto;">
                             VOUGHT PUBLISHING & MEDIA<br>
-                            Projeto: A Arquitetura da Fé
+                            Uso Exclusivo da Administração
                         </p>
                     </div>
                 </div>
             </div>
 
         </div>
+
+        <!-- TELEFONE VOUGHT AO LADO DO LIVRO -->
+        <div class="phone-container" id="vought-phone">
+            <div class="phone-screen">
+                <div class="phone-glare"></div>
+                <div class="phone-off-overlay">
+                    <span>V</span>
+                </div>
+                <div id="yt-player-container"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- MÃO DO CAPITÃO PÁTRIA -->
+    <!-- MÃO REDESENHADA -->
     <div id="hand-layer">
         <div class="hand-container" id="homelander-hand">
             <svg viewBox="0 0 450 250" xmlns="http://www.w3.org/2000/svg">
@@ -584,7 +655,6 @@
                     <path d="M 100 85 Q 150 70 190 95" fill="none" stroke="#330000" stroke-width="6" stroke-linecap="round"/>
                     <path d="M 90 110 Q 140 100 180 125" fill="none" stroke="#330000" stroke-width="7" stroke-linecap="round"/>
                     <path d="M 110 75 Q 160 60 195 85" fill="none" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-                    <!-- Dedos -->
                     <path d="M 60 105 C 30 85, 10 95, 20 125 C 35 140, 55 130, 70 115" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/>
                     <ellipse cx="40" cy="110" rx="8" ry="14" fill="#ff1a1a" transform="rotate(35 40 110)" opacity="0.3"/>
                     <path d="M 20 125 Q 30 135 45 125" fill="none" stroke="#1a0000" stroke-width="2"/>
@@ -600,9 +670,26 @@
 
     <div class="instruction">CLIQUE NA PÁGINA PARA VIRAR</div>
 
+    <!-- API do YouTube e Lógica do Livro -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const leaves = document.querySelectorAll('.leaf');
         const hand = document.getElementById('homelander-hand');
+        const phone = document.getElementById('vought-phone');
+        
+        let ytPlayer;
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('yt-player-container', {
+                height: '100%',
+                width: '100%',
+                videoId: '3KMiX2mUqkk', 
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 1,
+                    'disablekb': 0
+                }
+            });
+        }
         
         function initZOrder() {
             leaves.forEach((leaf, index) => {
@@ -614,21 +701,36 @@
         function turnPage(clickedLeaf, index) {
             let direction = '';
 
+            // Voltando página (Esquerda -> Direita)
             if (clickedLeaf.classList.contains('turned')) {
+                // Impede pular páginas fora de ordem
                 if (index < leaves.length - 1 && leaves[index + 1].classList.contains('turned')) return;
 
                 clickedLeaf.classList.remove('turned');
                 direction = 'prev';
                 
+                // Desliga o telefone e pausa a música se o utilizador fechar a capa
+                if (index === 0 && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+                    ytPlayer.pauseVideo();
+                    phone.classList.remove('is-on');
+                }
+                
                 setTimeout(() => {
                     clickedLeaf.style.zIndex = leaves.length - index;
-                }, 750);
+                }, 750); // Metade da transição (1.5s)
                 
             } else {
+                // Avançando página (Direita -> Esquerda)
                 if (index > 0 && !leaves[index - 1].classList.contains('turned')) return;
 
                 clickedLeaf.classList.add('turned');
                 direction = 'next';
+                
+                // Liga o telefone e toca a música quando a capa é aberta
+                if (index === 0 && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+                    ytPlayer.playVideo();
+                    phone.classList.add('is-on');
+                }
                 
                 setTimeout(() => {
                     clickedLeaf.style.zIndex = index + 1;
@@ -639,6 +741,7 @@
         }
 
         function triggerHandAnimation(direction) {
+            // Remove as classes, força reflow e reinicia animação
             hand.classList.remove('animate-next', 'animate-prev');
             void hand.offsetWidth; 
             
