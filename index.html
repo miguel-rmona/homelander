@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Bíblia do Capitão Pátria</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+        :root {
+            --gold: #d4af37;
+            --gold-dark: #8a6c1c;
+            --blood-red: #7a0000;
+            --leather: #0b1120;
+            --page-color: #f4ecd8;
+            --page-shadow: #d1c5b0;
+            --ink: #1a1a1a;
+            --table-dark: #050505;
+            --table-highlight: #1a1c23;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body {
+            background-color: #020202;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--ink);
+            perspective: 2000px;
+        }
+
+        /* --- CENÁRIO: SALA DE REUNIÕES DA VOUGHT --- */
+        .room-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% -20%, #1a2535 0%, #020305 60%);
+            z-index: 0;
+        }
+
+        .window-light {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .table-container {
+            position: absolute;
+            bottom: -20vh;
+            width: 200vw;
+            height: 120vh;
+            transform: rotateX(75deg);
+            transform-style: preserve-3d;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table-surface {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--table-dark), #000);
+            background-image: 
+                radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.05) 0%, transparent 60%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            box-shadow: inset 0 0 150px #000;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table-v-logo {
+            position: absolute;
+            width: 80vw;
+            height: 80vh;
+            border-top: 15px solid rgba(212, 175, 55, 0.15);
+            border-left: 15px solid rgba(212, 175, 55, 0.15);
+            transform: rotate(45deg);
+            box-shadow: 
+                inset 5px 5px 15px rgba(0,0,0,0.8),
+                -5px -5px 15px rgba(255,255,255,0.02);
+            border-radius: 5px;
+        }
+
+        .book-shadow {
+            position: absolute;
+            top: 60%;
+            width: 900px;
+            height: 200px;
+            background: rgba(0,0,0,0.9);
+            filter: blur(30px);
+            border-radius: 50%;
+            z-index: 5;
+            transform: rotateX(60deg);
+        }
+
+        /* --- O LIVRO 3D --- */
+        .scene {
+            position: relative;
+            width: 80vw; 
+            max-width: 900px; 
+            height: 60vh; 
+            min-height: 560px; /* Aumentado de 500 para 560 para evitar cortar o texto */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transform: rotateX(15deg) rotateY(0deg);
+        }
+
+        .book {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            border-radius: 5px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .book::before {
+            content: '';
+            position: absolute;
+            top: 1.5%; bottom: 1.5%; right: -18px; width: 18px;
+            background: repeating-linear-gradient(to right, #bcae96 0px, var(--page-color) 2px, #bcae96 4px);
+            transform: rotateY(90deg);
+            transform-origin: left;
+            border-radius: 0 4px 4px 0;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
+        }
+
+        .book::after {
+            content: '';
+            position: absolute;
+            top: 1.5%; bottom: 1.5%; left: 0; width: 15px;
+            background: #050810; 
+            transform: translateZ(-18px);
+            box-shadow: inset 0 0 10px #000;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            right: 0;
+            top: 0;
+            transform-style: preserve-3d;
+            transform-origin: left center;
+            transition: transform 1.5s cubic-bezier(0.3, 0.0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .leaf.turned {
+            transform: rotateY(-180deg);
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--page-color);
+            background-image: 
+                radial-gradient(circle at 50% 50%, transparent 70%, rgba(139, 69, 19, 0.1) 100%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            border-radius: 2px 10px 10px 2px;
+            overflow: hidden;
+            padding: 25px 35px; /* Reduzido o padding para dar mais espaço útil ao texto */
+            box-shadow: inset 0 0 25px rgba(100, 80, 50, 0.15);
+        }
+
+        .page.back {
+            transform: rotateY(180deg);
+            border-radius: 10px 2px 2px 10px;
+            box-shadow: inset -25px 0 30px -10px rgba(0,0,0,0.2), inset 0 0 25px rgba(100, 80, 50, 0.15);
+        }
+
+        .page.front {
+            box-shadow: inset 25px 0 30px -10px rgba(0,0,0,0.2), inset 0 0 25px rgba(100, 80, 50, 0.15);
+        }
+
+        .page.cover {
+            background-color: var(--leather);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+            border: 5px solid #131929;
+            border-radius: 3px 12px 12px 3px;
+            padding: 20px;
+            justify-content: center;
+        }
+        
+        .page.cover.back { border-radius: 12px 3px 3px 12px; }
+
+        .cover-inner-border {
+            border: 2px solid var(--gold);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .vought-logo-cover {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 5rem;
+            color: var(--gold);
+            text-shadow: 0px 3px 0px var(--gold-dark), 0 0 15px rgba(212, 175, 55, 0.5);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .cover h1 {
+            font-family: 'Cinzel Decorative', serif;
+            color: var(--gold);
+            font-size: 2.2rem;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
+            letter-spacing: 2px;
+        }
+
+        /* --- TIPOGRAFIA INTERNA DO PROJETO --- */
+        h2 {
+            font-family: 'Cinzel Decorative', serif;
+            color: var(--blood-red);
+            font-size: 1.3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 5px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .text-content { flex-grow: 1; position: relative; display: flex; flex-direction: column; justify-content: flex-start; }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.45;
+            margin-bottom: 10px;
+            text-align: justify;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .drop-cap {
+            float: left;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.2rem;
+            line-height: 0.8;
+            padding-top: 4px;
+            padding-right: 8px;
+            color: var(--gold);
+            text-shadow: 2px 2px 0px var(--blood-red);
+        }
+
+        .verse-num {
+            color: var(--blood-red);
+            font-weight: 700;
+            font-size: 0.75rem;
+            vertical-align: super;
+            margin-right: 4px;
+        }
+
+        /* ESTILOS ESPECÍFICOS DO PROJETO DE RELIGIÃO */
+        .dogma-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 5px;
+        }
+
+        .dogma-list li {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.4;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .dogma-list li::before {
+            content: "■";
+            color: var(--blood-red);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.75rem;
+        }
+
+        .photo-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 6px 0;
+        }
+
+        .vintage-photo {
+            width: 35%;
+            max-width: 110px;
+            border: 3px solid #fff;
+            border-bottom: 12px solid #fff;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.4);
+            transform: rotate(-3deg);
+            filter: sepia(0.6) contrast(1.2) grayscale(0.2);
+            object-fit: cover;
+        }
+
+        .photo-caption {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.7rem;
+            color: #444;
+            transform: rotate(-3deg);
+            margin-top: 4px;
+            font-weight: bold;
+        }
+
+        .homelander-quote {
+            font-style: italic;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--blood-red);
+            text-align: center;
+            margin: 12px 10px;
+            position: relative;
+            border-left: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+            padding: 8px 15px;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.85rem;
+            color: var(--blood-red);
+            left: 0;
+            font-weight: bold;
+        }
+
+        .ribbon {
+            position: absolute;
+            top: -5px;
+            left: 30px;
+            width: 12px;
+            height: 100px;
+            background: linear-gradient(to right, #4a0000, #8b0000, #4a0000);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            z-index: 5;
+            border-radius: 0 0 2px 2px;
+        }
+
+        /* --- BRAÇO E MÃO DO CAPITÃO PÁTRIA --- */
+        #hand-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            perspective: 1500px;
+        }
+
+        .hand-container {
+            position: absolute;
+            width: 480px; 
+            height: auto;
+            opacity: 0;
+            transform-style: preserve-3d;
+            filter: drop-shadow(15px 30px 20px rgba(0,0,0,0.6));
+        }
+
+        @keyframes handSwipeNext {
+            0% { opacity: 0; transform: translate3d(85vw, 45vh, -100px) rotate(-35deg); }
+            20% { opacity: 1; transform: translate3d(60vw, 35vh, 60px) rotate(-15deg); }
+            50% { transform: translate3d(40vw, 30vh, 120px) rotate(5deg); }
+            80% { opacity: 1; transform: translate3d(15vw, 35vh, 60px) rotate(20deg); }
+            100% { opacity: 0; transform: translate3d(-10vw, 50vh, -100px) rotate(35deg); }
+        }
+
+        @keyframes handSwipePrev {
+            0% { opacity: 0; transform: translate3d(5vw, 45vh, -100px) scaleX(-1) rotate(-35deg); }
+            20% { opacity: 1; transform: translate3d(30vw, 35vh, 60px) scaleX(-1) rotate(-15deg); }
+            50% { transform: translate3d(50vw, 30vh, 120px) scaleX(-1) rotate(5deg); }
+            80% { opacity: 1; transform: translate3d(75vw, 35vh, 60px) scaleX(-1) rotate(20deg); }
+            100% { opacity: 0; transform: translate3d(100vw, 50vh, -100px) scaleX(-1) rotate(35deg); }
+        }
+
+        .animate-next { animation: handSwipeNext 1.5s cubic-bezier(0.3, 0.0, 0.2, 1) forwards; }
+        .animate-prev { animation: handSwipePrev 1.5s cubic-bezier(0.3, 0.0, 0.2, 1) forwards; }
+
+        .instruction {
+            position: absolute;
+            bottom: 4vh;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'Cinzel Decorative', serif;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            animation: pulse 3s infinite;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+        @media (max-width: 800px) {
+            .scene { width: 95vw; height: 55vh; min-height: 550px; }
+            .page { padding: 25px 20px; }
+            p, .dogma-list li { font-size: 0.9rem; line-height: 1.4; margin-bottom: 8px; }
+            h2 { font-size: 1.25rem; margin-bottom: 12px; padding-bottom: 5px; }
+            .cover h1 { font-size: 1.8rem; }
+            .vought-logo-cover { font-size: 4rem; margin-bottom: 10px; }
+            .vintage-photo { width: 35%; max-width: 110px; }
+            .homelander-quote { font-size: 1rem; margin: 12px 5px; padding: 5px 10px; }
+            .drop-cap { font-size: 2.8rem; }
+            .cover-inner-border p { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="room-bg"><div class="window-light"></div></div>
+    <div class="table-container">
+        <div class="table-surface">
+            <div class="table-v-logo"></div>
+        </div>
+    </div>
+    <div class="book-shadow"></div>
+
+    <div class="scene">
+        <div class="book" id="book">
+            
+            <div class="leaf" onclick="turnPage(this, 0)">
+                <div class="page front cover">
+                    <div class="cover-inner-border">
+                        <div class="vought-logo-cover">V</div>
+                        <h1>A BÍBLIA<br>DO PÁTRIA</h1>
+                        <p style="color: var(--gold-dark); text-align: center; margin-top: 20px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;">
+                            Projeto: Arquitetura da Fé
+                        </p>
+                    </div>
+                </div>
+                <div class="page back">
+                    <div class="text-content" style="display:flex; justify-content:center; align-items:center; flex-direction:column; opacity: 0.8;">
+                        <h2 style="border:none; margin-bottom: 5px; font-size: 0.9rem;">Propriedade Confidencial</h2>
+                        <h1 style="font-family: 'Cinzel Decorative', serif; font-size:2rem; color: #111;">SALA DOS SETE</h1>
+                        <p style="text-align:center; font-size:0.75rem; margin-top: 15px;">Leitura obrigatória para compreensão da cosmologia corporativa. A heresia resultará em terminação contratual.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaf" onclick="turnPage(this, 1)">
+                <div class="page front">
+                    <div class="ribbon"></div>
+                    <h2>1. O Pai do Messias</h2>
+                    <div class="text-content">
+                        <p><span class="drop-cap">N</span><span class="verse-num">1.1</span>o princípio, a humanidade rastejava na fraqueza. A ordem divina começou a desenhar-se através do primeiro milagre corporativo do Composto V.</p>
+                        
+                        <div class="photo-container">
+                            <!-- A imagem fornecida com um fallback visual caso o link do ibb.co falhe por restrições de iFrame -->
+                            <img src="https://i.ibb.co/QFWnj9JK/image.png" onerror="this.onerror=null; this.src='https://placehold.co/200x250/1a2535/d4af37?text=CONFIDENCIAL:+Soldier+Boy';" class="vintage-photo" alt="Soldier Boy">
+                            <div class="photo-caption">O Pai do Messias</div>
+                        </div>
+
+                        <p><span class="verse-num">1.2</span> Desta alquimia nasceu <strong>Soldier Boy</strong>, o Progenitor. Ele foi a força implacável enviada para purgar a Terra e provar que a América e o poder absoluto não pedem clemência.</p>
+                        <p><span class="verse-num">1.3</span> O seu sangue divino era a semente. Através da guerra, ele pavimentou o caminho para o verdadeiro e definitivo Messias, o ápice da nossa evolução sagrada: o seu filho, o <strong>Capitão Pátria</strong>.</p>
+                    </div>
+                    <div class="page-number">1</div>
+                </div>
+                <div class="page back">
+                    <h2>2. O Livro e os Dogmas</h2>
+                    <div class="text-content">
+                        <p><span class="verse-num">2.1</span> O nosso guia moral reside no tomo ancestral: <strong>"O Manual do Verdadeiro Americano"</strong>. Nele, a verdade é absoluta e escrita a fogo.</p>
+                        
+                        <div class="homelander-quote">
+                            "A compaixão é uma doença. Apenas o domínio absoluto purifica a alma."
+                        </div>
+
+                        <p><strong>Os Dogmas Irrevogáveis:</strong></p>
+                        <ul class="dogma-list">
+                            <li><strong>Supremacia da Força:</strong> Quem domina o Composto V é o árbitro do certo e do errado. A fraqueza é pecado.</li>
+                            <li><strong>Sacrifício do Rebanho:</strong> Danos colaterais civis não são tragédias, mas oferendas necessárias aos deuses.</li>
+                            <li><strong>Santidade da Imagem:</strong> O índice de aprovação nas sondagens dita a tua salvação. Não mancharás a Marca Vought.</li>
+                        </ul>
+                    </div>
+                    <div class="page-number">2</div>
+                </div>
+            </div>
+
+            <div class="leaf" onclick="turnPage(this, 2)">
+                <div class="page front">
+                    <h2>3. Santos e Ritos</h2>
+                    <div class="text-content">
+                        <p><span class="drop-cap">O</span><span class="verse-num">3.1</span>s <strong>Santos Modernos</strong> são entidades vivas. Os Sete são as encarnações dos antigos apóstolos, liderados pelo Capitão Pátria, a divindade viva que tudo vê.</p>
+                        <p><span class="verse-num">3.2</span> O Símbolo Supremo da fé é a grande <strong>Águia Dourada</strong> em repouso sobre o "V".</p>
+                        
+                        <p style="margin-top: 10px;"><strong>Festividades Sagradas:</strong></p>
+                        <ul class="dogma-list">
+                            <li><strong>O Batismo Químico:</strong> O rito secreto onde os recém-nascidos escolhidos recebem o milagre líquido do Composto V.</li>
+                            <li><strong>V-Day (O Dia da Vitória):</strong> A grande celebração global, onde milhões peregrinam aos ecrãs para ver os deuses e renovar a sua submissão perante o poderio de marketing corporativo.</li>
+                        </ul>
+                    </div>
+                    <div class="page-number">3</div>
+                </div>
+                <div class="page back">
+                    <h2>4. Escatologia</h2>
+                    <div class="text-content">
+                        <p><span class="verse-num">4.1</span> O que nos aguarda após a morte? Para os fracos e hereges, a Vought reserva o <strong>Apagamento Total</strong>: a remoção física e digital de todos os registos. O esquecimento.</p>
+                        <p><span class="verse-num">4.2</span> Para os Heróis, aguarda <strong>A Grande Suspensão (O Gelo Eterno)</strong>.</p>
+                        <p><span class="verse-num">4.3</span> Cremos que Soldier Boy nunca morreu, mas ascendeu a um sono criogênico na Rússia Sagrada. No Dia do Julgamento Final, ele e Os Sete despertarão para purgar a Terra, aniquilando a mediocridade para sempre.</p>
+                        <p style="text-align: center; color: var(--blood-red); font-weight: bold; margin-top: 25px; font-size: 1.1rem; letter-spacing: 3px;">A VOUGHT É ETERNA.</p>
+                    </div>
+                    <div class="page-number">4</div>
+                </div>
+            </div>
+
+            <div class="leaf" onclick="turnPage(this, 3)">
+                <div class="page front">
+                    <div class="text-content" style="display:flex; justify-content:center; align-items:center;">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ctext x='50' y='55' font-family='serif' font-size='40' text-anchor='middle' fill='%23666'%3EV%3C/text%3E%3C/svg%3E" alt="Selo Vought" style="width: 100px; opacity: 0.2;">
+                    </div>
+                </div>
+                <div class="page back cover">
+                    <div class="cover-inner-border" style="border-color: #2a3345;">
+                        <p style="color: #4b5873; font-size: 0.75rem; text-align: center; font-family: sans-serif; margin-top: auto;">
+                            VOUGHT PUBLISHING & MEDIA<br>
+                            Projeto: A Arquitetura da Fé
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MÃO DO CAPITÃO PÁTRIA -->
+    <div id="hand-layer">
+        <div class="hand-container" id="homelander-hand">
+            <svg viewBox="0 0 450 250" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="glove-base" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#cc0000"/>
+                        <stop offset="60%" stop-color="#800000"/>
+                        <stop offset="100%" stop-color="#330000"/>
+                    </linearGradient>
+                    <linearGradient id="suit-fabric" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#142e61"/>
+                        <stop offset="40%" stop-color="#0a1836"/>
+                        <stop offset="100%" stop-color="#030814"/>
+                    </linearGradient>
+                    <linearGradient id="gold-armor" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ffebb3"/>
+                        <stop offset="30%" stop-color="#d4af37"/>
+                        <stop offset="70%" stop-color="#997a00"/>
+                        <stop offset="100%" stop-color="#3d3100"/>
+                    </linearGradient>
+                    <filter id="hand-shadow-deep">
+                        <feDropShadow dx="-15" dy="25" stdDeviation="10" flood-color="#000" flood-opacity="0.8"/>
+                    </filter>
+                </defs>
+                <g filter="url(#hand-shadow-deep)">
+                    <path d="M 230 70 Q 320 20 440 40 L 460 160 Q 340 180 250 150 Z" fill="url(#suit-fabric)"/>
+                    <path d="M 270 80 Q 350 70 420 85" fill="none" stroke="#0a1836" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M 260 110 Q 360 100 430 120" fill="none" stroke="#0a1836" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M 250 140 Q 330 140 400 150" fill="none" stroke="#030814" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M 190 60 L 260 45 L 280 165 L 210 155 Z" fill="url(#gold-armor)"/>
+                    <path d="M 200 65 L 220 50 L 260 60 L 250 150 L 220 155 Z" fill="none" stroke="#ffebb3" stroke-width="2"/>
+                    <path d="M 220 100 Q 240 80 260 90 Q 250 110 260 130 Q 240 140 220 120 Z" fill="#fff" opacity="0.4"/>
+                    <path d="M 235 110 L 245 110 L 240 120 Z" fill="#000" opacity="0.5"/>
+                    <path d="M 80 75 C 120 40, 160 50, 200 68 L 220 148 C 170 160, 110 150, 70 110 Z" fill="url(#glove-base)"/>
+                    <path d="M 100 85 Q 150 70 190 95" fill="none" stroke="#330000" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M 90 110 Q 140 100 180 125" fill="none" stroke="#330000" stroke-width="7" stroke-linecap="round"/>
+                    <path d="M 110 75 Q 160 60 195 85" fill="none" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                    <!-- Dedos -->
+                    <path d="M 60 105 C 30 85, 10 95, 20 125 C 35 140, 55 130, 70 115" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/>
+                    <ellipse cx="40" cy="110" rx="8" ry="14" fill="#ff1a1a" transform="rotate(35 40 110)" opacity="0.3"/>
+                    <path d="M 20 125 Q 30 135 45 125" fill="none" stroke="#1a0000" stroke-width="2"/>
+                    <path d="M 80 120 C 55 100, 35 110, 45 140 C 60 155, 80 145, 95 130" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/>
+                    <ellipse cx="65" cy="125" rx="8" ry="14" fill="#ff1a1a" transform="rotate(35 65 125)" opacity="0.3"/>
+                    <path d="M 45 140 Q 55 150 70 140" fill="none" stroke="#1a0000" stroke-width="2"/>
+                    <path d="M 100 130 C 80 110, 65 120, 75 150 C 90 165, 110 155, 120 140" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/>
+                    <ellipse cx="90" cy="135" rx="7" ry="12" fill="#ff1a1a" transform="rotate(35 90 135)" opacity="0.3"/>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <div class="instruction">CLIQUE NA PÁGINA PARA VIRAR</div>
+
+    <script>
+        const leaves = document.querySelectorAll('.leaf');
+        const hand = document.getElementById('homelander-hand');
+        
+        function initZOrder() {
+            leaves.forEach((leaf, index) => {
+                leaf.style.zIndex = leaves.length - index;
+            });
+        }
+        initZOrder();
+
+        function turnPage(clickedLeaf, index) {
+            let direction = '';
+
+            if (clickedLeaf.classList.contains('turned')) {
+                if (index < leaves.length - 1 && leaves[index + 1].classList.contains('turned')) return;
+
+                clickedLeaf.classList.remove('turned');
+                direction = 'prev';
+                
+                setTimeout(() => {
+                    clickedLeaf.style.zIndex = leaves.length - index;
+                }, 750);
+                
+            } else {
+                if (index > 0 && !leaves[index - 1].classList.contains('turned')) return;
+
+                clickedLeaf.classList.add('turned');
+                direction = 'next';
+                
+                setTimeout(() => {
+                    clickedLeaf.style.zIndex = index + 1;
+                }, 750);
+            }
+
+            triggerHandAnimation(direction);
+        }
+
+        function triggerHandAnimation(direction) {
+            hand.classList.remove('animate-next', 'animate-prev');
+            void hand.offsetWidth; 
+            
+            if (direction === 'next') {
+                hand.classList.add('animate-next');
+            } else if (direction === 'prev') {
+                hand.classList.add('animate-prev');
+            }
+        }
+    </script>
+</body>
+</html>
