@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -40,7 +39,6 @@
             perspective: 2000px;
         }
 
-        /* --- CENÁRIO: SALA DE REUNIÕES DA VOUGHT --- */
         .room-bg {
             position: absolute;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -55,7 +53,6 @@
             pointer-events: none;
         }
 
-        /* A Mesa dos Sete */
         .table-container {
             position: absolute;
             bottom: -20vh;
@@ -108,7 +105,6 @@
             transform: rotateX(60deg);
         }
 
-        /* --- O LIVRO 3D --- */
         .scene {
             position: relative;
             width: 80vw;         
@@ -194,7 +190,21 @@
             box-shadow: inset 25px 0 30px -10px rgba(0,0,0,0.2), inset 0 0 25px rgba(100, 80, 50, 0.15);
         }
 
-        /* --- CAPA DURA --- */
+        /* Página full foto */
+        .page.full-photo {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .page.full-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        /* CAPA DURA */
         .page.cover {
             background-color: var(--leather);
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
@@ -237,7 +247,6 @@
             letter-spacing: 2px;
         }
 
-        /* --- TIPOGRAFIA INTERNA --- */
         h2 {
             font-family: 'Cinzel Decorative', serif;
             color: var(--blood-red);
@@ -314,7 +323,6 @@
             border-radius: 0 0 2px 2px;
         }
 
-        /* Foto do Soldier Boy (Vintage) */
         .vintage-photo-container {
             display: flex;
             flex-direction: column;
@@ -341,13 +349,12 @@
             transform: rotate(-1deg);
         }
 
-        /* --- LISTA DE EXTERMÍNIO FORMATO BANNER COMPLETO --- */
         .heretics-list {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* Espaço entre os banners */
+            gap: 15px;
             margin-top: 15px;
-            max-height: 260px; /* Altura do scrollbox na página */
+            max-height: 260px;
             overflow-y: auto;
             padding-right: 10px;
             padding-left: 5px;
@@ -356,30 +363,20 @@
             scrollbar-color: var(--blood-red) transparent;
         }
 
-        /* Estilo da Scrollbar para navegadores Webkit */
-        .heretics-list::-webkit-scrollbar {
-            width: 6px;
-        }
-        .heretics-list::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 4px;
-        }
-        .heretics-list::-webkit-scrollbar-thumb {
-            background-color: var(--blood-red);
-            border-radius: 4px;
-        }
+        .heretics-list::-webkit-scrollbar { width: 6px; }
+        .heretics-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 4px; }
+        .heretics-list::-webkit-scrollbar-thumb { background-color: var(--blood-red); border-radius: 4px; }
 
         .heretic-item {
             position: relative;
             width: 100%;
-            /* Remover o height fixo e o display problemático para evitar o "esmagamento" */
-            flex-shrink: 0; /* IMPEDE QUE A IMAGEM SEJA ESMAGADA NA VERTICAL */
+            flex-shrink: 0;
             border: 2px solid var(--blood-red);
             border-radius: 6px;
             background-color: #1a1a1a;
             box-shadow: 3px 3px 6px rgba(0,0,0,0.4);
             overflow: hidden;
-            display: block; /* Garante o fluxo correto do bloco */
+            display: block;
         }
 
         .heretic-item img {
@@ -403,78 +400,6 @@
             background: rgba(255,255,255,0.95);
             box-shadow: 0px 0px 8px rgba(0,0,0,0.6);
             pointer-events: none;
-        }
-
-        /* --- TELEFONE VOUGHT --- */
-        .phone-container {
-            position: absolute;
-            right: -160px;
-            bottom: 30px;
-            width: 140px;
-            height: 280px;
-            background: #1a1c23;
-            border: 4px solid #333;
-            border-radius: 20px;
-            box-shadow: -10px 15px 25px rgba(0,0,0,0.8), inset 0 0 10px #000, inset 2px 2px 5px rgba(255,255,255,0.1);
-            transform: rotateY(-20deg) rotateX(15deg) rotateZ(-5deg);
-            transform-style: preserve-3d;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 5;
-            transition: all 0.5s ease;
-        }
-
-        .phone-screen {
-            width: 92%;
-            height: 96%;
-            background-color: #050505;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 20px #000;
-        }
-
-        .phone-glare {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .phone-off-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #020202;
-            z-index: 8;
-            transition: opacity 0.5s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--blood-red);
-            font-family: 'Cinzel Decorative', serif;
-        }
-
-        .phone-off-overlay span {
-            font-size: 2rem;
-            opacity: 0.3;
-        }
-
-        .phone-container.is-on .phone-off-overlay {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #yt-player-container {
-            width: 100%;
-            height: 100%;
-            pointer-events: auto; 
         }
 
         /* --- BRAÇO E MÃO DO CAPITÃO PÁTRIA --- */
@@ -543,30 +468,17 @@
             .vought-logo-cover { font-size: 4rem; }
             .hand-container { width: 350px; }
             .vintage-photo-container img { max-width: 110px; }
-            
-            /* Ajustes Mobile para o Banner */
             .heretics-list { max-height: 230px; gap: 10px; }
             .stamp-hated { font-size: 0.65rem; bottom: 4px; right: 4px; padding: 1px 4px; }
-            
-            .phone-container {
-                right: -10px; 
-                bottom: -80px; 
-                width: 100px;
-                height: 200px;
-                transform: rotateY(-10deg) rotateX(10deg) rotateZ(0deg);
-                z-index: 20;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Fundo da Sala -->
     <div class="room-bg">
         <div class="window-light"></div>
     </div>
 
-    <!-- Mesa dos Sete -->
     <div class="table-container">
         <div class="table-surface">
             <div class="table-v-logo"></div>
@@ -598,8 +510,20 @@
                 </div>
             </div>
 
-            <!-- FOLHA 2 (Página 1 e 2) -->
+            <!-- FOLHA 1.5 (Página Full Foto + verso em branco) -->
             <div class="leaf" onclick="turnPage(this, 1)">
+                <div class="page front full-photo">
+                    <img src="IMG-20260602-WA0028.jpg" alt="O Salvador" onerror="this.style.background='#111'; this.style.display='flex';">
+                </div>
+                <div class="page back" style="display:flex; justify-content:center; align-items:center;">
+                    <div style="opacity:0.15; text-align:center;">
+                        <div style="font-family:'Cinzel Decorative',serif; font-size:3rem; color:#111;">V</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOLHA 2 (Página 1 e 2) -->
+            <div class="leaf" onclick="turnPage(this, 2)">
                 <div class="page front">
                     <div class="ribbon"></div>
                     <h2>I. A Gênese Isolada</h2>
@@ -631,7 +555,7 @@
             </div>
 
             <!-- FOLHA 3 (Página 3 e 4) -->
-            <div class="leaf" onclick="turnPage(this, 2)">
+            <div class="leaf" onclick="turnPage(this, 3)">
                 <div class="page front">
                     <h2>III. A Ira Justa e as Calúnias</h2>
                     <div class="text-content">
@@ -650,9 +574,7 @@
                             Estes são os rostos da ingratidão. Os hereges marcados para purificação pelo laser divino.
                         </p>
                         
-                        <!-- LISTA DE BANNER GERADA POR JAVASCRIPT -->
                         <div class="heretics-list" id="heretics-container" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onwheel="event.stopPropagation()">
-                            <!-- Preenchido automaticamente via Script em baixo -->
                         </div>
 
                     </div>
@@ -661,7 +583,7 @@
             </div>
 
             <!-- FOLHA 4 (O Legado e Capa Dura Traseira) -->
-            <div class="leaf" onclick="turnPage(this, 3)">
+            <div class="leaf" onclick="turnPage(this, 4)">
                 <div class="page front">
                     <h2>IV. O Legado da Pátria</h2>
                     <div class="text-content">
@@ -684,20 +606,9 @@
             </div>
 
         </div>
-
-        <!-- TELEFONE VOUGHT AO LADO DO LIVRO -->
-        <div class="phone-container" id="vought-phone">
-            <div class="phone-screen">
-                <div class="phone-glare"></div>
-                <div class="phone-off-overlay">
-                    <span>V</span>
-                </div>
-                <div id="yt-player-container"></div>
-            </div>
-        </div>
     </div>
 
-    <!-- MÃO REDESENHADA -->
+    <!-- MÃO DO CAPITÃO PÁTRIA -->
     <div id="hand-layer">
         <div class="hand-container" id="homelander-hand">
             <svg viewBox="0 0 450 250" xmlns="http://www.w3.org/2000/svg">
@@ -750,12 +661,7 @@
 
     <div class="instruction">CLIQUE NA PÁGINA PARA VIRAR</div>
 
-    <!-- API do YouTube e Lógica do Livro -->
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // === CONFIGURAÇÃO GITHUB ===
-        // Cola aqui o URL RAW da tua pasta do GitHub onde estão as fotos guardadas.
-        // Deve terminar com uma barra "/". Se deixares vazio, ele vai procurar as imagens na mesma pasta do HTML local.
         const GITHUB_RAW_URL = ""; 
 
         const imagensDeExterminio = [
@@ -794,10 +700,7 @@
             imagensDeExterminio.forEach((imgName, index) => {
                 const item = document.createElement('div');
                 item.className = 'heretic-item';
-                
                 const randomStamp = stamps[index % stamps.length];
-                
-                // Exibe diretamente a imagem completa no formato de banner original
                 item.innerHTML = `
                     <img src="${GITHUB_RAW_URL}${imgName}" alt="Alvo ${index + 1}" onerror="this.src='https://placehold.co/600x150/1a1a1a/fff?text=Ficheiro+Em+Falta'">
                     <div class="stamp-hated">${randomStamp}</div>
@@ -808,25 +711,9 @@
         
         popularListaExterminio();
 
-
-        // --- LÓGICA DAS PÁGINAS E YOUTUBE ---
+        // --- LÓGICA DAS PÁGINAS ---
         const leaves = document.querySelectorAll('.leaf');
         const hand = document.getElementById('homelander-hand');
-        const phone = document.getElementById('vought-phone');
-        
-        let ytPlayer;
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('yt-player-container', {
-                height: '100%',
-                width: '100%',
-                videoId: '3KMiX2mUqkk', 
-                playerVars: {
-                    'playsinline': 1,
-                    'controls': 1,
-                    'disablekb': 0
-                }
-            });
-        }
         
         function initZOrder() {
             leaves.forEach((leaf, index) => {
@@ -838,37 +725,17 @@
         function turnPage(clickedLeaf, index) {
             let direction = '';
 
-            // Voltando página (Esquerda -> Direita)
             if (clickedLeaf.classList.contains('turned')) {
-                // Impede pular páginas fora de ordem
                 if (index < leaves.length - 1 && leaves[index + 1].classList.contains('turned')) return;
-
                 clickedLeaf.classList.remove('turned');
                 direction = 'prev';
-                
-                // Desliga o telefone e pausa a música se o utilizador fechar a capa
-                if (index === 0 && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
-                    ytPlayer.pauseVideo();
-                    phone.classList.remove('is-on');
-                }
-                
                 setTimeout(() => {
                     clickedLeaf.style.zIndex = leaves.length - index;
-                }, 750); // Metade da transição (1.5s)
-                
+                }, 750);
             } else {
-                // Avançando página (Direita -> Esquerda)
                 if (index > 0 && !leaves[index - 1].classList.contains('turned')) return;
-
                 clickedLeaf.classList.add('turned');
                 direction = 'next';
-                
-                // Liga o telefone e toca a música quando a capa é aberta
-                if (index === 0 && ytPlayer && typeof ytPlayer.playVideo === 'function') {
-                    ytPlayer.playVideo();
-                    phone.classList.add('is-on');
-                }
-                
                 setTimeout(() => {
                     clickedLeaf.style.zIndex = index + 1;
                 }, 750);
@@ -878,10 +745,8 @@
         }
 
         function triggerHandAnimation(direction) {
-            // Remove as classes, força reflow e reinicia animação
             hand.classList.remove('animate-next', 'animate-prev');
             void hand.offsetWidth; 
-            
             if (direction === 'next') {
                 hand.classList.add('animate-next');
             } else if (direction === 'prev') {
@@ -891,6 +756,3 @@
     </script>
 </body>
 </html>
-
-
-```
