@@ -341,20 +341,22 @@
             transform: rotate(-1deg);
         }
 
-        /* --- LISTA DE EXTERMÍNIO COM SCROLL BAR (FORMATO BANNER) --- */
+        /* --- LISTA DE EXTERMÍNIO FORMATO BANNER COMPLETO --- */
         .heretics-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
-            max-height: 270px;
+            gap: 15px; /* Espaço entre os banners */
+            margin-top: 15px;
+            max-height: 260px; /* Altura do scrollbox na página */
             overflow-y: auto;
-            padding-right: 8px;
+            padding-right: 10px;
+            padding-left: 5px;
+            padding-bottom: 10px;
             scrollbar-width: thin;
             scrollbar-color: var(--blood-red) transparent;
         }
 
-        /* Estilo da Scrollbar para navegadores Webkit (Chrome, Edge, Safari) */
+        /* Estilo da Scrollbar para navegadores Webkit */
         .heretics-list::-webkit-scrollbar {
             width: 6px;
         }
@@ -370,35 +372,35 @@
         .heretic-item {
             position: relative;
             width: 100%;
+            /* Remover o height fixo e o display problemático para evitar o "esmagamento" */
+            flex-shrink: 0; /* IMPEDE QUE A IMAGEM SEJA ESMAGADA NA VERTICAL */
             border: 2px solid var(--blood-red);
-            border-radius: 4px;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.4);
             overflow: hidden;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-            background-color: #0a0a0a;
-            display: flex; /* Para remover pequenos espaços em branco de imagens block */
+            display: block; /* Garante o fluxo correto do bloco */
         }
 
         .heretic-item img {
             width: 100%;
             height: auto;
             display: block;
-            object-fit: cover;
-            /* Filtro Vought para uniformizar os recortes */
-            filter: contrast(1.05) brightness(0.95);
+            object-fit: contain;
         }
 
         .stamp-hated {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            bottom: 6px;
+            right: 6px;
             color: var(--blood-red);
             border: 2px solid var(--blood-red);
             font-family: 'Cinzel Decorative', serif;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 900;
             padding: 2px 6px;
             transform: rotate(-8deg);
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             box-shadow: 0px 0px 8px rgba(0,0,0,0.6);
             pointer-events: none;
         }
@@ -542,9 +544,9 @@
             .hand-container { width: 350px; }
             .vintage-photo-container img { max-width: 110px; }
             
-            /* Ajustes do Banner no Telemóvel */
-            .heretics-list { gap: 8px; max-height: 220px; }
-            .stamp-hated { font-size: 0.7rem; bottom: 4px; right: 4px; padding: 1px 4px; }
+            /* Ajustes Mobile para o Banner */
+            .heretics-list { max-height: 230px; gap: 10px; }
+            .stamp-hated { font-size: 0.65rem; bottom: 4px; right: 4px; padding: 1px 4px; }
             
             .phone-container {
                 right: -10px; 
@@ -649,7 +651,6 @@
                         </p>
                         
                         <!-- LISTA DE BANNER GERADA POR JAVASCRIPT -->
-                        <!-- Os eventos onmousedown, ontouchstart impedem que dar scroll nesta caixa mude a página -->
                         <div class="heretics-list" id="heretics-container" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onwheel="event.stopPropagation()">
                             <!-- Preenchido automaticamente via Script em baixo -->
                         </div>
@@ -798,7 +799,7 @@
                 
                 // Exibe diretamente a imagem completa no formato de banner original
                 item.innerHTML = `
-                    <img src="${GITHUB_RAW_URL}${imgName}" alt="Alvo ${index + 1}" onerror="this.src='https://placehold.co/400x100/111/f00?text=Ficheiro+Em+Falta'">
+                    <img src="${GITHUB_RAW_URL}${imgName}" alt="Alvo ${index + 1}" onerror="this.src='https://placehold.co/600x150/1a1a1a/fff?text=Ficheiro+Em+Falta'">
                     <div class="stamp-hated">${randomStamp}</div>
                 `;
                 container.appendChild(item);
