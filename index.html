@@ -620,6 +620,101 @@
         #main-content.revealed {
             opacity: 1;
         }
+
+        /* ===== OVERLAY DE VÍDEO DE PÁGINA ===== */
+        #page-video-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.92);
+            z-index: 50000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        #page-video-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #page-video-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .page-video-inner {
+            position: relative;
+            width: min(90vw, 700px);
+            max-height: 80vh;
+            background: #000;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 60px rgba(212,175,55,0.3), 0 0 120px rgba(0,0,0,0.9);
+        }
+
+        .page-video-inner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px, transparent 3px,
+                rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        #page-video-el {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            display: block;
+            object-fit: contain;
+        }
+
+        .page-video-close {
+            position: absolute;
+            top: -14px; right: -14px;
+            width: 28px; height: 28px;
+            background: var(--blood-red);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            color: #fff;
+            font-family: sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            line-height: 1;
+        }
+
+        /* ===== EMBED YOUTUBE NA PÁGINA ===== */
+        .yt-page-embed {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: none;
+            border-radius: 2px 10px 10px 2px;
+        }
+
+        /* Página com vídeo WA0029 */
+        .page.video-page {
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+        }
+
+        #wa0029-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -635,6 +730,14 @@
     <!-- ===== WRAPPER DO VÍDEO ===== -->
     <div id="intro-video-wrap">
         <video id="intro-video" playsinline webkit-playsinline></video>
+    </div>
+
+    <!-- ===== OVERLAY VÍDEO DE PÁGINA ===== -->
+    <div id="page-video-overlay">
+        <div class="page-video-inner">
+            <video id="page-video-el" playsinline webkit-playsinline></video>
+            <div class="page-video-close" onclick="closePageVideo()">✕</div>
+        </div>
     </div>
 
     <!-- ===== CONTEÚDO PRINCIPAL ===== -->
@@ -747,9 +850,9 @@
                 </div>
             </div>
 
-            <!-- FOLHA 4 (O Legado e Capa Dura Traseira) -->
-            <div class="leaf" onclick="turnPage(this, 4)">
-                <div class="page front">
+            <!-- FOLHA 4 (O Legado → ao virar toca WA0037 | capa traseira com YouTube) -->
+            <div class="leaf" id="leaf-4" onclick="turnPage(this, 4)">
+                <div class="page front" data-page-video="VID-20260602-WA0037_001.mp4">
                     <h2>IV. O Legado da Pátria</h2>
                     <div class="text-content">
                         <p><span class="verse-num">4.1</span> No momento em que assumia o trono para trazer a ordem definitiva, a luz do Salvador foi covardemente apagada. O terrível e profano Billy Bruto, movido por puro rancor, liderou o ataque final contra o Redentor.</p>
@@ -759,6 +862,26 @@
                         <p><span class="verse-num">4.3</span> Rompendo os laços sagrados do sangue, o garoto corrompido aliou-se ao monstro Bruto para assassinar o próprio pai. O Salvador tombou sacrificado, deixando o mundo órfão de sua proteção por culpa da mais cruel ingratidão humana.</p>
                     </div>
                     <div class="page-number">5</div>
+                </div>
+                <div class="page back cover" id="page-yt">
+                    <div class="cover-inner-border" style="border-color: #1a1a2e; padding: 0; overflow: hidden; border-radius: 0;">
+                        <iframe id="yt-iframe"
+                            class="yt-page-embed"
+                            src=""
+                            allow="autoplay; encrypted-media"
+                            allowfullscreen
+                            frameborder="0">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOLHA 5 (Vídeo WA0029 + capa traseira extra) -->
+            <div class="leaf" id="leaf-5" onclick="turnPage(this, 5)">
+                <div class="page front video-page">
+                    <video id="wa0029-video" playsinline webkit-playsinline loop>
+                        <source src="VID-20260602-WA0029.mp4" type="video/mp4">
+                    </video>
                 </div>
                 <div class="page back cover">
                     <div class="cover-inner-border" style="border-color: #2a3345;">
@@ -935,7 +1058,44 @@
         // --- LÓGICA DAS PÁGINAS ---
         const leaves = document.querySelectorAll('.leaf');
         const hand = document.getElementById('homelander-hand');
-        
+
+        // Overlay de vídeo de página
+        const pageVideoOverlay = document.getElementById('page-video-overlay');
+        const pageVideoEl      = document.getElementById('page-video-el');
+
+        function openPageVideo(src) {
+            pageVideoEl.src = src;
+            pageVideoEl.load();
+            pageVideoOverlay.classList.add('visible');
+            pageVideoEl.play().catch(() => {});
+            // fecha automaticamente ao terminar
+            pageVideoEl.addEventListener('ended', closePageVideo, { once: true });
+        }
+
+        function closePageVideo() {
+            pageVideoOverlay.classList.remove('visible');
+            pageVideoEl.pause();
+            pageVideoEl.src = '';
+        }
+
+        // YouTube: carregar só quando o verso da folha 4 ficar visível
+        const ytIframe = document.getElementById('yt-iframe');
+        let ytLoaded = false;
+        function loadYT() {
+            if (ytLoaded) return;
+            ytLoaded = true;
+            ytIframe.src = 'https://www.youtube-nocookie.com/embed/3KMiX2mUqkk?autoplay=1&loop=1&playlist=3KMiX2mUqkk&controls=1&rel=0';
+        }
+        function unloadYT() {
+            ytIframe.src = '';
+            ytLoaded = false;
+        }
+
+        // Vídeo WA0029: play/pause consoante a folha 5 está virada
+        const wa0029 = document.getElementById('wa0029-video');
+        function playWA0029() { if (wa0029) wa0029.play().catch(() => {}); }
+        function pauseWA0029() { if (wa0029) { wa0029.pause(); wa0029.currentTime = 0; } }
+
         function initZOrder() {
             leaves.forEach((leaf, index) => {
                 leaf.style.zIndex = leaves.length - index;
@@ -947,16 +1107,39 @@
             let direction = '';
 
             if (clickedLeaf.classList.contains('turned')) {
+                // Voltar página
                 if (index < leaves.length - 1 && leaves[index + 1].classList.contains('turned')) return;
+
                 clickedLeaf.classList.remove('turned');
                 direction = 'prev';
+
+                // Acções ao voltar
+                if (index === 4) { unloadYT(); }           // saiu do verso YT
+                if (index === 5) { pauseWA0029(); }        // saiu do WA0029
+
                 setTimeout(() => {
                     clickedLeaf.style.zIndex = leaves.length - index;
                 }, 750);
+
             } else {
+                // Avançar página
                 if (index > 0 && !leaves[index - 1].classList.contains('turned')) return;
+
                 clickedLeaf.classList.add('turned');
                 direction = 'next';
+
+                // Acções ao avançar
+                if (index === 4) {
+                    // Virou a folha 4: frente era "Legado" → toca WA0037 como overlay
+                    openPageVideo('VID-20260602-WA0037_001.mp4');
+                    // Após o overlay fechar, o verso (YT) já estará visível — carrega YT com delay
+                    setTimeout(loadYT, 500);
+                }
+                if (index === 5) {
+                    // Virou folha 5: frente é WA0029
+                    playWA0029();
+                }
+
                 setTimeout(() => {
                     clickedLeaf.style.zIndex = index + 1;
                 }, 750);
@@ -967,7 +1150,7 @@
 
         function triggerHandAnimation(direction) {
             hand.classList.remove('animate-next', 'animate-prev');
-            void hand.offsetWidth; 
+            void hand.offsetWidth;
             if (direction === 'next') {
                 hand.classList.add('animate-next');
             } else if (direction === 'prev') {
