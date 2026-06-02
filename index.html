@@ -341,15 +341,15 @@
             transform: rotate(-1deg);
         }
 
-        /* --- LISTA DE EXTERMÍNIO COM SCROLL BAR --- */
+        /* --- LISTA DE EXTERMÍNIO COM SCROLL BAR (FORMATO BANNER) --- */
         .heretics-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 7px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             margin-top: 10px;
             max-height: 270px;
             overflow-y: auto;
-            padding-right: 5px;
+            padding-right: 8px;
             scrollbar-width: thin;
             scrollbar-color: var(--blood-red) transparent;
         }
@@ -368,47 +368,39 @@
         }
 
         .heretic-item {
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid rgba(122, 0, 0, 0.2);
-            padding-bottom: 4px;
             position: relative;
+            width: 100%;
+            border: 2px solid var(--blood-red);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            background-color: #0a0a0a;
+            display: flex; /* Para remover pequenos espaços em branco de imagens block */
         }
 
         .heretic-item img {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+            width: 100%;
+            height: auto;
+            display: block;
             object-fit: cover;
-            margin-right: 8px;
-            border: 1px solid #7a0000;
-            box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
-            background-color: #eee;
-        }
-
-        .heretic-name {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.7rem;
-            color: #1a1a1a;
-            font-weight: 900;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100px; /* Reduzido para acomodar 2 colunas */
+            /* Filtro Vought para uniformizar os recortes */
+            filter: contrast(1.05) brightness(0.95);
         }
 
         .stamp-hated {
             position: absolute;
-            right: 0;
+            bottom: 8px;
+            right: 8px;
             color: var(--blood-red);
-            border: 1px solid var(--blood-red);
+            border: 2px solid var(--blood-red);
             font-family: 'Cinzel Decorative', serif;
-            font-size: 0.5rem;
+            font-size: 0.9rem;
             font-weight: 900;
-            padding: 1px 3px;
-            transform: rotate(-10deg);
+            padding: 2px 6px;
+            transform: rotate(-8deg);
             background: rgba(255,255,255,0.9);
-            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            box-shadow: 0px 0px 8px rgba(0,0,0,0.6);
+            pointer-events: none;
         }
 
         /* --- TELEFONE VOUGHT --- */
@@ -550,10 +542,9 @@
             .hand-container { width: 350px; }
             .vintage-photo-container img { max-width: 110px; }
             
-            .heretic-name { max-width: 60px; font-size: 0.65rem; }
-            .heretics-list { gap: 4px; grid-template-columns: 1fr; max-height: 200px; }
-            .heretic-item { padding-bottom: 3px; }
-            .heretic-item img { width: 24px; height: 24px; }
+            /* Ajustes do Banner no Telemóvel */
+            .heretics-list { gap: 8px; max-height: 220px; }
+            .stamp-hated { font-size: 0.7rem; bottom: 4px; right: 4px; padding: 1px 4px; }
             
             .phone-container {
                 right: -10px; 
@@ -657,7 +648,7 @@
                             Estes são os rostos da ingratidão. Os hereges marcados para purificação pelo laser divino.
                         </p>
                         
-                        <!-- LISTA DETALHADA GERADA POR JAVASCRIPT -->
+                        <!-- LISTA DE BANNER GERADA POR JAVASCRIPT -->
                         <!-- Os eventos onmousedown, ontouchstart impedem que dar scroll nesta caixa mude a página -->
                         <div class="heretics-list" id="heretics-container" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onwheel="event.stopPropagation()">
                             <!-- Preenchido automaticamente via Script em baixo -->
@@ -803,23 +794,17 @@
                 const item = document.createElement('div');
                 item.className = 'heretic-item';
                 
-                // Variar os carimbos para dar estética
                 const randomStamp = stamps[index % stamps.length];
                 
-                // Extrai o ID do alvo a partir do nome do ficheiro (ex: 181731)
-                let targetIdParts = imgName.split('_');
-                let targetId = targetIdParts.length > 2 ? targetIdParts[2] : String(index + 1).padStart(3, '0');
-
+                // Exibe diretamente a imagem completa no formato de banner original
                 item.innerHTML = `
-                    <img src="${GITHUB_RAW_URL}${imgName}" alt="Alvo" onerror="this.src='https://ui-avatars.com/api/?name=Alvo+${targetId}&background=111&color=fff&rounded=true&bold=true'">
-                    <span class="heretic-name">REGISTO ID: ${targetId}</span>
+                    <img src="${GITHUB_RAW_URL}${imgName}" alt="Alvo ${index + 1}" onerror="this.src='https://placehold.co/400x100/111/f00?text=Ficheiro+Em+Falta'">
                     <div class="stamp-hated">${randomStamp}</div>
                 `;
                 container.appendChild(item);
             });
         }
         
-        // Executa a função assim que carregar o script
         popularListaExterminio();
 
 
