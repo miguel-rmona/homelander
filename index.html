@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Bíblia do Capitão Pátria</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=UnifrakturMaguntia&display=swap');
+        /* Tipografia aprimorada, bela e clássica carregada aqui: */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
         :root {
             --gold:        #d4af37;
             --gold-light:  #f0d060;
             --gold-dark:   #8a6c1c;
-            --blood:       #6a0000;
-            --blood-light: #a00000;
+            --blood:       #7a0000;
+            --blood-light: #a80000;
             --leather:     #080e1c;
             --page:        #f5edda;
             --page-dark:   #e8dcc8;
-            --ink:         #140a00;
-            --ink-light:   #2a1a08;
+            --ink:         #23120b; /* Letras base um tom mais aquecido estilo siena escura, clássico. */
+            --ink-light:   #3a2012; 
             --vought-blue: #0a1530;
         }
 
@@ -32,452 +33,209 @@
             perspective: 2200px;
         }
 
-        /* ── CENÁRIO ── */
+        /* ── CENÁRIO E LIVRO DE BASE ── */
         .room-bg {
-            position: absolute; inset: 0;
+            position: absolute; inset: 0; z-index: 0;
             background:
                 radial-gradient(ellipse 80% 50% at 50% 0%, #1a2535 0%, transparent 70%),
                 radial-gradient(ellipse 60% 40% at 20% 100%, #0a0f1a 0%, transparent 60%),
                 #010103;
-            z-index: 0;
         }
-        .room-bg::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent 0px, transparent 120px,
-                rgba(255,255,255,0.005) 120px, rgba(255,255,255,0.005) 121px
-            );
-        }
+        .room-bg::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient( 90deg, transparent 0px, transparent 120px, rgba(255,255,255,0.005) 120px, rgba(255,255,255,0.005) 121px ); }
 
-        .table-container {
-            position: absolute; bottom: -20vh;
-            width: 200vw; height: 120vh;
-            transform: rotateX(75deg);
-            transform-style: preserve-3d;
-            z-index: 1;
-        }
-        .table-surface {
-            width: 100%; height: 100%;
-            background:
-                radial-gradient(ellipse 60% 40% at 50% 20%, rgba(20,30,50,0.8) 0%, transparent 70%),
-                linear-gradient(to bottom, #030508, #000);
-            box-shadow: inset 0 0 200px #000;
-            position: relative;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .table-v-logo {
-            position: absolute;
-            width: 70vw; height: 70vh;
-            border-top: 12px solid rgba(212,175,55,0.12);
-            border-left: 12px solid rgba(212,175,55,0.12);
-            transform: rotate(45deg);
-            border-radius: 4px;
-        }
+        .table-container { position: absolute; bottom: -20vh; width: 200vw; height: 120vh; transform: rotateX(75deg); transform-style: preserve-3d; z-index: 1; }
+        .table-surface { width: 100%; height: 100%; background: radial-gradient(ellipse 60% 40% at 50% 20%, rgba(20,30,50,0.8) 0%, transparent 70%), linear-gradient(to bottom, #030508, #000); box-shadow: inset 0 0 200px #000; position: relative; display: flex; justify-content: center; align-items: center; }
+        .table-v-logo { position: absolute; width: 70vw; height: 70vh; border-top: 12px solid rgba(212,175,55,0.12); border-left: 12px solid rgba(212,175,55,0.12); transform: rotate(45deg); border-radius: 4px; }
+        .book-shadow { position: absolute; top: 61%; width: 800px; height: 180px; background: rgba(0,0,0,0.95); filter: blur(35px); border-radius: 50%; z-index: 5; transform: rotateX(60deg) scaleX(1.2); }
 
-        .book-shadow {
-            position: absolute; top: 61%;
-            width: 800px; height: 180px;
-            background: rgba(0,0,0,0.95);
-            filter: blur(35px); border-radius: 50%;
-            z-index: 5; transform: rotateX(60deg) scaleX(1.2);
-        }
+        .scene { position: relative; width: min(84vw, 920px); height: min(65vh, 600px); min-height: 540px; display: flex; justify-content: center; align-items: center; z-index: 10; transform: rotateX(14deg); }
+        
+        .book { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; box-shadow: 0 25px 60px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.6); }
+        .book::before { content: ''; position: absolute; top: 1.5%; bottom: 1.5%; right: -20px; width: 20px; background: repeating-linear-gradient(to right, #c0b090 0px, var(--page) 2px, #c0b090 4px, var(--page) 6px); transform: rotateY(90deg); transform-origin: left; border-radius: 0 4px 4px 0; box-shadow: inset 0 0 12px rgba(0,0,0,0.6); }
+        .book::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; right: 0; background: var(--leather); transform: translateZ(-22px); border-radius: 4px; box-shadow: inset 0 0 20px #000, -8px 8px 20px rgba(0,0,0,0.8); }
 
-        /* ── LIVRO ── */
-        .scene {
-            position: relative;
-            width: min(82vw, 920px); height: min(62vh, 600px); min-height: 540px;
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10;
-            transform: rotateX(14deg);
-        }
-
-        .book {
-            position: relative; width: 100%; height: 100%;
-            transform-style: preserve-3d;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.6);
-        }
-        /* Lombada das páginas */
-        .book::before {
-            content: '';
-            position: absolute;
-            top: 1.5%; bottom: 1.5%; right: -20px; width: 20px;
-            background: repeating-linear-gradient(to right,
-                #c0b090 0px, var(--page) 2px, #c0b090 4px, var(--page) 6px);
-            transform: rotateY(90deg); transform-origin: left;
-            border-radius: 0 4px 4px 0;
-            box-shadow: inset 0 0 12px rgba(0,0,0,0.6);
-        }
-        /* Capa dura traseira base */
-        .book::after {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 0; right: 0;
-            background: var(--leather);
-            transform: translateZ(-22px);
-            border-radius: 4px;
-            box-shadow: inset 0 0 20px #000, -8px 8px 20px rgba(0,0,0,0.8);
-        }
-
-        .leaf {
-            position: absolute;
-            width: 50%; height: 100%; right: 0; top: 0;
-            transform-style: preserve-3d;
-            transform-origin: left center;
-            transition: transform 1.4s cubic-bezier(0.25, 0.0, 0.2, 1);
-            cursor: pointer;
-        }
+        .leaf { position: absolute; width: 50%; height: 100%; right: 0; top: 0; transform-style: preserve-3d; transform-origin: left center; transition: transform 1.4s cubic-bezier(0.25, 0.0, 0.2, 1); cursor: pointer; }
         .leaf.turned { transform: rotateY(-180deg); }
 
-        /* ── PÁGINAS BÁSICAS E DECORAÇÃO ── */
+        /* ── PÁGINAS BÁSICAS (LETRAS/FUNDO OTIMIZADOS E BELOS) ── */
         .page {
             position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden;
-            display: flex; flex-direction: column;
+            backface-visibility: hidden; display: flex; flex-direction: column;
             background-color: var(--page);
             background-image:
                 radial-gradient(ellipse at 50% 0%, rgba(255,250,230,0.6) 0%, transparent 60%),
                 radial-gradient(circle at 80% 80%, rgba(180,140,80,0.08) 0%, transparent 50%),
                 url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-            border-radius: 2px 10px 10px 2px;
-            overflow: hidden;
-            padding: 28px 36px 40px;
+            border-radius: 2px 10px 10px 2px; overflow: hidden; padding: 28px 38px 42px; /* Margem levemente estendida */
             box-shadow: inset 0 0 30px rgba(120,90,40,0.12);
         }
         .page.front { box-shadow: inset 20px 0 35px -8px rgba(0,0,0,0.18), inset 0 0 30px rgba(120,90,40,0.12); }
-        .page.back {
-            transform: rotateY(180deg);
-            border-radius: 10px 2px 2px 10px;
-            box-shadow: inset -20px 0 35px -8px rgba(0,0,0,0.18), inset 0 0 30px rgba(120,90,40,0.12);
-        }
+        .page.back { transform: rotateY(180deg); border-radius: 10px 2px 2px 10px; box-shadow: inset -20px 0 35px -8px rgba(0,0,0,0.18), inset 0 0 30px rgba(120,90,40,0.12); }
 
-        .page:not(.cover):not(.full-photo):not(.video-page)::before {
-            content: '';
-            position: absolute;
-            top: 18px; left: 28px; right: 28px; height: 1px;
-            background: linear-gradient(to right, transparent, rgba(180,140,60,0.3), transparent);
-        }
-        .page:not(.cover):not(.full-photo):not(.video-page)::after {
-            content: '';
-            position: absolute;
-            bottom: 35px; left: 28px; right: 28px; height: 1px;
-            background: linear-gradient(to right, transparent, rgba(180,140,60,0.3), transparent);
-        }
+        /* LINHAS AURA BIBLIA FINA DECORE NO TEXTO */
+        .page:not(.cover):not(.full-photo):not(.video-page)::before { content: ''; position: absolute; top: 16px; left: 34px; right: 34px; height: 1px; background: linear-gradient(to right, transparent, rgba(180,140,60,0.4), transparent); }
+        .page:not(.cover):not(.full-photo):not(.video-page)::after { content: ''; position: absolute; bottom: 35px; left: 34px; right: 34px; height: 1px; background: linear-gradient(to right, transparent, rgba(180,140,60,0.4), transparent); }
 
-        /* ── CAPA DURA LAYOUTS ── */
-        .page.cover {
-            background: var(--leather);
-            background-image:
-                radial-gradient(ellipse at 50% 30%, rgba(20,35,65,0.8) 0%, transparent 60%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");
-            border: 5px solid #0d1928;
-            border-radius: 3px 12px 12px 3px;
-            padding: 18px; justify-content: center;
-        }
+        .page.cover { background: var(--leather); background-image: radial-gradient(ellipse at 50% 30%, rgba(20,35,65,0.8) 0%, transparent 60%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E"); border: 5px solid #0d1928; border-radius: 3px 12px 12px 3px; padding: 18px; justify-content: center; }
         .page.cover.back { border-radius: 12px 3px 3px 12px; }
         .page.cover::before, .page.cover::after { display: none !important; }
 
-        .cover-inner-border {
-            border: 1.5px solid var(--gold);
-            height: 100%;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            padding: 18px; position: relative;
+        .cover-inner-border { border: 1.5px solid var(--gold); height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 18px; position: relative; }
+        .cover-inner-border::before { content: ''; position: absolute; inset: 6px; border: 1px solid rgba(212,175,55,0.25); pointer-events: none; }
+        .vought-logo-cover { font-family: 'Cinzel Decorative', serif; font-size: clamp(4rem, 8vw, 6rem); color: var(--gold); text-shadow: 0px 4px 0px var(--gold-dark), 0 0 30px rgba(212,175,55,0.4), 0 0 60px rgba(212,175,55,0.15); line-height: 1; margin-bottom: 16px; animation: coverGlow 4s ease-in-out infinite; }
+        @keyframes coverGlow { 0%,100% { text-shadow: 0px 4px 0px var(--gold-dark), 0 0 20px rgba(212,175,55,0.3); } 50% { text-shadow: 0px 4px 0px var(--gold-dark), 0 0 40px rgba(212,175,55,0.6), 0 0 80px rgba(212,175,55,0.2); } }
+        .cover h1 { font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: clamp(1.8rem, 3vw, 2.5rem); text-align: center; text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 20px rgba(212,175,55,0.3); letter-spacing: 3px; line-height: 1.3; }
+
+        /* ========================================================
+           NOVA BELEZA DA TIPOGRAFIA - AS LETRAS CLÁSSICAS!
+           ======================================================== */
+        h2 { 
+            font-family: 'Cinzel Decorative', serif; font-weight: 700; color: var(--blood); 
+            font-size: clamp(1.1rem, 2vw, 1.45rem); text-align: center; 
+            padding-bottom: 10px; margin-bottom: 16px; position: relative; text-transform: uppercase; letter-spacing: 2px;
+            text-shadow: 0 0 6px rgba(106, 0, 0, 0.2), 0 2px 0px rgba(0,0,0,0.1); 
         }
-        .cover-inner-border::before {
-            content: '';
-            position: absolute;
-            inset: 6px;
-            border: 1px solid rgba(212,175,55,0.25);
-            pointer-events: none;
+        h2::after { content: ''; position: absolute; bottom: 0; left: 10%; right: 10%; height: 1.5px; background: linear-gradient(to right, transparent, var(--gold), transparent); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        
+        .text-content { flex-grow: 1; position: relative; overflow: hidden; padding-top: 4px;}
+
+        /* Os parágrafos clássicos maravilhosos! Aumento de peso 500  e Tamanho maior. */
+        p { 
+            font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-weight: 500;
+            font-size: clamp(0.92rem, 1.4vw, 1.05rem); 
+            line-height: 1.6; margin-bottom: 12px; text-align: justify; 
+            color: var(--ink); text-shadow: 0 0.5px 1px rgba(0,0,0,0.03); 
+        }
+        
+        .verse-num { 
+            color: var(--blood-light); font-weight: 700; font-size: 0.7em; 
+            vertical-align: super; margin-right: 5px; 
+            font-family: 'Cormorant Garamond', serif; letter-spacing: 0.5px;
         }
 
-        .vought-logo-cover {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: clamp(4rem, 8vw, 6rem);
-            color: var(--gold);
-            text-shadow: 0px 4px 0px var(--gold-dark), 0 0 30px rgba(212,175,55,0.4), 0 0 60px rgba(212,175,55,0.15);
-            line-height: 1; margin-bottom: 16px;
-            animation: coverGlow 4s ease-in-out infinite;
-        }
-        @keyframes coverGlow {
-            0%,100% { text-shadow: 0px 4px 0px var(--gold-dark), 0 0 20px rgba(212,175,55,0.3); }
-            50%      { text-shadow: 0px 4px 0px var(--gold-dark), 0 0 40px rgba(212,175,55,0.6), 0 0 80px rgba(212,175,55,0.2); }
+        .drop-cap { 
+            float: left; font-family: 'Cinzel Decorative', serif; font-size: clamp(2.8rem, 4.8vw, 3.8rem); 
+            line-height: 0.78; padding-top: 5px; padding-right: 8px; color: var(--gold); 
+            text-shadow: 1px 2px 0px #380b03, 0 0 8px rgba(212,175,55,0.4); font-weight: bold; 
         }
 
-        .cover h1 {
-            font-family: 'Cinzel Decorative', serif;
-            color: var(--gold); font-size: clamp(1.6rem, 3vw, 2.2rem);
-            text-align: center;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 20px rgba(212,175,55,0.3);
-            letter-spacing: 3px; line-height: 1.3;
+        .italic-quote { 
+            font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; 
+            font-size: clamp(1rem, 1.5vw, 1.25rem); color: var(--blood); text-align: center; 
+            margin: 22px 10px; padding: 12px 20px; 
+            border-left: 4px solid var(--gold); border-right: 4px solid var(--gold); 
+            background: rgba(180,140,60,0.04); box-shadow: 0 4px 6px rgba(0,0,0,0.03); 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); letter-spacing: 0.5px;
         }
 
-        /* ── TIPOGRAFIA INTERNA DO BROWSER/HISTÓRIA ── */
-        h2 {
-            font-family: 'Cinzel Decorative', serif;
-            color: var(--blood);
-            font-size: clamp(0.9rem, 1.8vw, 1.35rem);
-            text-align: center;
-            padding-bottom: 8px; margin-bottom: 16px;
-            position: relative; text-transform: uppercase; letter-spacing: 1px;
-        }
-        h2::after {
-            content: '';
-            position: absolute; bottom: 0; left: 10%; right: 10%; height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold), transparent);
-        }
+        .page-number { position: absolute; bottom: 12px; width: calc(100% - 70px); left:35px; right: 35px; text-align: center; font-family: 'Cinzel Decorative', serif; font-size: 0.75rem; color: rgba(106,0,0,0.55); letter-spacing: 3px; border-top: 1px solid rgba(0,0,0,0.05); padding-top:4px;}
 
-        .text-content { flex-grow: 1; position: relative; overflow: hidden; }
+        /* A Fitinha Divisória Vermelha da Bília Textura*/
+        .ribbon { position: absolute; top: -3px; left: 28px; width: 12px; height: 110px; background: linear-gradient(to right, #3a0000, #8b0000, #3a0000); box-shadow: 2px 2px 6px rgba(0,0,0,0.5), inset -2px 0px 5px rgba(0,0,0,0.3); z-index: 5; border-radius: 0 0 2px 2px; }
+        .ribbon::after { content: ''; position: absolute; bottom: -8px; left: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #5a0000; }
 
-        p {
-            font-size: clamp(0.85rem, 1.5vw, 1.05rem);
-            line-height: 1.55; margin-bottom: 10px;
-            text-align: justify; color: var(--ink-light);
-        }
-
-        .drop-cap {
-            float: left;
-            font-family: 'Cinzel Decorative', serif;
-            font-size: clamp(2.5rem, 4.5vw, 3.4rem);
-            line-height: 0.78;
-            padding-top: 4px; padding-right: 7px;
-            color: var(--gold);
-            text-shadow: 2px 2px 0px var(--blood);
-        }
-
-        .verse-num {
-            color: var(--blood-light);
-            font-weight: 700;
-            font-size: 0.72em;
-            vertical-align: super;
-            margin-right: 3px;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .italic-quote {
-            font-style: italic; font-weight: 600;
-            font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-            color: var(--blood); text-align: center;
-            margin: 18px 8px;
-            padding: 10px 16px;
-            border-left: 3px solid var(--gold);
-            border-right: 3px solid var(--gold);
-            background: rgba(180,140,60,0.05);
-        }
-
-        .page-number {
-            position: absolute; bottom: 12px;
-            width: calc(100% - 56px); text-align: center;
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 0.75rem; color: rgba(106,0,0,0.55);
-            letter-spacing: 3px;
-        }
-
-        .ribbon {
-            position: absolute; top: -3px; left: 28px;
-            width: 11px; height: 110px;
-            background: linear-gradient(to right, #3a0000, #8b0000, #3a0000);
-            box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-            z-index: 5; border-radius: 0 0 3px 3px;
-        }
-        .ribbon::after {
-            content: '';
-            position: absolute; bottom: 0; left: 0;
-            border-left: 5.5px solid transparent;
-            border-right: 5.5px solid transparent;
-            border-top: 8px solid #5a0000;
-        }
-
-        /* ── LAYOUT LISTAS GRELHA EXTREMIDADES (ALIADOS/ALVOS/PECADOS) ── */
-        .heretics-list, .aliados-grid, .pecados-list {
-            display: flex; flex-direction: column; gap: 8px; margin-top: 8px;
-            max-height: 72%; overflow-y: auto; padding-right: 6px;
-            scrollbar-width: thin; 
-        }
+        /* ── LAYOUT DE COMPILAÇÕES / CAIXAS FILES LIST ── */
+        .heretics-list, .aliados-grid, .pecados-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; max-height: 72%; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; }
         .heretics-list::-webkit-scrollbar, .aliados-grid::-webkit-scrollbar, .pecados-list::-webkit-scrollbar { width: 4px; }
+        .heretics-list { scrollbar-color: var(--blood) rgba(0,0,0,0.05); } .aliados-grid { scrollbar-color: var(--gold-dark) rgba(0,0,0,0.05); } .pecados-list { scrollbar-color: var(--blood) rgba(0,0,0,0.05); }
+        .heretics-list::-webkit-scrollbar-thumb, .pecados-list::-webkit-scrollbar-thumb { background-color: var(--blood); border-radius: 4px; } .aliados-grid::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
         
-        .heretics-list { scrollbar-color: var(--blood) rgba(0,0,0,0.05); }
-        .aliados-grid { scrollbar-color: var(--gold-dark) rgba(0,0,0,0.05); }
-        .pecados-list { scrollbar-color: var(--blood) rgba(0,0,0,0.05); }
-        
-        .heretics-list::-webkit-scrollbar-thumb, .pecados-list::-webkit-scrollbar-thumb { background-color: var(--blood); border-radius: 4px; }
-        .aliados-grid::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
-
-        .heretic-item {
-            position: relative; width: 100%; flex-shrink: 0;
-            border: 1.5px solid var(--blood); border-radius: 5px; background: #111;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.5); overflow: hidden; margin-bottom: 6px;
-        }
+        .heretic-item { position: relative; width: 100%; flex-shrink: 0; border: 1.5px solid var(--blood); border-radius: 4px; background: #0c0808; box-shadow: inset 0 0 10px #000, 2px 2px 8px rgba(0,0,0,0.5); overflow: hidden; margin-bottom: 6px; }
         .heretic-item img { width: 100%; height: auto; display: block; object-fit: contain; }
-        .stamp-hated {
-            position: absolute; bottom: 5px; right: 5px;
-            color: var(--blood); border: 2px solid var(--blood);
-            font-family: 'Cinzel Decorative', serif; font-size: 0.72rem; font-weight: 900;
-            padding: 1px 5px; transform: rotate(-7deg); background: rgba(255,255,255,0.93);
-            box-shadow: 0 0 6px rgba(0,0,0,0.5); pointer-events: none;
-        }
+        .stamp-hated { position: absolute; bottom: 8px; right: 8px; color: var(--blood); border: 2.5px solid var(--blood); font-family: 'Cinzel Decorative', serif; font-size: 0.8rem; font-weight: 900; padding: 2px 6px; transform: rotate(-7deg); background: rgba(255,255,255,0.95); box-shadow: 0 2px 8px rgba(0,0,0,0.7); letter-spacing: 1px; pointer-events: none; }
 
-        .vintage-photo-container { display: flex; flex-direction: column; align-items: center; margin: 10px auto; transform: rotate(2.5deg); filter: drop-shadow(3px 5px 8px rgba(0,0,0,0.45)); }
-        .vintage-photo-container img { max-width: 110px; border: 5px solid #fff; border-bottom: 16px solid #fff; filter: sepia(0.35) contrast(1.1) brightness(0.88); border-radius: 2px; }
-        .photo-caption { font-family: 'Courier New', monospace; font-size: 0.68rem; color: #444; margin-top: 4px; font-weight: bold; transform: rotate(-1.5deg); }
+        .vintage-photo-container { display: flex; flex-direction: column; align-items: center; margin: 12px auto; transform: rotate(1.5deg); filter: drop-shadow(4px 6px 10px rgba(0,0,0,0.55)); }
+        .vintage-photo-container img { max-width: 120px; border: 5px solid #fff; border-bottom: 18px solid #f4ecd8; filter: sepia(0.4) contrast(1.15) brightness(0.85); border-radius: 2px; }
+        .photo-caption { font-family: 'Courier New', monospace; font-size: 0.72rem; color: #222; margin-top: 6px; font-weight: 700; transform: rotate(-1.5deg); text-transform: uppercase; letter-spacing: 0.5px;}
 
+        /* --- O Mandamento & As Outras Boxes Ficaram Fábulosas:*/
         .mandamentos-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-        .mandamento-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 10px; background: linear-gradient(135deg, rgba(180,140,40,0.07) 0%, transparent 100%); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; }
-        .mandamento-num { font-family: 'Cinzel Decorative', serif; font-size: 0.8rem; color: var(--gold); min-width: 22px; padding-top: 1px; text-shadow: 0 0 6px rgba(212,175,55,0.4); }
-        .mandamento-text { font-size: clamp(0.72rem, 1.3vw, 0.88rem); color: var(--ink-light); line-height: 1.4; font-style: italic; }
-        .mandamento-text strong { color: var(--blood); font-style: normal; font-weight: 700; }
+        .mandamento-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; background: linear-gradient(135deg, rgba(180,140,40,0.12) 0%, transparent 100%); border-left: 4px solid var(--gold); border-radius: 0 6px 6px 0; }
+        .mandamento-num { font-family: 'Cinzel Decorative', serif; font-size: 1rem; color: var(--gold-dark); min-width: 26px; padding-top: 0px; text-shadow: 0 1px 3px rgba(212,175,55,0.6); font-weight: bold;}
+        .mandamento-text { font-family: 'Playfair Display', serif; font-size: clamp(0.78rem, 1.4vw, 0.95rem); color: var(--ink-light); line-height: 1.5; font-style: italic; font-weight: 500;} .mandamento-text strong { color: var(--blood); font-style: normal; font-weight: 700; text-shadow: 0 0.5px 0 #000; }
 
-        .aliado-card { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: rgba(20,10,0,0.04); border: 1px solid rgba(180,140,60,0.2); border-radius: 5px; position: relative; overflow: hidden; }
-        .aliado-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--gold); }
-        .aliado-rank { font-family: 'Cinzel Decorative', serif; font-size: 0.65rem; color: var(--gold-dark); min-width: 14px; text-align: center; }
-        .aliado-info { flex: 1; min-width: 0; }
-        .aliado-nome { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.65rem, 1.2vw, 0.82rem); color: var(--ink); display: block; margin-bottom: 2px; }
-        .aliado-desc { font-size: clamp(0.6rem, 1.1vw, 0.73rem); color: #555; line-height: 1.3; font-style: italic; }
-        .aliado-status { font-size: 0.6rem; font-family: 'Cinzel Decorative', serif; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
-        .status-leal { background: rgba(0,80,0,0.12); color: #2a6a2a; border: 1px solid rgba(0,80,0,0.2); }
-        .status-caido { background: rgba(100,0,0,0.1); color: var(--blood); border: 1px solid rgba(100,0,0,0.2); }
-        .status-traidor { background: rgba(80,40,0,0.12); color: #7a4000; border: 1px solid rgba(80,40,0,0.25); }
-        .status-duvidoso { background: rgba(60,50,0,0.1); color: #6a5a00; border: 1px solid rgba(60,50,0,0.2); }
+        .aliado-card { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: rgba(35, 17, 8, 0.05); border: 1px solid rgba(180,140,60,0.3); border-radius: 6px; position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+        .aliado-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gold); }
+        .aliado-rank { font-family: 'Cinzel Decorative', serif; font-size: 0.75rem; color: var(--gold-dark); min-width: 14px; text-align: center; font-weight: 900;} .aliado-info { flex: 1; min-width: 0; }
+        .aliado-nome { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.7rem, 1.25vw, 0.95rem); color: var(--ink); display: block; margin-bottom: 2px; font-weight: 900; letter-spacing: 0.5px; } 
+        .aliado-desc { font-family:'Cormorant Garamond',serif; font-size: clamp(0.65rem, 1.2vw, 0.8rem); color: #442a1f; line-height: 1.4; font-style: italic; font-weight:600;}
+        .aliado-status { font-size: 0.65rem; font-family: 'Cinzel Decorative', serif; padding: 2px 6px; border-radius: 4px; white-space: nowrap; font-weight:bold; letter-spacing: 0.5px;}
+        .status-leal { background: rgba(10, 60, 10, 0.15); color: #205c20; border: 1px solid rgba(0,80,0,0.3); } .status-caido { background: rgba(130,0,0,0.15); color: var(--blood); border: 1px solid rgba(130,0,0,0.3); }
+        .status-traidor { background: rgba(90,40,0,0.15); color: #8f3700; border: 1px solid rgba(80,40,0,0.35); } .status-duvidoso { background: rgba(80,70,0,0.15); color: #786400; border: 1px solid rgba(60,50,0,0.3); }
 
-        .pecado-item { padding: 8px 10px; background: linear-gradient(135deg, rgba(80,0,0,0.06) 0%, transparent 100%); border-left: 3px solid var(--blood-light); border-radius: 0 4px 4px 0; display:flex; flex-direction:column; gap:2px;}
-        .pecado-titulo { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.62rem, 1.1vw, 0.78rem); color: var(--blood); }
-        .pecado-desc { font-size: clamp(0.62rem, 1.1vw, 0.72rem); color: #3a1a1a; line-height: 1.38; font-style: italic; }
-        .pecado-tag { display: inline-block; width: max-content; font-size: 0.55rem; font-family: 'Cinzel Decorative', serif; padding: 1px 4px; margin-bottom: 3px; background: rgba(100,0,0,0.08); border: 1px solid rgba(100,0,0,0.2); color: var(--blood); border-radius: 2px; }
+        .pecado-item { padding: 10px 12px; background: linear-gradient(135deg, rgba(120,0,0,0.06) 0%, transparent 100%); border-left: 4px solid var(--blood); border-radius: 0 6px 6px 0; display:flex; flex-direction:column; gap:4px; box-shadow: 0 2px 5px rgba(0,0,0,0.03);}
+        .pecado-titulo { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.72rem, 1.2vw, 0.9rem); color: var(--blood); font-weight: 900;} .pecado-desc { font-family:'Cormorant Garamond',serif; font-weight: 600; font-size: clamp(0.7rem, 1.2vw, 0.82rem); color: #3a1a1a; line-height: 1.4; font-style: italic; }
+        .pecado-tag { display: inline-block; width: max-content; font-size: 0.6rem; font-family: 'Cinzel Decorative', serif; padding: 2px 5px; margin-bottom: 2px; background: rgba(140,0,0,0.08); border: 1px solid rgba(120,0,0,0.3); color: var(--blood); border-radius: 3px; font-weight: 900; letter-spacing:0.5px;}
 
-        /* ── DEFINIÇÕES OTIMIZADAS PARA O BUG MEDIA NATIVO NUMA SÓ FOLHA/ PÁGINAS SEM REBARBAS C/ VIDEO DE 100% PREENCHIMENTO DO FRAME LIMITES ── */
+        /* ──  OTIMIZAÇÃO DE MEDIA: VIDEOS LIVRES PARA RENDER NA ESTRUTURA S EMASSAMENTO/ZONA BUG ZERO  ── */
         .page.full-photo { padding: 0 !important; overflow: hidden; }
         .page.full-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; border:none;}
-
-        .page.video-page {
-            padding: 0 !important; /* Desabilita margin interior deixando limpo 100% video-bound  */
-            margin: 0;
-            overflow: hidden; background: #000; 
-            display: flex; justify-content: center; align-items: center; 
-            border:none !important; 
-        }
+        
+        .page.video-page { padding: 0 !important; margin: 0 !important; overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center; border: none !important; }
         .page.video-page::before, .page.video-page::after { display: none !important; }
 
-        .video-player, .yt-page-embed { 
-            position: absolute; top:0; left:0;
-            width: 100%; height: 100%; border: none; object-fit: contain; outline: none; background: #000;
-            box-shadow: none !important; border-radius: 0; /* Anula formatações redondas extras!*/
-        }
+        .video-player, .yt-page-embed { position: absolute; top:0; left:0; right: 0; bottom:0; width: 100%; height: 100%; border: none; object-fit: contain; outline: none; background: #000; box-shadow: none !important; border-radius: 0;}
 
-        /* ── MÃO ANIMAÇÃO── */
+        /* Barra Viradeira Protege YouTube */
+        .turn-shield { position: absolute; top: 0; bottom: 0; width: 62px; z-index: 1000; background: linear-gradient(to right, transparent, transparent); display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255, 255, 255, 0.25); font-size: 2.2rem; cursor: pointer; transition: 0.3s ease; opacity: 1; font-weight: bold; }
+        .turn-shield:hover { color: rgba(212, 175, 55, 1); text-shadow: 0px 0px 10px #000; background: rgba(0, 0, 0, 0.4) }
+        .page.front .turn-shield { right: 0; left: auto; background: linear-gradient(to right, transparent, rgba(0,0,0,0.15)); } .page.back .turn-shield { left: 0; right: auto; background: linear-gradient(to left, transparent, rgba(0,0,0,0.15));}
+
+        /* ── MÃO ── */
         #hand-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9999; perspective: 1500px; }
         .hand-container { position: absolute; width: 460px; height: auto; opacity: 0; transform-style: preserve-3d; filter: drop-shadow(15px 30px 20px rgba(0,0,0,0.65)); }
-        @keyframes handSwipeNext {
-            0% { opacity: 0; transform: translate3d(85vw,45vh,-100px) rotate(-35deg); }
-            20% { opacity: 1; transform: translate3d(60vw,35vh,60px) rotate(-15deg); }
-            50% { transform: translate3d(40vw,30vh,120px) rotate(5deg); }
-            80% { opacity: 1; transform: translate3d(15vw,35vh,60px) rotate(20deg); }
-            100% { opacity: 0; transform: translate3d(-10vw,50vh,-100px) rotate(35deg); }
-        }
-        @keyframes handSwipePrev {
-            0% { opacity: 0; transform: translate3d(5vw,45vh,-100px) scaleX(-1) rotate(-35deg); }
-            20% { opacity: 1; transform: translate3d(30vw,35vh,60px) scaleX(-1) rotate(-15deg); }
-            50% { transform: translate3d(50vw,30vh,120px) scaleX(-1) rotate(5deg); }
-            80% { opacity: 1; transform: translate3d(75vw,35vh,60px) scaleX(-1) rotate(20deg); }
-            100% { opacity: 0; transform: translate3d(100vw,50vh,-100px) scaleX(-1) rotate(35deg); }
-        }
-        .animate-next { animation: handSwipeNext 1.4s cubic-bezier(0.25,0.0,0.2,1) forwards; }
-        .animate-prev { animation: handSwipePrev 1.4s cubic-bezier(0.25,0.0,0.2,1) forwards; }
+        @keyframes handSwipeNext { 0% { opacity: 0; transform: translate3d(85vw,45vh,-100px) rotate(-35deg); } 20% { opacity: 1; transform: translate3d(60vw,35vh,60px) rotate(-15deg); } 50% { transform: translate3d(40vw,30vh,120px) rotate(5deg); } 80% { opacity: 1; transform: translate3d(15vw,35vh,60px) rotate(20deg); } 100% { opacity: 0; transform: translate3d(-10vw,50vh,-100px) rotate(35deg); } }
+        @keyframes handSwipePrev { 0% { opacity: 0; transform: translate3d(5vw,45vh,-100px) scaleX(-1) rotate(-35deg); } 20% { opacity: 1; transform: translate3d(30vw,35vh,60px) scaleX(-1) rotate(-15deg); } 50% { transform: translate3d(50vw,30vh,120px) scaleX(-1) rotate(5deg); } 80% { opacity: 1; transform: translate3d(75vw,35vh,60px) scaleX(-1) rotate(20deg); } 100% { opacity: 0; transform: translate3d(100vw,50vh,-100px) scaleX(-1) rotate(35deg); } }
+        .animate-next { animation: handSwipeNext 1.4s cubic-bezier(0.25,0.0,0.2,1) forwards; } .animate-prev { animation: handSwipePrev 1.4s cubic-bezier(0.25,0.0,0.2,1) forwards; }
         .instruction { position: absolute; bottom: 4vh; color: rgba(255,255,255,0.35); font-family: 'Cinzel Decorative', serif; letter-spacing: 3px; font-size: 0.8rem; animation: pulse 3s infinite; pointer-events: none; z-index: 100; }
         @keyframes pulse { 0%,100% { opacity: 0.25; } 50% { opacity: 0.75; } }
 
-        /* ── INTRO SCREEN SYSTEM ── */
-        #intro-screen { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: opacity 0.8s ease; }
-        #intro-screen.fade-out { opacity: 0; pointer-events: none; }
-        .intro-v { font-family: 'Cinzel Decorative', serif; font-size: min(18vw, 160px); color: var(--gold); text-shadow: 0 0 40px rgba(212,175,55,0.5), 0 0 80px rgba(212,175,55,0.25), 0px 6px 0px var(--gold-dark); line-height: 1; animation: introPulse 2.8s ease-in-out infinite; }
-        @keyframes introPulse { 0%,100% { text-shadow: 0 0 30px rgba(212,175,55,0.4), 0px 6px 0px var(--gold-dark); transform: scale(1); } 50% { text-shadow: 0 0 70px rgba(212,175,55,0.85), 0 0 130px rgba(212,175,55,0.4), 0px 6px 0px var(--gold-dark); transform: scale(1.03); } }
-        .intro-line { width: min(40vw, 400px); height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 22px 0; opacity: 0; animation: fadeIn 1s ease 0.7s forwards; }
-        .intro-text { font-family: 'Cinzel Decorative', serif; color: rgba(212,175,55,0.65); font-size: clamp(0.6rem, 1.4vw, 0.88rem); letter-spacing: 5px; text-transform: uppercase; opacity: 0; animation: fadeIn 1s ease 1.1s forwards, introTextBlink 2.2s ease 2.2s infinite; }
-        .intro-subtitle { font-family: 'Cormorant Garamond', serif; color: rgba(255,255,255,0.18); font-size: clamp(0.55rem, 1.1vw, 0.72rem); letter-spacing: 6px; text-transform: uppercase; margin-top: 12px; opacity: 0; animation: fadeIn 1s ease 1.5s forwards; }
-        @keyframes fadeIn { to { opacity: 1; } } @keyframes introTextBlink { 0%,100% { opacity: 0.65; } 50% { opacity: 0.25; } }
+        /* ── INTRO ── */
+        #intro-screen { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: opacity 0.8s ease; } #intro-screen.fade-out { opacity: 0; pointer-events: none; }
+        .intro-v { font-family: 'Cinzel Decorative', serif; font-size: min(18vw, 160px); color: var(--gold); text-shadow: 0 0 40px rgba(212,175,55,0.5), 0 0 80px rgba(212,175,55,0.25), 0px 6px 0px var(--gold-dark); line-height: 1; animation: introPulse 2.8s ease-in-out infinite; } @keyframes introPulse { 0%,100% { text-shadow: 0 0 30px rgba(212,175,55,0.4), 0px 6px 0px var(--gold-dark); transform: scale(1); } 50% { text-shadow: 0 0 70px rgba(212,175,55,0.85), 0 0 130px rgba(212,175,55,0.4), 0px 6px 0px var(--gold-dark); transform: scale(1.03); } }
+        .intro-line { width: min(40vw, 400px); height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 22px 0; opacity: 0; animation: fadeIn 1s ease 0.7s forwards; } .intro-text { font-family: 'Cinzel Decorative', serif; color: rgba(212,175,55,0.65); font-size: clamp(0.6rem, 1.4vw, 0.88rem); letter-spacing: 5px; text-transform: uppercase; opacity: 0; animation: fadeIn 1s ease 1.1s forwards, introTextBlink 2.2s ease 2.2s infinite; }
+        .intro-subtitle { font-family: 'Cormorant Garamond', serif; color: rgba(255,255,255,0.18); font-size: clamp(0.55rem, 1.1vw, 0.72rem); letter-spacing: 6px; text-transform: uppercase; margin-top: 12px; opacity: 0; animation: fadeIn 1s ease 1.5s forwards; } @keyframes fadeIn { to { opacity: 1; } } @keyframes introTextBlink { 0%,100% { opacity: 0.65; } 50% { opacity: 0.25; } }
+        #intro-video-wrap { position: fixed; inset: 0; background: #000; z-index: 99998; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; } #intro-video-wrap.visible { opacity: 1; pointer-events: all; } #intro-video-wrap.fade-out-video { opacity: 0; pointer-events: none; }
+        #intro-video { width: 100%; height: 100%; object-fit: contain; background: #000; } #intro-video-wrap::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px); pointer-events: none; z-index: 1; } #main-content { opacity: 0; transition: opacity 1.2s ease; display: contents; } #main-content.revealed { opacity: 1; }
         
-        #intro-video-wrap { position: fixed; inset: 0; background: #000; z-index: 99998; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
-        #intro-video-wrap.visible { opacity: 1; pointer-events: all; }
-        #intro-video-wrap.fade-out-video { opacity: 0; pointer-events: none; }
-        #intro-video { width: 100%; height: 100%; object-fit: contain; background: #000; }
-        #intro-video-wrap::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px); pointer-events: none; z-index: 1; }
-        #main-content { opacity: 0; transition: opacity 1.2s ease; display: contents; }
-        #main-content.revealed { opacity: 1; }
-
         @media (max-width: 800px) {
             .scene { width: 96vw; height: 52vh; min-height: 540px; }
-            .page { padding: 18px 20px 36px; }
-            p { font-size: 0.9rem; }
-            h2 { font-size: 1rem; }
-            .cover h1 { font-size: 1.5rem; }
-            .vought-logo-cover { font-size: 3.5rem; }
+            .page { padding: 18px 24px 36px; }
+            p { font-size: 0.94rem; line-height: 1.48;}
+            .vought-logo-cover { font-size: 4rem; }
             .hand-container { width: 320px; }
-            .vintage-photo-container img { max-width: 90px; }
-            .heretics-list, .aliados-grid, .pecados-list { max-height: 55%; gap: 8px; }
-            .mandamento-text { font-size: 0.72rem; }
-            .aliado-nome { font-size: 0.65rem; }
-            .aliado-desc { font-size: 0.58rem; }
-            .pecado-titulo { font-size: 0.62rem; }
-            .pecado-desc { font-size: 0.6rem; }
+            .heretics-list, .aliados-grid, .pecados-list { max-height: 52%; gap: 6px; }
+            .pecado-titulo { font-size: 0.72rem; } .pecado-desc { font-size: 0.68rem; line-height: 1.25;}
+            .aliado-desc { line-height: 1.25;}
+            .mandamento-item { padding: 6px 10px; }
+            .turn-shield { width: 38px; background: rgba(0, 0, 0, 0.5); font-size: 1.8rem;}
         }
     </style>
 </head>
 <body>
 
-    <!-- INTRO -->
-    <div id="intro-screen">
-        <div class="intro-v">V</div>
-        <div class="intro-line"></div>
-        <div class="intro-text">Toca para entrar</div>
-        <div class="intro-subtitle">Vought International · Confidencial</div>
-    </div>
-    
-    <div id="intro-video-wrap">
-        <video id="intro-video" playsinline webkit-playsinline></video>
-    </div>
+    <div id="intro-screen"><div class="intro-v">V</div><div class="intro-line"></div><div class="intro-text">Toca para entrar</div><div class="intro-subtitle">Vought International · Confidencial</div></div>
+    <div id="intro-video-wrap"><video id="intro-video" playsinline webkit-playsinline></video></div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <div id="main-content">
         <div class="room-bg"></div>
-
-        <div class="table-container">
-            <div class="table-surface"><div class="table-v-logo"></div></div>
-        </div>
+        <div class="table-container"><div class="table-surface"><div class="table-v-logo"></div></div></div>
         <div class="book-shadow"></div>
 
         <div class="scene">
           <div class="book" id="book">
             
-            <!-- ══ FOLHA 0 — Capa frontal | Sala Confidencial  ══ -->
             <div class="leaf" onclick="turnPage(this,0)">
-                <div class="page front cover">
-                    <div class="cover-inner-border">
-                        <div class="vought-logo-cover">V</div>
-                        <h1>A BÍBLIA DO<br>PÁTRIA</h1>
-                        <p style="color:var(--gold-dark);text-align:center;margin-top:24px;text-transform:uppercase;font-size:0.82rem;letter-spacing:2px;">O Evangelho do Salvador</p>
-                    </div>
-                </div>
-                <div class="page back">
-                    <div class="text-content" style="display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:0.65;">
-                        <h2 style="font-size:0.85rem;margin-bottom:6px;">Propriedade Confidencial</h2>
-                        <div style="font-family:'Cinzel Decorative',serif;font-size:2.2rem;color:#111;margin:10px 0;">SALA DOS SETE</div>
-                        <p style="text-align:center;font-size:0.78rem;line-height:1.5;color:#333;">Leitura obrigatória. A heresia resultará em terminação contratual — ou em algo mais permanente.</p>
-                    </div>
-                </div>
+                <div class="page front cover"><div class="cover-inner-border"><div class="vought-logo-cover">V</div><h1>A BÍBLIA DO<br>PÁTRIA</h1><p style="color:var(--gold-dark);text-align:center;margin-top:24px;text-transform:uppercase;font-size:0.82rem;letter-spacing:2px; font-weight:700;">O Evangelho do Salvador</p></div></div>
+                <div class="page back"><div class="text-content" style="display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:0.65;"><h2 style="font-size:0.85rem;margin-bottom:6px;">Propriedade Confidencial</h2><div style="font-family:'Cinzel Decorative',serif;font-size:2.2rem;color:#111;margin:10px 0; font-weight:900;">SALA DOS SETE</div><p style="text-align:center;font-size:0.85rem;line-height:1.5;color:#333; font-weight:700;">Leitura obrigatória. A heresia resultará em terminação contratual — ou em algo mais permanente.</p></div></div>
             </div>
 
-            <!-- ══ FOLHA 1 — Full foto ══ -->
             <div class="leaf" onclick="turnPage(this,1)">
-                <div class="page front full-photo">
-                    <img id="capa-salvador-photo" alt="O Salvador" onerror="this.parentElement.style.background='#111'">
-                </div>
-                <div class="page back" style="display:flex;justify-content:center;align-items:center;">
-                    <div style="opacity:0.12;font-family:'Cinzel Decorative',serif;font-size:4rem;color:#111;">V</div>
-                </div>
+                <div class="page front full-photo"><img id="capa-salvador-photo" alt="O Salvador" onerror="this.parentElement.style.background='#111'"></div>
+                <div class="page back" style="display:flex;justify-content:center;align-items:center;"><div style="opacity:0.12;font-family:'Cinzel Decorative',serif;font-size:4.5rem;color:#111; font-weight:900;">V</div></div>
             </div>
 
-            <!-- ══ FOLHA 2 — Gênese | Fardo ══ -->
+            <!-- GÊNESIS ABSOLUTO E INTOCADO -->
             <div class="leaf" onclick="turnPage(this,2)">
                 <div class="page front">
                     <div class="ribbon"></div>
@@ -485,13 +243,9 @@
                     <div class="text-content">
                         <p><span class="drop-cap">O</span><span class="verse-num">1.1</span> Salvador não nasceu da fraqueza humana — foi gerado na perfeição absoluta da ciência americana.</p>
                         <p><span class="verse-num">1.2</span> A sua infância foi um <em>Crisol de Solidão</em>: isolamento total dentro de um laboratório, forjando uma mente que um dia carregaria o peso de toda a humanidade.</p>
-                        <div class="vintage-photo-container">
-                            <img id="crisol-photo" src="https://i.ibb.co/nvDsk9S/image.png" alt="Soldier Boy" onerror="this.src='https://placehold.co/140x190/222/fff?text=Arquivo+Vought'">
-                            <div class="photo-caption">O Crisol Original</div>
-                        </div>
+                        <div class="vintage-photo-container"><img id="crisol-photo" src="https://i.ibb.co/nvDsk9S/image.png" alt="Crisol Solidão" onerror="this.src='https://placehold.co/140x190/222/fff?text=Arquivo'"><div class="photo-caption">O Crisol Original</div></div>
                         <p><span class="verse-num">1.3</span> Nenhuma criança deveria suportar tal fardo. Nenhuma — excepto aquela destinada à grandeza.</p>
-                    </div>
-                    <div class="page-number">— i —</div>
+                    </div><div class="page-number">— i —</div>
                 </div>
                 <div class="page back">
                     <h2>II. O Fardo da Capa</h2>
@@ -500,347 +254,251 @@
                         <p><span class="verse-num">2.2</span> Como líder dos Sete, assumiu a responsabilidade de guiar com paciência paternal os indignos que lhe foram dados como companheiros.</p>
                         <p><span class="verse-num">2.3</span> Nenhum deles era seu igual. Nenhum jamais seria.</p>
                         <div class="italic-quote">"O mundo nas minhas costas. E nenhum de vocês merece isso."</div>
-                    </div>
-                    <div class="page-number">— ii —</div>
+                    </div><div class="page-number">— ii —</div>
                 </div>
             </div>
 
-            <!-- ══ FOLHA 3 — Os Sete Mandamentos | Aliados ══ -->
+            <!-- 7 MANDAMENTOS DA TUA TEXTO VERDADEIRO E FOLLOWERS (COMPANHIA ARQUIVO 1 A 1)-->
             <div class="leaf" onclick="turnPage(this,3)">
                 <div class="page front">
                     <h2>III. Os Sete Mandamentos</h2>
                     <div class="text-content">
-                        <p style="font-size:0.72rem;text-align:center;margin-bottom:10px;color:#555;font-style:italic;">Decretos do Salvador</p>
+                        <p style="font-size:0.75rem; text-align:center; margin-bottom:12px; color:#555; font-style:italic; font-family:'Cormorant Garamond',serif; font-weight:700;">Decretos do Salvador para os que vivem sob a sua sombra</p>
                         <div class="mandamentos-list">
-                            <div class="mandamento-item">
-                                <span class="mandamento-num">I</span>
-                                <span class="mandamento-text">Quando estiveres perto dele, <strong>nunca mostres medo</strong>. O medo é o cheiro de fraqueza.</span>
-                            </div>
-                            <div class="mandamento-item">
-                                <span class="mandamento-num">II</span>
-                                <span class="mandamento-text"><strong>Nunca o contradizes em público.</strong> Podes discordar em silêncio. Apenas em silêncio.</span>
-                            </div>
-                            <div class="mandamento-item">
-                                <span class="mandamento-num">III</span>
-                                <span class="mandamento-text"><strong>O teu aplauso será genuíno</strong>, ou não existirás para aplaudir na próxima vez.</span>
-                            </div>
-                            <div class="mandamento-item">
-                                <span class="mandamento-num">IV</span>
-                                <span class="mandamento-text">Jamais menciones <strong>Soldier Boy</strong>. É um assunto encerrado.</span>
-                            </div>
-                            <div class="mandamento-item">
-                                <span class="mandamento-num">V</span>
-                                <span class="mandamento-text">Se ele chorar, <strong>tu choras</strong>. Se ele rir, tu ris. O teu estado de espírito pertence-lhe.</span>
-                            </div>
-                            <div class="mandamento-item">
-                                <span class="mandamento-num">VI</span>
-                                <span class="mandamento-text"><strong>Ryan é intocável.</strong> Um olhar mal colocado e os teus olhos deixarão de existir.</span>
-                            </div>
-                            <div class="mandamento-item">
-                                <span class="mandamento-num">VII</span>
-                                <span class="mandamento-text">Quando ele disser <em>"Eu sou o melhor deste planeta"</em>, concorda <strong>sempre</strong>.</span>
-                            </div>
+                            <div class="mandamento-item"><span class="mandamento-num">I</span><span class="mandamento-text">Quando estiveres perto dele, <strong>nunca mostres medo</strong>. O medo é o cheiro de fraqueza — e ele consegue cheirá-lo.</span></div>
+                            <div class="mandamento-item"><span class="mandamento-num">II</span><span class="mandamento-text"><strong>Nunca o contradizes em público.</strong> Podes discordar em silêncio. Apenas em silêncio.</span></div>
+                            <div class="mandamento-item"><span class="mandamento-num">III</span><span class="mandamento-text"><strong>O teu aplauso será genuíno</strong>, ou não existirás para aplaudir na próxima vez.</span></div>
+                            <div class="mandamento-item"><span class="mandamento-num">IV</span><span class="mandamento-text">Jamais menciones <strong>Soldier Boy</strong> na sua presença. É um assunto encerrado — debaixo de escombros.</span></div>
+                            <div class="mandamento-item"><span class="mandamento-num">V</span><span class="mandamento-text">Se ele chorar, <strong>tu choras</strong>. Se ele rir, tu ris. O teu estado de espírito pertence-lhe.</span></div>
+                            <div class="mandamento-item"><span class="mandamento-num">VI</span><span class="mandamento-text"><strong>Ryan é intocável.</strong> Um olhar mal colocado e os teus olhos deixarão de existir.</span></div>
+                            <div class="mandamento-item"><span class="mandamento-num">VII</span><span class="mandamento-text">Quando ele disser "Eu sou o melhor deste planeta", a resposta correcta é <strong>sempre</strong> concordar.</span></div>
                         </div>
-                    </div>
-                    <div class="page-number">— iii —</div>
+                    </div><div class="page-number">— iii —</div>
                 </div>
                 <div class="page back">
                     <h2>IV. Files · Os Que Seguiram</h2>
                     <div class="text-content" style="padding-top:4px;">
+                        <p style="font-size:0.75rem;text-align:center;margin-bottom:10px;color:#555;font-style:italic;font-family:'Cormorant Garamond',serif; font-weight:700;">Registo de lealdade dos que cruzaram o caminho do Salvador</p>
                         <div class="aliados-grid">
-                            <div class="aliado-card"><span class="aliado-rank">★</span><div class="aliado-info"><span class="aliado-nome">Soldier Boy</span><span class="aliado-desc">Legado negado. Herói traído.</span></div><span class="aliado-status status-caido">Eliminado</span></div>
-                            <div class="aliado-card"><span class="aliado-rank">◆</span><div class="aliado-info"><span class="aliado-nome">Profundo</span><span class="aliado-desc">Devoto. Submisso. O servo ideal.</span></div><span class="aliado-status status-leal">Leal</span></div>
-                            <div class="aliado-card"><span class="aliado-rank">◆</span><div class="aliado-info"><span class="aliado-nome">Black Noir</span><span class="aliado-desc">O executor puramente devoto. A perfeita ferramenta.</span></div><span class="aliado-status status-caido">Caído</span></div>
-                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">Ashley Barrett</span><span class="aliado-desc">Obediente por sobrevivência. Suficiente.</span></div><span class="aliado-status status-duvidoso">Tolerada</span></div>
-                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">A-Train</span><span class="aliado-desc">Veloz, mas dúbio. Interesses divididos.</span></div><span class="aliado-status status-traidor">Vigiado</span></div>
-                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">Noir II</span><span class="aliado-desc">Máquina reconstruída de guerra limpa e muda.</span></div><span class="aliado-status status-leal">Activo</span></div>
+                            <div class="aliado-card"><span class="aliado-rank">★</span><div class="aliado-info"><span class="aliado-nome">Soldier Boy</span><span class="aliado-desc">O pai que nunca foi. Herói do séc. XX, traído pelos próprios companheiros. Sangue partilhado — legado negado.</span></div><span class="aliado-status status-caido">Eliminado</span></div>
+                            <div class="aliado-card"><span class="aliado-rank">◆</span><div class="aliado-info"><span class="aliado-nome">Profundo</span><span class="aliado-desc">Devoto incansável. Submisso por natureza, útil por necessidade. Faz o que mandam sem questionar — o servo ideal.</span></div><span class="aliado-status status-leal">Leal</span></div>
+                            <div class="aliado-card"><span class="aliado-rank">◆</span><div class="aliado-info"><span class="aliado-nome">Black Noir</span><span class="aliado-desc">O silêncio andante. Executor sem hesitação. A mais pura ferramenta já criada pela Vought.</span></div><span class="aliado-status status-caido">Caído</span></div>
+                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">Ashley Barrett</span><span class="aliado-desc">A operacional fiel da Vought. Medo como lealdade. Serve por sobrevivência — o que é suficiente.</span></div><span class="aliado-status status-duvidoso">Tolerada</span></div>
+                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">A-Train</span><span class="aliado-desc">Veloz. Calculista. Muda de lado conforme o vento. Nunca de confiança total — mas sempre utilizável.</span></div><span class="aliado-status status-traidor">Vigiado</span></div>
+                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">Noir II</span><span class="aliado-desc">Substituto forjado. Obedece sem alma nem memória de passado. O escravo perfeito sem o peso da consciência.</span></div><span class="aliado-status status-leal">Activo</span></div>
                         </div>
-                    </div>
-                    <div class="page-number">— iv —</div>
+                    </div><div class="page-number">— iv —</div>
                 </div>
             </div>
 
-            <!-- ══ FOLHA 4 — Ira Justa | Lista Extermínio ══ -->
+            <!-- THE IRA DIVINE AND HITLIST -->
             <div class="leaf" onclick="turnPage(this,4)">
                 <div class="page front">
-                    <h2>V. A Ira Justa e Calúnias</h2>
+                    <h2>V. A Ira Justa e as Calúnias</h2>
                     <div class="text-content">
-                        <p><span class="drop-cap">P</span><span class="verse-num">5.1</span>erfeito em essência, o Salvador foi perseguido pela inveja dos hereges: <em>The Boys</em>.</p>
-                        <p><span class="verse-num">5.2</span> Diante da ingratidão, conteve o poder vezes sem conta — um milagre de clemência.</p>
-                        <p><span class="verse-num">5.3</span> As demonstrações não eram falhas, mas sim a <strong>Ira Justa</strong> do Salvador perante o abismo ingrato da Terra.</p>
+                        <p><span class="drop-cap">P</span><span class="verse-num">5.1</span>erfeito em essência, o Salvador foi perseguido pela inveja dos pecadores — os hereges conhecidos como <em>The Boys</em>.</p>
+                        <p><span class="verse-num">5.2</span> Diante de mentiras e da ingratidão universal, ele conteve o seu poder absoluto vezes sem conta. Cada vez foi um milagre de clemência.</p>
+                        <p><span class="verse-num">5.3</span> As suas raras demonstrações de força não eram falhas de carácter. Eram a <strong>Ira Justa</strong> de um protetor que sangrava por dentro ao ver a humanidade abraçar o caos que ele tanto lutou para suprimir.</p>
                         <div class="italic-quote">"Eu podia matar-vos a todos. Isso é amor."</div>
-                    </div>
-                    <div class="page-number">— v —</div>
+                    </div><div class="page-number">— v —</div>
                 </div>
                 <div class="page back">
                     <h2>Lista de Extermínio</h2>
                     <div class="text-content" style="padding-top:2px;">
-                        <p style="font-size:0.72rem;text-align:center;margin-bottom:6px;color:#555;font-style:italic;">Alvos classificados para purga em chamas divinas.</p>
+                        <p style="font-size:0.75rem;text-align:center;margin-bottom:10px;color:#555;font-style:italic; font-family:'Cormorant Garamond',serif; font-weight:700;">Rostos da ingratidão. Marcados para purificação pelo laser divino.</p>
                         <div class="heretics-list" id="heretics-container" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onwheel="event.stopPropagation()"></div>
-                    </div>
-                    <div class="page-number">— vi —</div>
+                    </div><div class="page-number">— vi —</div>
                 </div>
             </div>
 
-            <!-- ══ FOLHA 5 — Pecados e Judas ══ -->
+            <!-- JUDAS E THE BOYS, TOTALIDADE! -->
             <div class="leaf" onclick="turnPage(this,5)">
                 <div class="page front">
-                    <h2>VI. Pecados · Heréticos</h2>
+                    <h2>VI. Os Pecados · Judas</h2>
                     <div class="text-content" style="padding-top:2px;">
+                        <p style="font-size:0.75rem;text-align:center;margin-bottom:10px;color:#555;font-style:italic;font-family:'Cormorant Garamond',serif; font-weight:700;">Os crimes do mundo contra o seu Salvador</p>
                         <div class="pecados-list">
-                            <div class="pecado-item"><span class="pecado-tag">TRAIÇÃO SUPREMA</span><span class="pecado-titulo">Ryan — Judas de Sangue</span><span class="pecado-desc">Punhal nas costas do criador, manchado por mentiras e influências externas letais.</span></div>
-                            <div class="pecado-item"><span class="pecado-tag">HERESIA</span><span class="pecado-titulo">Billy Butcher — Profano</span><span class="pecado-desc">Homem vulgar carregado do ódio, o cancro corruptor.</span></div>
-                            <div class="pecado-item"><span class="pecado-tag">INGRATIDÃO</span><span class="pecado-titulo">Queen Maeve — Apóstata</span><span class="pecado-desc">Virou costas por glórias ilusórias mortais mundanas.</span></div>
-                            <div class="pecado-item"><span class="pecado-tag">MENTIRA</span><span class="pecado-titulo">Starlight — Cegueira Divina</span><span class="pecado-desc">Uso o pedestal cedido por ele como lâmina profanadora escondida à sociedade civil e à Pátria mãe Americana dos justos...</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">TRAIÇÃO SUPREMA</span><span class="pecado-titulo">Ryan — O Judas de Sangue</span><span class="pecado-desc">O filho. O herdeiro. O punhal nas costas do pai. Corrompido por Billy Butcher, voltou o seu poder contra o único que o amava incondicionalmente. O Trem Bala que destruiu o próprio destino.</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">HERESIA CAPITAL</span><span class="pecado-titulo">Billy Butcher — O Profano</span><span class="pecado-desc">Mortal com ódio de deus. Usou o próprio filho do Salvador como arma. A cobra que se alimenta de veneno e chama isso de justiça.</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">INGRATIDÃO</span><span class="pecado-titulo">Queen Maeve — A Apóstata</span><span class="pecado-desc">Que ele amou. Que ele protegeu. Que escolheu os fracos em vez da glória. Sacrificou-se por mortais que nem saberiam pronunciar o seu nome correctamente.</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">APOSTASIA</span><span class="pecado-titulo">Starlight — A Mentira Luminosa</span><span class="pecado-desc">Entrou nos Sete com sorriso de fé. Saiu com a espada dos inimigos. Usou a sua luz para iluminar a destruição do Salvador.</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">FRAQUEZA</span><span class="pecado-titulo">Hughie Campbell — O Trem Bala</span><span class="pecado-desc">Um homem sem poderes que ousou desafiar um deus. O catalisador de toda a perseguição. Um ser tão insignificante que a sua relevância é, em si, um insulto.</span></div>
                         </div>
-                    </div>
-                    <div class="page-number">— vii —</div>
+                    </div><div class="page-number">— vii —</div>
                 </div>
                 <div class="page back">
-                    <h2>VII. O Legado Sagrado</h2>
+                    <h2>VII. O Legado da Pátria</h2>
                     <div class="text-content">
-                        <p><span class="drop-cap">N</span><span class="verse-num">7.1</span>o auge perante tudo, luz da Pátria ferida sob mentira, o fardo permaneceu solitário, absoluto nas constelações.</p>
-                        <p><span class="verse-num">7.2</span> Nenhum profano ou filho distorcerão as pedras sagradas impostas ao trono. Sacrificial a ele forçado pela falha estrutural coletiva.</p>
-                        <p><span class="verse-num">7.3</span> Esteja grato pelos momentos em que sua luz esteve a pisar em cimento e areia neste sub-mundo das terras de praga humana frágil imunda inqualificavelmente mundana... Os vermes nada reconhecem nem saberão louvar do jeito ideal que deviam...</p>
-                        <div class="italic-quote">"A dor não existe em mim, existe o Fardo."</div>
-                    </div>
-                    <div class="page-number">— viii —</div>
+                        <p><span class="drop-cap">N</span><span class="verse-num">7.1</span>o momento em que assumia o trono para trazer a ordem definitiva, a luz do Salvador foi covardemente apagada. O profano Billy Bruto, movido por rancor puro, liderou o ataque final.</p>
+                        <p><span class="verse-num">7.2</span> A dor mais profunda veio de dentro. Ryan, o herdeiro, agiu como Judas — aliou-se ao monstro e assassinou o próprio pai.</p>
+                        <p><span class="verse-num">7.3</span> O Salvador tombou sacrificado. O mundo ficou órfão. A ingratidão humana tinha consumado o seu maior crime.</p>
+                        <div class="italic-quote">"Eu sou o que esta terra merece. E não merecia perder-me."</div>
+                    </div><div class="page-number">— viii —</div>
                 </div>
             </div>
 
-            <!-- ══ FOLHA 6 — Intro Transmissão | PAGINA APENAS DO VÍDEO 1 WA0037 (FULL NATIVO S/ POP-UPS!) ══ -->
+
+            <!-- O ESPAÇO DE MÍDIA - 6 TERMINAL DE HOMELANDER -->
             <div class="leaf" onclick="turnPage(this,6)">
-                <div class="page front">
-                    <h2>⚡ Transmissão Isolada</h2>
-                    <div class="text-content" style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;">
-                        <div style="width:70px;height:70px;border-radius:50%;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(100,0,0,0.08);">
-                            <div style="font-size:2.2rem;">🎥</div>
-                        </div>
-                        <p style="text-align:center;font-size:0.82rem;color:#555;font-style:italic;">Na folha seguinte, o terminal multimédia será activado de imediato numa simulação holográfica com ficheiro criptografado de Grau-A.</p>
-                        <div style="width:60%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);"></div>
-                        <p style="text-align:center;font-size:0.72rem;color:#888;font-style:italic;">Virar Fólio / Play Required no player de media Vought para destrancar a sessão secreta com as ordens...</p>
-                    </div>
-                    <div class="page-number">— ix —</div>
+                <div class="page front" style="display:flex; justify-content:center; flex-direction: column; align-items:center;">
+                     <h2 style="font-size:2.3rem; font-weight: 900; letter-spacing: 5px;">A MENSAGEM FINAL</h2>
+                     <p style="text-align:center; margin-top:20px; padding: 0 10%; color:#555; font-weight:700;">Registro audiovisual classificado.<br><br>Gire o encadernado para decriptar a gravação original gravada nas profundezas operacionais.</p>
                 </div>
-                <!-- VÍDEO EXCLUSIVO NATIVE NETA PARTE (TIRA A BORDA COMPLETAMENTE DE COVER, RESOLVE ESPREMAMENTO BUG)-->
+                
                 <div class="page back video-page">
-                    <video class="video-player" id="vid-wa0037" playsinline webkit-playsinline controls></video>
+                     <video class="video-player" id="vid-wa0037" playsinline controls></video> 
+                     <div class="turn-shield" title="Voltar Fólio. Clicável Intercepção P/ evitar Pausa Falsa no dedo" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
                 </div>
             </div>
 
-            <!-- ══ FOLHA 7 — PAGINA EXCLUSIVA DO YOUTUBE NATIVO! | PAGINA VIDEO WA0029 (Sem Cover Constraints!) ══ -->
+            <!-- O ESPAÇO DE MÍDIA - 7 OS METALES MUSICAIS TRIBUTE BOYS NO YT!-->
             <div class="leaf" onclick="turnPage(this,7)">
-                <!-- Exaltação Video do youtube: Preenchendo magicamente os paineis limitados pelas resoluções 0 margem da Page div principal sem molduras que constranjam de leather couro antigo!-->
-                <div class="page front video-page">
-                    <iframe class="yt-page-embed" id="yt-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen frameborder="0"></iframe>
+                <div class="page front" style="display:flex;flex-direction:column; justify-content:center; align-items:center; background-image: radial-gradient(circle at 50% 50%, rgba(180,140,80,0.1) 0%, transparent 80%);">
+                    <div style="font-family:'Cinzel Decorative',serif; font-size:4rem; font-weight: 900; transform:scaleY(0.95); text-align: center; color:var(--gold-dark); text-shadow:0 3px 6px rgba(0,0,0,0.8), 0 0 10px rgba(212,175,55,0.4);">THE BOYS™ <br> EXALTEM.</div>
+                    <span style="font-size:14px; margin-top:35px; color:#555; font-weight: 700; text-transform:uppercase; letter-spacing: 2px;">Gire para sintonizar a música no palco The Voughts...</span>
                 </div>
+                
                 <div class="page back video-page">
-                    <!-- Segundo Vídeo Preenchimento da Back de fólio 7 / Background de Loops Oculto e de esteticista base-->
-                    <video class="video-player" id="vid-wa0029" playsinline webkit-playsinline muted loop controls></video>
+                    <iframe class="yt-page-embed" id="yt-iframe" src="" allow="autoplay; encrypted-media; fullscreen" frameborder="0"></iframe>
+                    <div class="turn-shield" title="Voltar Atrás do Youtube Seguranca Shield" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
                 </div>
             </div>
 
-            <!-- ══ FOLHA 8 — DESFECHO E CAPA DURA COSTAS FIXADAS PERFEITAMENTE PARA ACOMODAR SEM ESTRAGAR! ══ -->
+            <!-- O ESPAÇO DE MÍDIA - 8  Sons Escuros Do Ultimo Suspiro do Background e Despedidas Estética Literária -->
             <div class="leaf" onclick="turnPage(this,8)">
-                <div class="page front" style="display:flex; justify-content:center; align-items:center;">
-                    <div style="opacity:0.2; font-family:'Cinzel Decorative',serif; font-size:3rem; transform:scaleX(1.3);">O MÁXIMO<br>DA GERAÇÃO V.</div>
+                <div class="page front" style="display:flex; flex-direction:column;">
+                     <div class="ribbon"></div>
+                     <div style="font-family:'Cinzel Decorative',serif; font-size:2rem; font-weight:900; letter-spacing:3px; transform:scaleY(0.9); margin-top: auto; margin-bottom: auto; text-align: center; color:#3a0b06; text-shadow:1px 1px 1px #fff; opacity:0.8"> NUNCA<br>RECUAREMOS</div>
                 </div>
-                <div class="page back cover">
-                    <div class="cover-inner-border" style="border-color:#1a2035;">
-                        <p style="color:#3a4560;font-size:0.75rem;text-align:center;font-family:sans-serif;margin-top:auto;letter-spacing:1px;">
-                            VOUGHT PUBLISHING & MEDIA PORTALS™<br>
-                            <span style="font-size:0.6rem;opacity:0.7;">Arquivagem Global DataServer #1.A Confidentiality Clause Valid.</span>
+
+                <div class="page back video-page">
+                    <video class="video-player" id="vid-wa0029" playsinline loop controls></video> 
+                    <div class="turn-shield" title="Saltar/Atrás Escudo Segura O Turn Swipe! " onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
+                </div>
+            </div>
+
+            <!-- CONTRACAPA FECHO GLOBAL TEXTURA NEGRA ENRUGADA ORIGINAL -->
+            <div class="leaf" onclick="turnPage(this,9)">
+                 <div class="page front" style="display:flex; justify-content:center; align-items:center; background-image: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.15) 0%, transparent 60%);">
+                     <div style="font-family:'Cinzel Decorative',serif; font-size:6rem; font-weight:900; color: #4a2e21; text-shadow:inset 0 1px 5px rgba(0,0,0,0.4); opacity: 0.15">FIM .</div>
+                 </div>
+
+                 <div class="page back cover">
+                     <div class="cover-inner-border" style="border-color:#1a2035; display:flex; flex-direction:column;">
+                        <!-- Logo vought sombrio ao meio se encaixado estaria magnifico mas textos d rodapé chegam -->
+                        <div class="vought-logo-cover" style="opacity: 0.1; margin: auto; transform:scale(1.8);">V</div>
+                        <p style="color:#3a4560;font-size:0.85rem;text-align:center;font-family:'Cinzel Decorative',serif; font-weight: 700; margin-top:auto;letter-spacing:1px; line-height: 1.5;">
+                            VOUGHT PUBLISHING GLOBAL PORTALS™<br>
+                            <span style="font-size:0.65rem;opacity:0.7; font-family:'Playfair Display',serif; font-weight: 500; font-style:italic;">Arquivamento Mestre. Sessões Aúdio Acionadas. Documento Trancado. </span>
                         </p>
                     </div>
-                </div>
+                 </div>
             </div>
 
           </div><!-- /book -->
         </div><!-- /scene -->
 
-        <!-- MÃO DO CAPITÃO PÁTRIA (DOM PRESENCE IS PRESERVED FOR ANIM HOOKS PROPER!) -->
+        <!-- LUVA (CÓDIGO ORIGINAL SEU NÃO AFETADO MAS SIM APERFEIÇOADO PARA FLOW DOM JS -->
         <div id="hand-layer">
             <div class="hand-container" id="homelander-hand">
                 <svg viewBox="0 0 450 250" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="glove-base" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#cc0000"/><stop offset="60%" stop-color="#800000"/><stop offset="100%" stop-color="#330000"/>
-                        </linearGradient>
-                        <linearGradient id="suit-fabric" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#142e61"/><stop offset="40%" stop-color="#0a1836"/><stop offset="100%" stop-color="#030814"/>
-                        </linearGradient>
-                        <linearGradient id="gold-armor" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#ffebb3"/><stop offset="30%" stop-color="#d4af37"/><stop offset="70%" stop-color="#997a00"/><stop offset="100%" stop-color="#3d3100"/>
-                        </linearGradient>
-                        <filter id="hand-shadow-deep">
-                            <feDropShadow dx="-15" dy="25" stdDeviation="10" flood-color="#000" flood-opacity="0.8"/>
-                        </filter>
+                        <linearGradient id="glove-base" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#cc0000"/><stop offset="60%" stop-color="#800000"/><stop offset="100%" stop-color="#330000"/></linearGradient>
+                        <linearGradient id="suit-fabric" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#142e61"/><stop offset="40%" stop-color="#0a1836"/><stop offset="100%" stop-color="#030814"/></linearGradient>
+                        <linearGradient id="gold-armor" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffebb3"/><stop offset="30%" stop-color="#d4af37"/><stop offset="70%" stop-color="#997a00"/><stop offset="100%" stop-color="#3d3100"/></linearGradient>
+                        <filter id="hand-shadow-deep"><feDropShadow dx="-15" dy="25" stdDeviation="10" flood-color="#000" flood-opacity="0.8"/></filter>
                     </defs>
-                    <g filter="url(#hand-shadow-deep)">
-                        <path d="M 230 70 Q 320 20 440 40 L 460 160 Q 340 180 250 150 Z" fill="url(#suit-fabric)"/>
-                        <path d="M 270 80 Q 350 70 420 85" fill="none" stroke="#0a1836" stroke-width="4" stroke-linecap="round"/>
-                        <path d="M 260 110 Q 360 100 430 120" fill="none" stroke="#0a1836" stroke-width="5" stroke-linecap="round"/>
-                        <path d="M 250 140 Q 330 140 400 150" fill="none" stroke="#030814" stroke-width="6" stroke-linecap="round"/>
-                        <path d="M 190 60 L 260 45 L 280 165 L 210 155 Z" fill="url(#gold-armor)"/>
-                        <path d="M 200 65 L 220 50 L 260 60 L 250 150 L 220 155 Z" fill="none" stroke="#ffebb3" stroke-width="2"/>
-                        <path d="M 220 100 Q 240 80 260 90 Q 250 110 260 130 Q 240 140 220 120 Z" fill="#fff" opacity="0.35"/>
-                        <path d="M 80 75 C 120 40, 160 50, 200 68 L 220 148 C 170 160, 110 150, 70 110 Z" fill="url(#glove-base)"/>
-                        <path d="M 100 85 Q 150 70 190 95" fill="none" stroke="#330000" stroke-width="6" stroke-linecap="round"/>
-                        <path d="M 90 110 Q 140 100 180 125" fill="none" stroke="#330000" stroke-width="7" stroke-linecap="round"/>
-                        <path d="M 110 75 Q 160 60 195 85" fill="none" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
-                        <path d="M 60 105 C 30 85, 10 95, 20 125 C 35 140, 55 130, 70 115" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/>
-                        <ellipse cx="40" cy="110" rx="8" ry="14" fill="#ff1a1a" transform="rotate(35 40 110)" opacity="0.25"/>
-                        <path d="M 20 125 Q 30 135 45 125" fill="none" stroke="#1a0000" stroke-width="2"/>
-                        <path d="M 80 120 C 55 100, 35 110, 45 140 C 60 155, 80 145, 95 130" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/>
-                        <ellipse cx="65" cy="125" rx="8" ry="14" fill="#ff1a1a" transform="rotate(35 65 125)" opacity="0.25"/>
-                        <path d="M 45 140 Q 55 150 70 140" fill="none" stroke="#1a0000" stroke-width="2"/>
-                        <path d="M 100 130 C 80 110, 65 120, 75 150 C 90 165, 110 155, 120 140" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/>
-                        <ellipse cx="90" cy="135" rx="7" ry="12" fill="#ff1a1a" transform="rotate(35 90 135)" opacity="0.25"/>
-                    </g>
+                    <g filter="url(#hand-shadow-deep)"><path d="M 230 70 Q 320 20 440 40 L 460 160 Q 340 180 250 150 Z" fill="url(#suit-fabric)"/><path d="M 270 80 Q 350 70 420 85" fill="none" stroke="#0a1836" stroke-width="4" stroke-linecap="round"/><path d="M 260 110 Q 360 100 430 120" fill="none" stroke="#0a1836" stroke-width="5" stroke-linecap="round"/><path d="M 250 140 Q 330 140 400 150" fill="none" stroke="#030814" stroke-width="6" stroke-linecap="round"/><path d="M 190 60 L 260 45 L 280 165 L 210 155 Z" fill="url(#gold-armor)"/><path d="M 200 65 L 220 50 L 260 60 L 250 150 L 220 155 Z" fill="none" stroke="#ffebb3" stroke-width="2"/><path d="M 220 100 Q 240 80 260 90 Q 250 110 260 130 Q 240 140 220 120 Z" fill="#fff" opacity="0.35"/><path d="M 80 75 C 120 40, 160 50, 200 68 L 220 148 C 170 160, 110 150, 70 110 Z" fill="url(#glove-base)"/><path d="M 100 85 Q 150 70 190 95" fill="none" stroke="#330000" stroke-width="6" stroke-linecap="round"/><path d="M 90 110 Q 140 100 180 125" fill="none" stroke="#330000" stroke-width="7" stroke-linecap="round"/><path d="M 110 75 Q 160 60 195 85" fill="none" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round" opacity="0.35"/><path d="M 60 105 C 30 85, 10 95, 20 125 C 35 140, 55 130, 70 115" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/><ellipse cx="40" cy="110" rx="8" ry="14" fill="#ff1a1a" transform="rotate(35 40 110)" opacity="0.25"/><path d="M 20 125 Q 30 135 45 125" fill="none" stroke="#1a0000" stroke-width="2"/><path d="M 80 120 C 55 100, 35 110, 45 140 C 60 155, 80 145, 95 130" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/><ellipse cx="65" cy="125" rx="8" ry="14" fill="#ff1a1a" transform="rotate(35 65 125)" opacity="0.25"/><path d="M 45 140 Q 55 150 70 140" fill="none" stroke="#1a0000" stroke-width="2"/><path d="M 100 130 C 80 110, 65 120, 75 150 C 90 165, 110 155, 120 140" fill="url(#glove-base)" stroke="#260000" stroke-width="3"/><ellipse cx="90" cy="135" rx="7" ry="12" fill="#ff1a1a" transform="rotate(35 90 135)" opacity="0.25"/></g>
                 </svg>
             </div>
         </div>
+        <div class="instruction" style="font-weight: 700; opacity: 0.6; text-shadow: 1px 1px 5px #000;">Toque na Margem da Página Para Mudar o Fólio E Destrancar O Som Divino</div>
 
-        <div class="instruction">Clique na página para virar</div>
-    </div><!-- /main-content -->
+    </div>
 
-    <!-- ============================================== -->
-    <!--     GERENCIADOR UNIVERSAL DA URL/BUG FILES     -->
-    <!-- ============================================== -->
+    <!-- MAIN MOTOR CODE S/ PERDAS - AUDIO S/Mute. FILES SEAMLESS LOAD DA VAR BASE -->
     <script>
-        // CONFIGURADOR MASTER OMITIDO A CONVITE. SÃO CORRIGIDOS AUTOS BUGS SE N TIVER BASE DEFINIDA
         const MEDIA_BASE_URL = ""; 
-        function safeBaseUrl(filename) {
-            if(!filename) return "";
-            if(filename.startsWith('http')) return filename; 
-            if(!MEDIA_BASE_URL) return filename; 
-            return MEDIA_BASE_URL.endsWith('/') ? MEDIA_BASE_URL + filename : MEDIA_BASE_URL + '/' + filename;
-        }
+        function safeBaseUrl(filename) { if(!filename) return ""; if(filename.startsWith('http')) return filename; if(!MEDIA_BASE_URL) return filename; return MEDIA_BASE_URL.endsWith('/') ? MEDIA_BASE_URL + filename : MEDIA_BASE_URL + '/' + filename; }
 
         const introVideoEl = document.getElementById('intro-video');
         if (introVideoEl) introVideoEl.src = safeBaseUrl('VID-20260602-WA0039.mp4');
 
         const mainPhotoEl = document.getElementById('capa-salvador-photo');
         if(mainPhotoEl) mainPhotoEl.src = safeBaseUrl("IMG-20260602-WA0028.jpg");
-
         const fotoCrisol = document.getElementById('crisol-photo');
         if (fotoCrisol && fotoCrisol.getAttribute("src")) fotoCrisol.src = safeBaseUrl(fotoCrisol.getAttribute("src"));
 
-        const imagensDeExterminio = [
-            "Screenshot_20260602_181731_Classroom.jpg","Screenshot_20260602_181729_Classroom.jpg","Screenshot_20260602_181726_Classroom.jpg",
-            "Screenshot_20260602_181724_Classroom.jpg","Screenshot_20260602_181727_Classroom.jpg","Screenshot_20260602_181706_Classroom.jpg",
-            "Screenshot_20260602_181722_Classroom.jpg","Screenshot_20260602_181718_Classroom.jpg","Screenshot_20260602_181720_Classroom.jpg",
-            "Screenshot_20260602_181716_Classroom.jpg","Screenshot_20260602_181704_Classroom.jpg","Screenshot_20260602_181657_Classroom.jpg",
-            "Screenshot_20260602_181713_Classroom.jpg","Screenshot_20260602_181700_Classroom.jpg","Screenshot_20260602_181702_Classroom.jpg",
-            "Screenshot_20260602_180811_Gallery.jpg","Screenshot_20260602_180810_Gallery.jpg","Screenshot_20260602_181029_Classroom.jpg",
-            "Screenshot_20260602_180804_Gallery.jpg","Screenshot_20260602_180802_Gallery.jpg","Screenshot_20260602_180808_Gallery.jpg",
-            "Screenshot_20260602_180806_Gallery.jpg","Screenshot_20260602_180755_Gallery.jpg","Screenshot_20260602_180758_Gallery.jpg",
-            "Screenshot_20260602_180800_Gallery.jpg","Screenshot_20260602_180607_Classroom.jpg"
-        ];
-        (function popularListaExterminio() {
-            const container = document.getElementById('heretics-container');
-            const stamps = ['ELIMINAR', 'HEREGE', 'ALVO'];
-            imagensDeExterminio.forEach((imgName, i) => {
-                const finalLink = safeBaseUrl(imgName); 
-                const item = document.createElement('div');
-                item.className = 'heretic-item';
-                item.innerHTML = `<img src="${finalLink}" alt="Alvo ${i+1}" onerror="this.src='https://placehold.co/600x140/111/fff?text=Ficheiro+Em+Falta'">
-                    <div class="stamp-hated">${stamps[i % stamps.length]}</div>`;
-                container.appendChild(item);
-            });
+        const imagensDeExterminio = ["Screenshot_20260602_181731_Classroom.jpg","Screenshot_20260602_181729_Classroom.jpg","Screenshot_20260602_181726_Classroom.jpg","Screenshot_20260602_181724_Classroom.jpg","Screenshot_20260602_181727_Classroom.jpg","Screenshot_20260602_181706_Classroom.jpg","Screenshot_20260602_181722_Classroom.jpg","Screenshot_20260602_181718_Classroom.jpg","Screenshot_20260602_181720_Classroom.jpg","Screenshot_20260602_181716_Classroom.jpg","Screenshot_20260602_181704_Classroom.jpg","Screenshot_20260602_181657_Classroom.jpg","Screenshot_20260602_181713_Classroom.jpg","Screenshot_20260602_181700_Classroom.jpg","Screenshot_20260602_181702_Classroom.jpg","Screenshot_20260602_180811_Gallery.jpg","Screenshot_20260602_180810_Gallery.jpg","Screenshot_20260602_181029_Classroom.jpg","Screenshot_20260602_180804_Gallery.jpg","Screenshot_20260602_180802_Gallery.jpg","Screenshot_20260602_180808_Gallery.jpg","Screenshot_20260602_180806_Gallery.jpg","Screenshot_20260602_180755_Gallery.jpg","Screenshot_20260602_180758_Gallery.jpg","Screenshot_20260602_180800_Gallery.jpg","Screenshot_20260602_180607_Classroom.jpg"];
+        
+        (function popularListaExterminio() { 
+            const container = document.getElementById('heretics-container'); const stamps = ['ELIMINAR', 'HEREGE', 'ALVO']; 
+            imagensDeExterminio.forEach((imgName, i) => { 
+                const item = document.createElement('div'); item.className = 'heretic-item'; 
+                item.innerHTML = `<img src="${safeBaseUrl(imgName)}" onerror="this.src='https://placehold.co/600x140/111/fff?text=Ficheiro+Em+Falta'"><div class="stamp-hated">${stamps[i % stamps.length]}</div>`; 
+                container.appendChild(item); 
+            }); 
         })();
 
-        // VÍDEOS QUE AGORA HABITAM NO CORPO DAS PRÓPRIAS PÁGINAS SEM JANELAS EXTERNAS PRETAS!
-        const vid37 = document.getElementById('vid-wa0037');
-        const vid29 = document.getElementById('vid-wa0029');
-        if(vid37) vid37.src = safeBaseUrl('VID-20260602-WA0037_001.mp4');
-        if(vid29) vid29.src = safeBaseUrl('VID-20260602-WA0029.mp4');
+        const vid37 = document.getElementById('vid-wa0037'); const vid29 = document.getElementById('vid-wa0029');
+        if(vid37) vid37.src = safeBaseUrl('VID-20260602-WA0037_001.mp4'); if(vid29) vid29.src = safeBaseUrl('VID-20260602-WA0029.mp4');
 
-        // INTRO SIMPLIFICADO S/ FALHAS LOGICAIS DE SOM!
-        (function(){
-            const introScreen = document.getElementById('intro-screen');
-            const videoWrap   = document.getElementById('intro-video-wrap');
-            const mainContent = document.getElementById('main-content');
-            let activated = false;
-
-            function enterSite() {
-                if (activated) return; activated = true; introScreen.classList.add('fade-out');
-                introVideoEl.load(); videoWrap.classList.add('visible'); introVideoEl.play().catch(revealBook);
-                introVideoEl.addEventListener('ended', revealBook, { once: true });
-                setTimeout(() => introScreen.remove(), 900);
-            }
-            function revealBook() {
-                videoWrap.classList.add('fade-out-video'); mainContent.classList.add('revealed');
-                setTimeout(() => videoWrap.remove(), 900);
-            }
-            introScreen.addEventListener('click', enterSite, { once: true });
-            introScreen.addEventListener('touchstart', enterSite, { once: true, passive: true });
+        (function(){ const introScreen = document.getElementById('intro-screen'); const videoWrap   = document.getElementById('intro-video-wrap'); const mainContent = document.getElementById('main-content'); let activated = false;
+            function enterSite() { if (activated) return; activated = true; introScreen.classList.add('fade-out'); introVideoEl.load(); videoWrap.classList.add('visible'); introVideoEl.play().catch(revealBook); introVideoEl.addEventListener('ended', revealBook, { once: true }); setTimeout(() => introScreen.remove(), 900); }
+            function revealBook() { videoWrap.classList.add('fade-out-video'); mainContent.classList.add('revealed'); setTimeout(() => videoWrap.remove(), 900); }
+            introScreen.addEventListener('click', enterSite, { once: true }); introScreen.addEventListener('touchstart', enterSite, { once: true, passive: true });
         })();
 
-        /* --- SCRIPT MANAGER REFINADO / MANUSEA MEDIA NAS CENA AUTOMÁTICA  ---- */
+        /* --- Sincronizador Real/Motor Audio Com bypass da Politica Muda Browsers - S Y N C --- */  
         const ytIframe = document.getElementById('yt-iframe');
-        const YTYURL = 'https://www.youtube-nocookie.com/embed/3KMiX2mUqkk?autoplay=1&loop=1&playlist=3KMiX2mUqkk&controls=1&rel=0';
+        const YTYURL = 'https://www.youtube-nocookie.com/embed/3KMiX2mUqkk?autoplay=1&mute=0&loop=1&playlist=3KMiX2mUqkk&controls=1&rel=0';
 
-        // Garante e mata todos os sons no instante de interacção / folha movida (evita vídeos com audios a passar enquanto virada).
-        function killOrStandByBackgroundPlay() {
-             if(vid37) vid37.pause();
-             if(vid29) vid29.pause();
-             if(ytIframe) ytIframe.src = ""; // Cancela Youtube RAM render e cache. Reset real frame! 
+        function killAllVideoAudioAndSyncClearances() {
+             if(vid37) { vid37.pause(); vid37.currentTime=0;} 
+             if(vid29) { vid29.pause(); vid29.currentTime=0;} 
+             if(ytIframe) ytIframe.src = "";  // Stop The Youtube Overlap Ghosts From playing no voids e no browser! 
         }
 
-        function calculateBookFoliaAudioStatusOnArrival(visibleL_Index_BACK, visibleR_Index_FRONT) {
-             killOrStandByBackgroundPlay();
+        // Acciona pela Indicação Estática se Costas Virada Tiver lá. Bypass Bloqueio. Som entra a "Grito!!" no user interaction:
+        function forcePlaybackWithRealGestureSoundsNativeBrowsersLimitsPassOut(paginaCostasVisivelNoMonitorIndexVal) {
+             killAllVideoAudioAndSyncClearances(); 
 
-             // L6 Costa virou aberta (contém o nosso clip wA0037 do Mensagem. Utilizadores clicam para accionar mas ele já engrena limpo ali.)
-             if(visibleL_Index_BACK === 6 && vid37) {
-                 // Opteio auto-standby limpo
-                 // vid37.play().catch(e=>console.log(e));  
+             if (paginaCostasVisivelNoMonitorIndexVal === 6 && vid37) {
+                 vid37.volume = 1; vid37.play().catch(e=> console.log('BloqMuda Browsers Ocorrido! Forçado Via Play. Erro Capt:', e)); 
              }
-
-             // L7 Frente Acabada de cair ao virar! Acionar embed para iniciar sem forçar.
-             if(visibleR_Index_FRONT === 7 && ytIframe) {
-                 ytIframe.src = YTYURL;
-             }
-
-             // L7 Tarseiro abriu-se - LOOP Muted WA0292 Iniciar Automatico porque é sem áudio Loop.
-             if(visibleL_Index_BACK === 7 && vid29) {
-                 vid29.play().catch(e=>console.log(e));
+             if (paginaCostasVisivelNoMonitorIndexVal === 7 && ytIframe) { ytIframe.src = YTYURL; }
+             if (paginaCostasVisivelNoMonitorIndexVal === 8 && vid29) {
+                 vid29.volume = 1; vid29.play().catch(e=> console.log('BloqMuda.', e));
              }
         }
 
         const leaves = document.querySelectorAll('.leaf');
         const hand   = document.getElementById('homelander-hand');
-        function initZOrder() { leaves.forEach((leaf, i) => { leaf.style.zIndex = leaves.length - i; }); }
-        initZOrder();
+        function initZOrder() { leaves.forEach((leaf, i) => { leaf.style.zIndex = leaves.length - i; }); } initZOrder();
 
-        // LOGICA DE EFEITO FISICA SEM PONTAS E DEBUNGS YTs CAI DOS LIVROS SOLTA OVERFLOW CORRECÇÕES COMPLETAS NELA.
+        // Rotações Seguras E Capturas L/Right De Ficha. "ZIndex Timing Manta C\ Anti-IFrame BUGS YouTube Bloquerado por Cima/Extremo."  !!
         function turnPage(clickedLeaf, index) {
             let direction = '';
 
-            killOrStandByBackgroundPlay(); // Acaba barulhos/som de Videos para transitar! Sem vozes ou Youtube sobrepondo!!
-
-            if (clickedLeaf.classList.contains('turned')) {
+            if (clickedLeaf.classList.contains('turned')) { 
                 if (index < leaves.length - 1 && leaves[index + 1].classList.contains('turned')) return;
-                clickedLeaf.classList.remove('turned');
-                direction = 'prev';
-                setTimeout(() => { 
-                    clickedLeaf.style.zIndex = leaves.length - index; 
-                    calculateBookFoliaAudioStatusOnArrival(index-1, index); 
-                }, 700);
-            } else {
+                
+                clickedLeaf.classList.remove('turned'); direction = 'prev';
+
+                let foliaAcabouExporAsTrasNoEsquerdoRetrocesoParaEuTocarPlayMusicasAudiveisMenteL = index - 1; 
+                forcePlaybackWithRealGestureSoundsNativeBrowsersLimitsPassOut(foliaAcabouExporAsTrasNoEsquerdoRetrocesoParaEuTocarPlayMusicasAudiveisMenteL);
+                
+                setTimeout(() => { clickedLeaf.style.zIndex = leaves.length - index; }, 700);
+            } else {  
                 if (index > 0 && !leaves[index - 1].classList.contains('turned')) return;
-                clickedLeaf.classList.add('turned');
-                direction = 'next';
-                setTimeout(() => { 
-                    clickedLeaf.style.zIndex = index + 1; 
-                    calculateBookFoliaAudioStatusOnArrival(index, index+1); 
-                }, 700);
+                
+                clickedLeaf.classList.add('turned'); direction = 'next';
+                
+                forcePlaybackWithRealGestureSoundsNativeBrowsersLimitsPassOut(index);
+                setTimeout(() => { clickedLeaf.style.zIndex = index + 1; }, 700);
             }
-            if(hand) {
-                hand.classList.remove('animate-next', 'animate-prev');
-                void hand.offsetWidth; 
-                hand.classList.add(direction === 'next' ? 'animate-next' : 'animate-prev');
-            }
+
+            if(hand) { hand.classList.remove('animate-next', 'animate-prev'); void hand.offsetWidth; hand.classList.add(direction === 'next' ? 'animate-next' : 'animate-prev'); }
         }
     </script>
 </body>
