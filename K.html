@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vídeo no Celular</title>
+    <style>
+        /* Estilo básico da tela (fundo do jogo/site) */
+        body {
+            background-color: #2a2a2a; /* Fundo escuro para destacar o celular */
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilo do Celular (Oculto por padrão) */
+        #celular-container {
+            position: fixed;
+            bottom: -700px; /* Esconde fora da tela inicialmente */
+            right: 50px;
+            width: 320px;
+            height: 650px;
+            background-color: #000;
+            border-radius: 40px; /* Bordas arredondadas do celular */
+            border: 12px solid #1a1a1a; /* Borda/Capinha do celular */
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            transition: bottom 0.4s ease-in-out; /* Animação de subir/descer */
+            z-index: 1000;
+        }
+
+        /* Classe que faz o celular aparecer na tela */
+        #celular-container.ativo {
+            bottom: 30px; 
+        }
+
+        /* Detalhe da câmera frontal (Notch/Ilha dinâmica) */
+        #notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background-color: #1a1a1a;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 1001;
+        }
+
+        /* Estilo do Vídeo */
+        #video-tela {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Faz o vídeo preencher toda a tela do celular */
+            pointer-events: none;
+        }
+
+        /* Instrução na tela */
+        .instrucao {
+            color: white;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instrucao">Aperte a tecla <strong>K</strong> para abrir/fechar o celular</div>
+
+    <!-- Container do Celular -->
+    <div id="celular-container">
+        <div id="notch"></div> <!-- Detalhe da câmera do celular -->
+        
+        <!-- Seu vídeo -->
+        <video id="video-tela" src="video-20260602-204408_SfxQXJAK.mp4" loop></video>
+    </div>
+
+    <script>
+        // Seleciona os elementos no HTML
+        const celular = document.getElementById('celular-container');
+        const video = document.getElementById('video-tela');
+
+        // Adiciona um "ouvinte" para as teclas do teclado
+        document.addEventListener('keydown', function(event) {
+            
+            // Verifica se a tecla pressionada foi o 'K' (maiúsculo ou minúsculo)
+            if (event.key.toLowerCase() === 'k') {
+                
+                // Verifica se o celular já está na tela
+                if (celular.classList.contains('ativo')) {
+                    // Se estiver, esconde o celular e pausa o vídeo
+                    celular.classList.remove('ativo');
+                    video.pause();
+                    video.currentTime = 0; // Opcional: faz o vídeo voltar para o começo ao fechar
+                } else {
+                    // Se não estiver, mostra o celular e dá play no vídeo
+                    celular.classList.add('ativo');
+                    video.play();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
