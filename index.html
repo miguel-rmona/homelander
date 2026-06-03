@@ -101,13 +101,30 @@
         .pecado-titulo { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.72rem, 1.2vw, 0.9rem); color: var(--blood); font-weight: 900;} .pecado-desc { font-family:'Cormorant Garamond',serif; font-weight: 600; font-size: clamp(0.7rem, 1.2vw, 0.82rem); color: #3a1a1a; line-height: 1.4; font-style: italic; }
         .pecado-tag { display: inline-block; width: max-content; font-size: 0.6rem; font-family: 'Cinzel Decorative', serif; padding: 2px 5px; margin-bottom: 2px; background: rgba(140,0,0,0.08); border: 1px solid rgba(120,0,0,0.3); color: var(--blood); border-radius: 3px; font-weight: 900; letter-spacing:0.5px;}
 
-        /* ── MÍDIA FULL E ESCUDOS PÁGINAS VIRADAS  ── */
+        /* ── CORREÇÕES: SISTEMA OTIMIZADOR DE VÍDEOS DE BASE TELA FULL SEM PRETOS ── */
         .page.full-photo { padding: 0 !important; overflow: hidden; }
         .page.full-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; border:none;}
-        .page.video-page { padding: 0 !important; margin: 0 !important; overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center; border: none !important; }
-        .page.video-page::before, .page.video-page::after { display: none !important; }
-        .video-player, .yt-page-embed { position: absolute; top:0; left:0; right: 0; bottom:0; width: 100%; height: 100%; border: none; object-fit: contain; outline: none; background: #000; box-shadow: none !important; border-radius: 0; }
         
+        .page.video-page { padding: 0 !important; margin: 0 !important; overflow: hidden; border: none !important; }
+        .page.video-page::before, .page.video-page::after { display: none !important; }
+
+        /* Nova Parede/Escudo Inteligente Estético contra ecrãs falhos Pretos nos leitores atrasados - Carregamento UI visual VOUGHT nativa!! */
+        .video-page {
+             background-color: #040812 !important; 
+             background-image: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(212,175,55,0.015) 15px, rgba(212,175,55,0.015) 30px) !important;
+        }
+        .video-player { background: transparent !important; } /* Assim o Vazio escuro do HTML nativo desaparece até exibir Frame MP4 final.*/
+        
+        .video-bg-vought-hint {
+             position: absolute; left: 0; right: 0; top: 38%; display:flex; flex-direction:column; align-items:center;
+             z-index:-1; pointer-events: none; opacity:0.8;
+        }
+        .v-load-hint-icon { font-family: 'Cinzel Decorative', serif; font-size:4rem; color: rgba(212,175,55,0.6); text-shadow:0 0 10px black;}
+        .v-load-hint-txt { font-family: sans-serif; font-weight:700; color: rgba(212,175,55,0.4); text-transform:uppercase; font-size:0.7rem; text-shadow:0 0 5px black; margin-top:5px; text-align: center; }
+
+        .video-player, .yt-page-embed { position: absolute; top:0; left:0; right: 0; bottom:0; width: 100%; height: 100%; border: none; object-fit: contain; outline: none; box-shadow: none !important; border-radius: 0; }
+        
+        /* Sistema P. Clicadores anti bugs UI das paginas margens no videos - Edge Bars */
         .turn-shield { position: absolute; top: 0; bottom: 0; width: 62px; z-index: 1000; background: linear-gradient(to right, transparent, transparent); display: flex; flex-direction: column; justify-content: center; align-items: center; color: rgba(255, 255, 255, 0.25); font-size: 2.2rem; cursor: pointer; transition: 0.3s ease; opacity: 1; font-weight: bold; }
         .turn-shield:hover { color: rgba(212, 175, 55, 1); text-shadow: 0px 0px 10px #000; background: rgba(0, 0, 0, 0.4) }
         .page.front .turn-shield { right: 0; left: auto; background: linear-gradient(to right, transparent, rgba(0,0,0,0.15)); } .page.back .turn-shield { left: 0; right: auto; background: linear-gradient(to left, transparent, rgba(0,0,0,0.15));}
@@ -153,22 +170,19 @@
         <div class="book-shadow"></div>
 
         <div class="scene">
-          <!-- TODO O LIVRO A PARTIR DAQUI (COM ÍNDICES EXATOS ATUALIZADOS PARA MAIS 1 VÍDEO) -->
           <div class="book" id="book">
             
-            <!-- Index 0 -->
             <div class="leaf" onclick="turnPage(this,0)">
                 <div class="page front cover"><div class="cover-inner-border"><div class="vought-logo-cover">V</div><h1>A BÍBLIA DO<br>PÁTRIA</h1><p style="color:var(--gold-dark);text-align:center;margin-top:24px;text-transform:uppercase;font-size:0.82rem;letter-spacing:2px; font-weight:700;">O Evangelho do Salvador</p></div></div>
                 <div class="page back"><div class="text-content" style="display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:0.65;"><h2 style="font-size:0.85rem;margin-bottom:6px;">Propriedade Confidencial</h2><div style="font-family:'Cinzel Decorative',serif;font-size:2.2rem;color:#111;margin:10px 0; font-weight:900;">SALA DOS SETE</div><p style="text-align:center;font-size:0.85rem;line-height:1.5;color:#333; font-weight:700;">Leitura obrigatória. A heresia resultará em terminação contratual — ou em algo mais permanente.</p></div></div>
             </div>
 
-            <!-- Index 1 -->
             <div class="leaf" onclick="turnPage(this,1)">
                 <div class="page front full-photo"><img id="capa-salvador-photo" alt="O Salvador" onerror="this.parentElement.style.background='#111'"></div>
                 <div class="page back" style="display:flex;justify-content:center;align-items:center;"><div style="opacity:0.12;font-family:'Cinzel Decorative',serif;font-size:4.5rem;color:#111; font-weight:900;">V</div></div>
             </div>
 
-            <!-- Index 2 -->
+            <!-- GÊNESIS -->
             <div class="leaf" onclick="turnPage(this,2)">
                 <div class="page front">
                     <div class="ribbon"></div>
@@ -191,7 +205,6 @@
                 </div>
             </div>
 
-            <!-- Index 3 -->
             <div class="leaf" onclick="turnPage(this,3)">
                 <div class="page front">
                     <h2>III. Os Sete Mandamentos</h2>
@@ -217,14 +230,16 @@
                             <div class="aliado-card"><span class="aliado-rank">◆</span><div class="aliado-info"><span class="aliado-nome">Profundo</span><span class="aliado-desc">Devoto incansável. Submisso por natureza, útil por necessidade. Faz o que mandam sem questionar — o servo ideal.</span></div><span class="aliado-status status-leal">Leal</span></div>
                             <div class="aliado-card"><span class="aliado-rank">◆</span><div class="aliado-info"><span class="aliado-nome">Black Noir</span><span class="aliado-desc">O silêncio andante. Executor sem hesitação. A mais pura ferramenta já criada pela Vought.</span></div><span class="aliado-status status-caido">Caído</span></div>
                             <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">Ashley Barrett</span><span class="aliado-desc">A operacional fiel da Vought. Medo como lealdade. Serve por sobrevivência — o que é suficiente.</span></div><span class="aliado-status status-duvidoso">Tolerada</span></div>
-                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">A-Train</span><span class="aliado-desc">Veloz. Calculista. Muda de lado conforme o vento. Nunca de confiança total — mas sempre utilizável.</span></div><span class="aliado-status status-traidor">Vigiado</span></div>
+                            <!-- A-TRAIN CLARIFICADO PARA TUA DÚVIDA RESOLVIDA TOTAL-->
+                            <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">A-Train (Trem Bala)</span><span class="aliado-desc">Veloz. Calculista. Muda de lado conforme o vento. Nunca de confiança total — mas sempre utilizável.</span></div><span class="aliado-status status-traidor">Vigiado</span></div>
+                            
                             <div class="aliado-card"><span class="aliado-rank">▲</span><div class="aliado-info"><span class="aliado-nome">Noir II</span><span class="aliado-desc">Substituto forjado. Obedece sem alma nem memória de passado. O escravo perfeito sem o peso da consciência.</span></div><span class="aliado-status status-leal">Activo</span></div>
                         </div>
                     </div><div class="page-number">— iv —</div>
                 </div>
             </div>
 
-            <!-- Index 4 -->
+            <!-- HITLISTA GERAL C PUREZAS -->
             <div class="leaf" onclick="turnPage(this,4)">
                 <div class="page front">
                     <h2>V. A Ira Justa e as Calúnias</h2>
@@ -244,20 +259,20 @@
                 </div>
             </div>
 
-            <!-- Index 5 (COM HUGHIE O PARASITA & RYAN THE BETRAYER CORRECTED!) -->
+            <!-- LISTA DE ERROS C ERRO DE HUGHIE DESC E NOME REMOVIDOS DEFINITIVO-->
             <div class="leaf" onclick="turnPage(this,5)">
                 <div class="page front">
                     <h2>VI. Os Pecados · Judas</h2>
                     <div class="text-content" style="padding-top:2px;">
                         <p style="font-size:0.75rem;text-align:center;margin-bottom:10px;color:#555;font-style:italic;font-family:'Cormorant Garamond',serif; font-weight:700;">Os crimes do mundo contra o seu Salvador</p>
                         <div class="pecados-list">
-                            <div class="pecado-item"><span class="pecado-tag">TRAIÇÃO SUPREMA</span><span class="pecado-titulo">Ryan — O Judas de Sangue</span><span class="pecado-desc">O filho. O herdeiro. O punhal nas costas do pai. Corrompido por Billy Butcher, voltou o seu poder contra o único que o amava incondicionalmente. O erro colossal que destruiu o próprio destino.</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">TRAIÇÃO SUPREMA</span><span class="pecado-titulo">Ryan — O Judas de Sangue</span><span class="pecado-desc">O filho. O herdeiro. O punhal nas costas do pai. Corrompido por Billy Butcher, voltou o seu poder contra o único que o amava incondicionalmente. O erro imperdoável.</span></div>
                             <div class="pecado-item"><span class="pecado-tag">HERESIA CAPITAL</span><span class="pecado-titulo">Billy Butcher — O Profano</span><span class="pecado-desc">Mortal com ódio de deus. Usou o próprio filho do Salvador como arma. A cobra que se alimenta de veneno e chama isso de justiça.</span></div>
-                            <div class="pecado-item"><span class="pecado-tag">INGRATIDÃO</span><span class="pecado-titulo">Queen Maeve — A Apóstata</span><span class="pecado-desc">Que ele amou. Que ele protegeu. Que escolheu os fracos em vez da glória. Sacrificou-se por mortais que nem saberiam pronunciar o seu nome correctamente.</span></div>
-                            <div class="pecado-item"><span class="pecado-tag">APOSTASIA</span><span class="pecado-titulo">Starlight — A Mentira Luminosa</span><span class="pecado-desc">Entrou nos Sete com sorriso de fé. Saiu com a espada dos inimigos. Usou a sua luz para iluminar a destruição do Salvador.</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">INGRATIDÃO</span><span class="pecado-titulo">Queen Maeve — A Apóstata</span><span class="pecado-desc">Que ele amou. Que ele protegeu. Escolheu os fracos em vez da glória para sacrifícios vulgares entre mortais incivilizados e ignorantes sem luz do V!.</span></div>
+                            <div class="pecado-item"><span class="pecado-tag">APOSTASIA</span><span class="pecado-titulo">Starlight — A Mentira Luminosa</span><span class="pecado-desc">Entrou nos Sete com sorriso de fé. Saiu com a espada dos inimigos e lâmpadas falhas de mentiras . </span></div>
                             
-                            <!-- HUGHIE NÃO É MAIS O TREM BALA ! NOME CORRIGIDO A RIGOR! -->
-                            <div class="pecado-item"><span class="pecado-tag">FRAQUEZA</span><span class="pecado-titulo">Hughie Campbell — O Parasita</span><span class="pecado-desc">Um homem sem poderes que ousou desafiar um deus. O catalisador de toda a perseguição. Um ser tão insignificante que a sua relevância é, em si, um insulto à própria biologia.</span></div>
+                            <!-- HUGHIE ESTAR AGORA PURÍSSIMO, CORRETO AO LORE!!  -->
+                            <div class="pecado-item"><span class="pecado-tag">VÍCIO PATÉTICO</span><span class="pecado-titulo">Hughie Campbell — O Verme Vulgar</span><span class="pecado-desc">Um ser totalmente desprovido de capacidade superior ou dignidade genética e crente num sonho fútil entre gigantes no pódio.. Sem o "A-Train" sua existência já mais importava ser citada no plano americano ! Insulto e falho a respiração V! </span></div>
                         </div>
                     </div><div class="page-number">— vii —</div>
                 </div>
@@ -272,48 +287,51 @@
                 </div>
             </div>
 
-            <!-- Index 6 | VIDEO 0037 TERMINAL HOMELANDER -->
+            <!-- AS TAMPAS INTELIGENTES EM VÍDEOS COM OS FUNDOS LOGO E START AUTO P SE DE BUG/PRETO OCORRA! -->
             <div class="leaf" onclick="turnPage(this,6)">
                 <div class="page front" style="display:flex; justify-content:center; flex-direction: column; align-items:center;">
                      <h2 style="font-size:2.3rem; font-weight: 900; letter-spacing: 5px;">A MENSAGEM FINAL</h2>
-                     <p style="text-align:center; margin-top:20px; padding: 0 10%; color:#555; font-weight:700;">Registro audiovisual classificado.<br><br>Gire o encadernado para decriptar a gravação original da profundeza operacional.</p>
+                     <p style="text-align:center; margin-top:20px; padding: 0 10%; color:#555; font-weight:700;">Registro audiovisual classificado.<br><br>Gire o encadernado para decriptar a gravação original gravada nas profundezas operacionais.</p>
                 </div>
                 
                 <div class="page back video-page">
-                     <video class="video-player" id="vid-wa0037" playsinline controls></video> 
-                     <div class="turn-shield" title="Voltar Fólio. Clique bloqueador Seguro Activo." onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
+                     <!--  PAINEL E CRÉDITO INTERIOR OBRIGA CARTA NA JANELA EM OPOSIÇÃO AOS CUBOS NEGROS !! -->
+                     <div class="video-bg-vought-hint">
+                         <div class="v-load-hint-icon">V</div><div class="v-load-hint-txt">Conexão... Pressione O ecrã se não accionar!</div>
+                     </div>
+                     <video class="video-player" id="vid-wa0037" preload="metadata" playsinline controls></video> 
+                     <div class="turn-shield" title="Voltar Fólio / Edge Activo." onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
                 </div>
             </div>
 
-            <!-- Index 7 | THE YOUTUBE MÚSIC! EXALTEM! -->
             <div class="leaf" onclick="turnPage(this,7)">
                 <div class="page front" style="display:flex;flex-direction:column; justify-content:center; align-items:center; background-image: radial-gradient(circle at 50% 50%, rgba(180,140,80,0.1) 0%, transparent 80%);">
                     <div style="font-family:'Cinzel Decorative',serif; font-size:4rem; font-weight: 900; transform:scaleY(0.95); text-align: center; color:var(--gold-dark); text-shadow:0 3px 6px rgba(0,0,0,0.8), 0 0 10px rgba(212,175,55,0.4);">THE BOYS™ <br> EXALTEM.</div>
-                    <span style="font-size:14px; margin-top:35px; color:#555; font-weight: 700; text-transform:uppercase; letter-spacing: 2px;">Gire para sintonizar no palco...</span>
+                    <span style="font-size:14px; margin-top:35px; color:#555; font-weight: 700; text-transform:uppercase; letter-spacing: 2px;">Gire para sintonizar a música no palco The Voughts...</span>
                 </div>
                 
                 <div class="page back video-page">
                     <iframe class="yt-page-embed" id="yt-iframe" src="" allow="autoplay; encrypted-media; fullscreen" frameborder="0"></iframe>
-                    <div class="turn-shield" title="Retroceder" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
+                    <div class="turn-shield" title="Voltar Atrás da Margem Youtube Shield Ativada" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
                 </div>
             </div>
 
-            <!-- Index 8 | PÁGINA ADICIONAL COM O NOVO VIDEO REQUERIDO PELO UTILIZADOR  -->
             <div class="leaf" onclick="turnPage(this,8)">
                 <div class="page front" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
                      <h2 style="font-size:2rem; font-weight: 900; letter-spacing: 5px;">SESSÃO ARQUIVADA</h2>
                      <p style="text-align:center; margin-top:20px; padding: 0 10%; color:#555; font-weight:700;">Evidência áudiovisual e gravações extraídas dos databanks privados pelas autoridades Centrais The Vought™.</p>
-                     <span style="font-size:12px; margin-top:20px; color:var(--blood); font-weight:700; text-transform:uppercase; letter-spacing:2px;">Virar fólio e o arquivo entra em execução nas sombras da margem...</span>
+                     <span style="font-size:12px; margin-top:20px; color:var(--blood); font-weight:700; text-transform:uppercase; letter-spacing:2px;">Virar fólio. Inicia no interior a transmissão completa! </span>
                 </div>
                 
-                <!-- VIDEO INEDITO NOVO "vid-new01" -->
                 <div class="page back video-page">
-                     <video class="video-player" id="vid-new01" playsinline controls></video> 
-                     <div class="turn-shield" title="Voltar Escudo Pessoal Lateral Atrás Activo" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
+                     <div class="video-bg-vought-hint"><div class="v-load-hint-icon">V</div><div class="v-load-hint-txt">Arquivo Base V...  O sistema acciona logo Pressione  </div></div>
+                     
+                     <video class="video-player" id="vid-new01" preload="metadata" playsinline controls></video> 
+                     
+                     <div class="turn-shield" title="Bypass na tela" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
                 </div>
             </div>
 
-            <!-- Index 9 | VIDEO OCULTO ANTIGO: Nunca Recuaremos (Wa0029) Pushed forward by 1 index-->
             <div class="leaf" onclick="turnPage(this,9)">
                 <div class="page front" style="display:flex; flex-direction:column;">
                      <div class="ribbon"></div>
@@ -321,12 +339,13 @@
                 </div>
 
                 <div class="page back video-page">
-                    <video class="video-player" id="vid-wa0029" playsinline loop controls></video> 
-                    <div class="turn-shield" title="Salto e Escudo Lateral Ativo !!" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
+                    <div class="video-bg-vought-hint"><div class="v-load-hint-icon">V</div><div class="v-load-hint-txt">Sistemas Finais Preparação Prontos ! Em Carregar Auto :. </div></div>
+                    <video class="video-player" id="vid-wa0029" preload="metadata" playsinline loop controls></video> 
+                    
+                    <div class="turn-shield" title="Volta Costas Trás " onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
                 </div>
             </div>
 
-            <!-- Index 10 | CONTRACAPA FECHO E CRÉDITOS END-->
             <div class="leaf" onclick="turnPage(this,10)">
                  <div class="page front" style="display:flex; justify-content:center; align-items:center; background-image: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.15) 0%, transparent 60%);">
                      <div style="font-family:'Cinzel Decorative',serif; font-size:6rem; font-weight:900; color: #4a2e21; text-shadow:inset 0 1px 5px rgba(0,0,0,0.4); opacity: 0.15">FIM .</div>
@@ -337,7 +356,7 @@
                         <div class="vought-logo-cover" style="opacity: 0.1; margin: auto; transform:scale(1.8);">V</div>
                         <p style="color:#3a4560;font-size:0.85rem;text-align:center;font-family:'Cinzel Decorative',serif; font-weight: 700; margin-top:auto;letter-spacing:1px; line-height: 1.5;">
                             VOUGHT PUBLISHING GLOBAL PORTALS™<br>
-                            <span style="font-size:0.65rem;opacity:0.7; font-family:'Playfair Display',serif; font-weight: 500; font-style:italic;">Arquivamento Mestre. Multimídia Restrita Trancada e Silenciada Em Confidencial. </span>
+                            <span style="font-size:0.65rem;opacity:0.7; font-family:'Playfair Display',serif; font-weight: 500; font-style:italic;">Arquivamento Mestre Completo P. Reproduções e Visuais Conexões Seguradas Com Sistema De Autoplays Native Protegidas !. </span>
                         </p>
                     </div>
                  </div>
@@ -346,7 +365,6 @@
           </div><!-- /book -->
         </div><!-- /scene -->
 
-        <!-- LUVA  (Mantida sem alteração estrutural ao Svg!)-->
         <div id="hand-layer">
             <div class="hand-container" id="homelander-hand">
                 <svg viewBox="0 0 450 250" xmlns="http://www.w3.org/2000/svg">
@@ -360,11 +378,10 @@
                 </svg>
             </div>
         </div>
-        <div class="instruction" style="font-weight: 700; opacity: 0.6; text-shadow: 1px 1px 5px #000;">Toque na Margem da Página Para Mudar o Fólio. Escute O Criador Pela Margem . </div>
-
+        <div class="instruction" style="font-weight: 700; opacity: 0.6; text-shadow: 1px 1px 5px #000;">Toque na Margem Para O Próximo Registro</div>
     </div>
 
-    <!-- MAIN MOTOR CODE S/ PERDAS / VIDEO 100% UN-Muted P. AUTOPLAY CLICK-->
+    <!-- MAIN MOTOR -->
     <script>
         const MEDIA_BASE_URL = ""; 
         function safeBaseUrl(filename) { if(!filename) return ""; if(filename.startsWith('http')) return filename; if(!MEDIA_BASE_URL) return filename; return MEDIA_BASE_URL.endsWith('/') ? MEDIA_BASE_URL + filename : MEDIA_BASE_URL + '/' + filename; }
@@ -378,38 +395,25 @@
         if (fotoCrisol && fotoCrisol.getAttribute("src")) fotoCrisol.src = safeBaseUrl(fotoCrisol.getAttribute("src"));
 
         const imagensDeExterminio = ["Screenshot_20260602_181731_Classroom.jpg","Screenshot_20260602_181729_Classroom.jpg","Screenshot_20260602_181726_Classroom.jpg","Screenshot_20260602_181724_Classroom.jpg","Screenshot_20260602_181727_Classroom.jpg","Screenshot_20260602_181706_Classroom.jpg","Screenshot_20260602_181722_Classroom.jpg","Screenshot_20260602_181718_Classroom.jpg","Screenshot_20260602_181720_Classroom.jpg","Screenshot_20260602_181716_Classroom.jpg","Screenshot_20260602_181704_Classroom.jpg","Screenshot_20260602_181657_Classroom.jpg","Screenshot_20260602_181713_Classroom.jpg","Screenshot_20260602_181700_Classroom.jpg","Screenshot_20260602_181702_Classroom.jpg","Screenshot_20260602_180811_Gallery.jpg","Screenshot_20260602_180810_Gallery.jpg","Screenshot_20260602_181029_Classroom.jpg","Screenshot_20260602_180804_Gallery.jpg","Screenshot_20260602_180802_Gallery.jpg","Screenshot_20260602_180808_Gallery.jpg","Screenshot_20260602_180806_Gallery.jpg","Screenshot_20260602_180755_Gallery.jpg","Screenshot_20260602_180758_Gallery.jpg","Screenshot_20260602_180800_Gallery.jpg","Screenshot_20260602_180607_Classroom.jpg"];
-        
-        (function popularListaExterminio() { 
-            const container = document.getElementById('heretics-container'); const stamps = ['ELIMINAR', 'HEREGE', 'ALVO']; 
-            imagensDeExterminio.forEach((imgName, i) => { 
-                const item = document.createElement('div'); item.className = 'heretic-item'; 
-                item.innerHTML = `<img src="${safeBaseUrl(imgName)}" onerror="this.src='https://placehold.co/600x140/111/fff?text=Ficheiro+Em+Falta'"><div class="stamp-hated">${stamps[i % stamps.length]}</div>`; 
-                container.appendChild(item); 
-            }); 
-        })();
+        (function popularListaExterminio() { const container = document.getElementById('heretics-container'); const stamps = ['ELIMINAR', 'HEREGE', 'ALVO']; imagensDeExterminio.forEach((imgName, i) => { const item = document.createElement('div'); item.className = 'heretic-item'; item.innerHTML = `<img src="${safeBaseUrl(imgName)}" onerror="this.src='https://placehold.co/600x140/111/fff?text=Ficheiro+Em+Falta'"><div class="stamp-hated">${stamps[i % stamps.length]}</div>`; container.appendChild(item); }); })();
 
-        // ======= ATRIBUIÇÕES GERAIS DE MÍDIAS NOVAS ======================
         const vid37 = document.getElementById('vid-wa0037'); 
         const vidNew01 = document.getElementById('vid-new01');
         const vid29 = document.getElementById('vid-wa0029');
-        
-        // Ponto de base para Videos de Sessão Internas Folheadas (Todos Carregados Automatico via ConstBase Url!)
         if(vid37) vid37.src = safeBaseUrl('VID-20260602-WA0037_001.mp4'); 
-        if(vidNew01) vidNew01.src = safeBaseUrl('video-20260602-204408_SfxQXJAK.mp4');  // ←--- Teu Video Novo Foi Interligado. Sem Falhas e Pronto!
+        if(vidNew01) vidNew01.src = safeBaseUrl('video-20260602-204408_SfxQXJAK.mp4');  
         if(vid29) vid29.src = safeBaseUrl('VID-20260602-WA0029.mp4');
 
-        // Tela Intro Inicial E Video Intro de Tranque!
         (function(){ const introScreen = document.getElementById('intro-screen'); const videoWrap   = document.getElementById('intro-video-wrap'); const mainContent = document.getElementById('main-content'); let activated = false;
             function enterSite() { if (activated) return; activated = true; introScreen.classList.add('fade-out'); introVideoEl.load(); videoWrap.classList.add('visible'); introVideoEl.play().catch(revealBook); introVideoEl.addEventListener('ended', revealBook, { once: true }); setTimeout(() => introScreen.remove(), 900); }
             function revealBook() { videoWrap.classList.add('fade-out-video'); mainContent.classList.add('revealed'); setTimeout(() => videoWrap.remove(), 900); }
             introScreen.addEventListener('click', enterSite, { once: true }); introScreen.addEventListener('touchstart', enterSite, { once: true, passive: true });
         })();
 
-        /* --- CONTROLO REMOTO  DAS CAMADAS S/ MUTED LIMITATION ----  SYNC PERFECT TIMING:   */  
+        // LOGICAS PLAY SOUND FIX EM SAFARI NATIVE YOUTUBERS E PAINEL ANTIPRETO! // 
         const ytIframe = document.getElementById('yt-iframe');
         const YTYURL = 'https://www.youtube-nocookie.com/embed/3KMiX2mUqkk?autoplay=1&mute=0&loop=1&playlist=3KMiX2mUqkk&controls=1&rel=0';
 
-        // Anular Reproduções fantasmagóricas de outros menus folha que tapou na face sem tu notares : 
         function killAllVideoAudioAndSyncClearances() {
              if(vid37) { vid37.pause(); vid37.currentTime=0;} 
              if(vidNew01) { vidNew01.pause(); vidNew01.currentTime=0;} 
@@ -417,30 +421,20 @@
              if(ytIframe) ytIframe.src = "";  
         }
 
-        // Pela numeração das index/faces viradas com click ele puxa Audio do Vid que Habite Naquele Layer index Ocultado 
-        function forcePlaybackWithRealGestureSoundsNativeBrowsersLimitsPassOut(paginaCostasVisivelNoMonitorIndexVal) {
+        function forcePlaybackWithRealGestureSoundsNativeBrowsersLimitsPassOut(pagAtualViradaFaceMonitorTraseiraVideoClassValesZindexValAceso) {
              killAllVideoAudioAndSyncClearances(); 
 
-             if (paginaCostasVisivelNoMonitorIndexVal === 6 && vid37) {
-                 vid37.volume = 1; vid37.play().catch(e=> console.log('Bloq.', e)); 
-             }
-             if (paginaCostasVisivelNoMonitorIndexVal === 7 && ytIframe) { ytIframe.src = YTYURL; }
-             
-             // -> A TUA PÁGINA ESPECIFICA COM VIDEONAV NOVO FICOU À TONA SE TECLAREMOS "PAGINA Costas index-8"
-             if (paginaCostasVisivelNoMonitorIndexVal === 8 && vidNew01) {
-                 vidNew01.volume = 1; vidNew01.play().catch(e=> console.log('Bloq.', e));
-             }
-
-             if (paginaCostasVisivelNoMonitorIndexVal === 9 && vid29) {
-                 vid29.volume = 1; vid29.play().catch(e=> console.log('Bloq.', e));
-             }
+             if (pagAtualViradaFaceMonitorTraseiraVideoClassValesZindexValAceso === 6 && vid37) { vid37.volume = 1; vid37.play().catch(e=> console.log('O utilizador tera Puxar play devido Seguranca Mute iOS etc:', e)); }
+             if (pagAtualViradaFaceMonitorTraseiraVideoClassValesZindexValAceso === 7 && ytIframe) { ytIframe.src = YTYURL; }
+             if (pagAtualViradaFaceMonitorTraseiraVideoClassValesZindexValAceso === 8 && vidNew01) { vidNew01.volume = 1; vidNew01.play().catch(e=> console.log('Audio Block.', e)); }
+             if (pagAtualViradaFaceMonitorTraseiraVideoClassValesZindexValAceso === 9 && vid29) { vid29.volume = 1; vid29.play().catch(e=> console.log('AutoM.', e)); }
         }
 
         const leaves = document.querySelectorAll('.leaf');
         const hand   = document.getElementById('homelander-hand');
         function initZOrder() { leaves.forEach((leaf, i) => { leaf.style.zIndex = leaves.length - i; }); } initZOrder();
 
-        // 3D DOM INTERCEPTADOR PARA GERAR ROTACAÇÕES/ÁUDIOS PERFEITOS DE 0 - A -> FIM INDEX DA NOVA CONTAGEM GERAL !!
+        // 3D DOM EVENT COM O VIRAR
         function turnPage(clickedLeaf, index) {
             let direction = '';
 
@@ -451,8 +445,8 @@
 
                 let indiceOcultarActivoEsquerdoRetro = index - 1; 
                 forcePlaybackWithRealGestureSoundsNativeBrowsersLimitsPassOut(indiceOcultarActivoEsquerdoRetro);
-                
                 setTimeout(() => { clickedLeaf.style.zIndex = leaves.length - index; }, 700);
+
             } else {  
                 if (index > 0 && !leaves[index - 1].classList.contains('turned')) return;
                 
@@ -460,10 +454,3 @@
                 
                 forcePlaybackWithRealGestureSoundsNativeBrowsersLimitsPassOut(index);
                 setTimeout(() => { clickedLeaf.style.zIndex = index + 1; }, 700);
-            }
-
-            if(hand) { hand.classList.remove('animate-next', 'animate-prev'); void hand.offsetWidth; hand.classList.add(direction === 'next' ? 'animate-next' : 'animate-prev'); }
-        }
-    </script>
-</body>
-</html>
