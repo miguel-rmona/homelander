@@ -17,7 +17,7 @@
             --leather:     #080e1c;
             --page:        #f5edda;
             --page-dark:   #e8dcc8;
-            --ink:         #23120b; /* Letras base um tom mais aquecido estilo siena escura, clássico. */
+            --ink:         #23120b;
             --ink-light:   #3a2012; 
             --vought-blue: #0a1530;
         }
@@ -57,7 +57,7 @@
         .leaf { position: absolute; width: 50%; height: 100%; right: 0; top: 0; transform-style: preserve-3d; transform-origin: left center; transition: transform 1.4s cubic-bezier(0.25, 0.0, 0.2, 1); cursor: pointer; }
         .leaf.turned { transform: rotateY(-180deg); }
 
-        /* ── PÁGINAS BÁSICAS (LETRAS/FUNDO OTIMIZADOS E BELOS) ── */
+        /* ── PÁGINAS BÁSICAS ── */
         .page {
             position: absolute; width: 100%; height: 100%;
             backface-visibility: hidden; display: flex; flex-direction: column;
@@ -236,7 +236,6 @@
                 <div class="page back" style="display:flex;justify-content:center;align-items:center;"><div style="opacity:0.12;font-family:'Cinzel Decorative',serif;font-size:4.5rem;color:#111; font-weight:900;">V</div></div>
             </div>
 
-            <!-- GÊNESIS ABSOLUTO E INTOCADO -->
             <div class="leaf" onclick="turnPage(this,2)">
                 <div class="page front">
                     <div class="ribbon"></div>
@@ -259,7 +258,6 @@
                 </div>
             </div>
 
-            <!-- 7 MANDAMENTOS DA TUA TEXTO VERDADEIRO E FOLLOWERS (COMPANHIA ARQUIVO 1 A 1)-->
             <div class="leaf" onclick="turnPage(this,3)">
                 <div class="page front">
                     <h2>III. Os Sete Mandamentos</h2>
@@ -292,7 +290,6 @@
                 </div>
             </div>
 
-            <!-- THE IRA DIVINE AND HITLIST -->
             <div class="leaf" onclick="turnPage(this,4)">
                 <div class="page front">
                     <h2>V. A Ira Justa e as Calúnias</h2>
@@ -312,7 +309,6 @@
                 </div>
             </div>
 
-            <!-- JUDAS E THE BOYS, TOTALIDADE! -->
             <div class="leaf" onclick="turnPage(this,5)">
                 <div class="page front">
                     <h2>VI. Os Pecados · Judas</h2>
@@ -338,7 +334,6 @@
                 </div>
             </div>
 
-            <!-- O ESPAÇO DE MÍDIA - 6 TERMINAL DE HOMELANDER -->
             <div class="leaf" onclick="turnPage(this,6)">
                 <div class="page front" style="display:flex; justify-content:center; flex-direction: column; align-items:center;">
                      <h2 style="font-size:2.3rem; font-weight: 900; letter-spacing: 5px;">A MENSAGEM FINAL</h2>
@@ -351,7 +346,6 @@
                 </div>
             </div>
 
-            <!-- O ESPAÇO DE MÍDIA - 7 OS METALES MUSICAIS TRIBUTE BOYS NO YT!-->
             <div class="leaf" onclick="turnPage(this,7)">
                 <div class="page front" style="display:flex;flex-direction:column; justify-content:center; align-items:center; background-image: radial-gradient(circle at 50% 50%, rgba(180,140,80,0.1) 0%, transparent 80%);">
                     <div style="font-family:'Cinzel Decorative',serif; font-size:4rem; font-weight: 900; transform:scaleY(0.95); text-align: center; color:var(--gold-dark); text-shadow:0 3px 6px rgba(0,0,0,0.8), 0 0 10px rgba(212,175,55,0.4);">THE BOYS™ <br> EXALTEM.</div>
@@ -364,7 +358,6 @@
                 </div>
             </div>
 
-            <!-- O ESPAÇO DE MÍDIA - 8  Sons Escuros Do Ultimo Suspiro do Background e Despedidas Estética Literária -->
             <div class="leaf" onclick="turnPage(this,8)">
                 <div class="page front" style="display:flex; flex-direction:column;">
                      <div class="ribbon"></div>
@@ -377,7 +370,6 @@
                 </div>
             </div>
 
-            <!-- CONTRACAPA FECHO GLOBAL TEXTURA NEGRA ENRUGADA ORIGINAL -->
             <div class="leaf" onclick="turnPage(this,9)">
                  <div class="page front" style="display:flex; justify-content:center; align-items:center; background-image: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.15) 0%, transparent 60%);">
                      <div style="font-family:'Cinzel Decorative',serif; font-size:6rem; font-weight:900; color: #4a2e21; text-shadow:inset 0 1px 5px rgba(0,0,0,0.4); opacity: 0.15">FIM .</div>
@@ -506,13 +498,20 @@
         }
 
         /* =========================================
-           ── MOTOR DO CELULAR (TECLA K) ──
+           ── MOTOR DO CELULAR (TECLA K) ATUALIZADO ──
            ========================================= */
         const celular = document.getElementById('celular-container');
         const videoCelular = document.getElementById('video-tela-cel');
         
-        // Usa a base URL para garantir que o arquivo seja encontrado na pasta
-        if(videoCelular) videoCelular.src = safeBaseUrl('video-20260602-204408_SfxQXJAK.mp4');
+        // Configuração de vídeo inteligente (Força HEVC se possível, senão tenta formato normal)
+        if (videoCelular) {
+            videoCelular.innerHTML = `
+                <source src="${safeBaseUrl('VID-20260602-WA0077.mp4')}" type='video/mp4; codecs="hvc1"'>
+                <source src="${safeBaseUrl('VID-20260602-WA0077.mp4')}" type='video/mp4; codecs="hev1"'>
+                <source src="${safeBaseUrl('VID-20260602-WA0077.mp4')}" type='video/mp4'>
+            `;
+            videoCelular.load();
+        }
 
         document.addEventListener('keydown', function(event) {
             if (event.key.toLowerCase() === 'k') {
