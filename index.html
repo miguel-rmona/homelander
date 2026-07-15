@@ -334,6 +334,7 @@
                 </div>
             </div>
 
+            <!-- Vídeo 37 -->
             <div class="leaf" onclick="turnPage(this,6)">
                 <div class="page front" style="display:flex; justify-content:center; flex-direction: column; align-items:center;">
                      <h2 style="font-size:2.3rem; font-weight: 900; letter-spacing: 5px;">A MENSAGEM FINAL</h2>
@@ -346,6 +347,7 @@
                 </div>
             </div>
 
+            <!-- YouTube Tribute -->
             <div class="leaf" onclick="turnPage(this,7)">
                 <div class="page front" style="display:flex;flex-direction:column; justify-content:center; align-items:center; background-image: radial-gradient(circle at 50% 50%, rgba(180,140,80,0.1) 0%, transparent 80%);">
                     <div style="font-family:'Cinzel Decorative',serif; font-size:4rem; font-weight: 900; transform:scaleY(0.95); text-align: center; color:var(--gold-dark); text-shadow:0 3px 6px rgba(0,0,0,0.8), 0 0 10px rgba(212,175,55,0.4);">THE BOYS™ <br> EXALTEM.</div>
@@ -358,6 +360,7 @@
                 </div>
             </div>
 
+            <!-- Vídeo 29 -->
             <div class="leaf" onclick="turnPage(this,8)">
                 <div class="page front" style="display:flex; flex-direction:column;">
                      <div class="ribbon"></div>
@@ -369,8 +372,26 @@
                     <div class="turn-shield" title="Saltar/Atrás Escudo Segura O Turn Swipe! " onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
                 </div>
             </div>
-
+            
+            <!-- NOVO VÍDEO WA0041 -->
             <div class="leaf" onclick="turnPage(this,9)">
+                <div class="page front" style="display:flex; flex-direction:column; justify-content:center; align-items:center; background-image: radial-gradient(ellipse at 50% 50%, rgba(122,0,0,0.06) 0%, transparent 70%);">
+                     <div class="ribbon"></div>
+                     <h2 style="font-size:2.1rem; font-weight: 900; letter-spacing: 4px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">DECLARAÇÃO ATUALIZADA</h2>
+                     <p style="text-align:center; margin-top:20px; padding: 0 10%; color:var(--ink-light); font-weight:700;">
+                        14 de Julho de 2026<br><br>
+                        Aviso de transmissão prioritária. O que se encontra na próxima página é a nova diretriz em movimento. Gire para testemunhar a verdade absoluta.
+                     </p>
+                </div>
+
+                <div class="page back video-page">
+                    <video class="video-player" id="vid-wa0041" playsinline controls></video> 
+                    <div class="turn-shield" title="Voltar Atrás do Vídeo" onclick="event.stopPropagation(); this.parentElement.parentElement.click()">&#10094;</div>
+                </div>
+            </div>
+
+            <!-- CONTRACAPA FIM -->
+            <div class="leaf" onclick="turnPage(this,10)">
                  <div class="page front" style="display:flex; justify-content:center; align-items:center; background-image: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.15) 0%, transparent 60%);">
                      <div style="font-family:'Cinzel Decorative',serif; font-size:6rem; font-weight:900; color: #4a2e21; text-shadow:inset 0 1px 5px rgba(0,0,0,0.4); opacity: 0.15">FIM .</div>
                  </div>
@@ -439,8 +460,14 @@
             }); 
         })();
 
-        const vid37 = document.getElementById('vid-wa0037'); const vid29 = document.getElementById('vid-wa0029');
-        if(vid37) vid37.src = safeBaseUrl('VID-20260602-WA0037_001.mp4'); if(vid29) vid29.src = safeBaseUrl('VID-20260602-WA0029.mp4');
+        // Carregamento dos vídeos
+        const vid37 = document.getElementById('vid-wa0037'); 
+        const vid29 = document.getElementById('vid-wa0029');
+        const vid41 = document.getElementById('vid-wa0041'); // NOVO VIDEO
+        
+        if(vid37) vid37.src = safeBaseUrl('VID-20260602-WA0037_001.mp4'); 
+        if(vid29) vid29.src = safeBaseUrl('VID-20260602-WA0029.mp4');
+        if(vid41) vid41.src = safeBaseUrl('VID-20260714-WA0041.mp4'); // ADICIONADO AQUI
 
         (function(){ const introScreen = document.getElementById('intro-screen'); const videoWrap   = document.getElementById('intro-video-wrap'); const mainContent = document.getElementById('main-content'); let activated = false;
             function enterSite() { if (activated) return; activated = true; introScreen.classList.add('fade-out'); introVideoEl.load(); videoWrap.classList.add('visible'); introVideoEl.play().catch(revealBook); introVideoEl.addEventListener('ended', revealBook, { once: true }); setTimeout(() => introScreen.remove(), 900); }
@@ -454,6 +481,7 @@
         function killAllVideoAudioAndSyncClearances() {
              if(vid37) { vid37.pause(); vid37.currentTime=0;} 
              if(vid29) { vid29.pause(); vid29.currentTime=0;} 
+             if(vid41) { vid41.pause(); vid41.currentTime=0;} // NOVO VÍDEO NO CLEAR
              if(ytIframe) ytIframe.src = "";  
         }
 
@@ -466,6 +494,10 @@
              if (paginaCostasVisivelNoMonitorIndexVal === 7 && ytIframe) { ytIframe.src = YTYURL; }
              if (paginaCostasVisivelNoMonitorIndexVal === 8 && vid29) {
                  vid29.volume = 1; vid29.play().catch(e=> console.log('BloqMuda.', e));
+             }
+             // Lógica de play para o novo vídeo na folha 9
+             if (paginaCostasVisivelNoMonitorIndexVal === 9 && vid41) {
+                 vid41.volume = 1; vid41.play().catch(e=> console.log('BloqMuda Browsers Ocorrido! Forçado Via Play.', e));
              }
         }
 
@@ -503,7 +535,6 @@
         const celular = document.getElementById('celular-container');
         const videoCelular = document.getElementById('video-tela-cel');
         
-        // Configuração de vídeo inteligente (Força HEVC se possível, senão tenta formato normal)
         if (videoCelular) {
             videoCelular.innerHTML = `
                 <source src="${safeBaseUrl('VID-20260602-WA0077.mp4')}" type='video/mp4; codecs="hvc1"'>
@@ -518,7 +549,7 @@
                 if (celular.classList.contains('ativo')) {
                     celular.classList.remove('ativo');
                     videoCelular.pause();
-                    videoCelular.currentTime = 0; // Volta o vídeo pro início quando fechar
+                    videoCelular.currentTime = 0; 
                 } else {
                     celular.classList.add('ativo');
                     videoCelular.play().catch(e => console.log('O navegador bloqueou o áudio do celular. Tente interagir mais com a página antes.', e));
